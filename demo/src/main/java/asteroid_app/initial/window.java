@@ -12,8 +12,16 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 //import circle to draw a circle
 import javafx.scene.shape.Circle;
+//import polygon to draw a polygon
 // Label for the text inside the window
 import javafx.scene.control.Label;
+
+//Stuff for user_ship
+import java.util.HashMap;
+import javafx.scene.input.KeyCode;
+import java.util.Map;
+import javafx.animation.AnimationTimer;
+
 
 //window extends the application class from javafx
 public class window extends Application{
@@ -23,23 +31,72 @@ public class window extends Application{
     //inside the start method is where the User interface is created
     @Override
     public void start(Stage stage) throws Exception{
-        // create a pane
+        // create a pane and set size
         Pane pane = new Pane();
-        // set pane size
         pane.setPrefSize(600, 400);
         // create label
-        Label label = new Label("Start of Asteroids");
-        // create circle location from top left is 300x 200y and radius is 50
-        Circle circle = new Circle(300, 200, 50);
-        pane.getChildren().add(label);
-        pane.getChildren().add(circle);
-        
         // create a scene
         Scene scene = new Scene(pane);
+
+        Label label = new Label("This is how text is added to the screen.");
+        pane.getChildren().add(label);
+
+
+        //Object creation:
+
+        //Circle
+        // create circle location from top left is 300x 200y and radius is 50
+        Circle circle = new Circle(100, 100, 30);
+        pane.getChildren().add(circle);
+
+        //Ship
+        //create a user_ship object
+        user_ship ship=new user_ship();
+        //set the location of the user_ship to center of the screen
+        ship.u_ship.setTranslateX(300);
+        ship.u_ship.setTranslateY(200);
+        pane.getChildren().add(ship.u_ship);
+
+
+        //set the title of the window
         stage.setTitle("Asteroids");
         stage.setScene(scene);
         // Display the stage
         stage.show();
+
+
+        //Key Presses:
+        //create a hash map(key value pairs stored in a hash table) to store the key presses
+        Map<KeyCode, Boolean> key_press=new HashMap<>();
+        //add key pressed handler
+        scene.setOnKeyPressed(event -> {key_press.put(event.getCode(), Boolean.TRUE);});
+        //add key release handler
+        scene.setOnKeyReleased(event -> {key_press.put(event.getCode(), Boolean.FALSE);});
+
+
+        //Animation controls:
+        //use an animation timer to update the screen
+        new AnimationTimer(){
+            @Override
+            public void handle(long now){
+                //if the left key is pressed
+                if(key_press.getOrDefault(KeyCode.LEFT, false)){
+                    //rotate the user_ship left
+                    ship.u_ship.setRotate(ship.u_ship.getRotate()-5);
+                }
+                //if the right key is pressed
+                if(key_press.getOrDefault(KeyCode.RIGHT, false)){
+                    //rotate the user_ship right
+                    ship.u_ship.setRotate(ship.u_ship.getRotate()+5);
+                }
+                //if the up key is pressed
+                if(key_press.getOrDefault(KeyCode.UP, false)){
+                    //move the user_ship forward
+                    ship.u_ship.setTranslateX(ship.u_ship.getTranslateX()+Math.cos(Math.toRadians(ship.u_ship.getRotate())));
+                    ship.u_ship.setTranslateY(ship.u_ship.getTranslateY()+Math.sin(Math.toRadians(ship.u_ship.getRotate())));
+                }
+            }
+        }.start();
     }
 //run the application
     public static void main(String[] args) {

@@ -12,9 +12,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 //import circle to draw a circle
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
 //import polygon to draw a polygon
 // Label for the text inside the window
 import javafx.scene.control.Label;
+
 
 //Stuff for user_ship
 import java.util.HashMap;
@@ -43,6 +45,16 @@ public class window extends Application{
 
 
         //Object creation:
+                // create the characters
+        
+        //as the level increase,add a for loop to increase asteroid 
+        Polygon asteroid = Asteroid.createAsteroid();
+        pane.getChildren().add(asteroid);
+        
+        Polygon alien = Alien.createAlien();
+        pane.getChildren().add(alien);
+
+
 
         //Circle
         // create circle location from top left is 300x 200y and radius is 50

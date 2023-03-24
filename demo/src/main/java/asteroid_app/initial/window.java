@@ -86,10 +86,13 @@ public class window extends Application{
         //add key release handler
         scene.setOnKeyReleased(event -> {key_press.put(event.getCode(), Boolean.FALSE);});
 
-
         //Animation controls:
         //use an animation timer to update the screen
         new AnimationTimer(){
+            //check if j key was pressed so we dont repeatedly go into hyperspace
+            //inserted here to prevent multiple jumps
+            boolean jPress = false;
+
             @Override
             public void handle(long now){
                 //if the left key is pressed
@@ -109,11 +112,18 @@ public class window extends Application{
                     //accelerate the user_ship
                     ship.accelerate();
                 }
-                //if the down key is pressed
-                if(key_press.getOrDefault(KeyCode.DOWN, false)){
-                    //decelerate the user_ship
-                    ship.decelerate();
+                
+                // if the J key is pressed for jump and has not already jumped
+                if (key_press.getOrDefault(KeyCode.J, false) && jPress==false) {
+                    //jump to a new location and if successful set flag to true
+                    ship.hyperspaceJump();
+                    jPress = true;                   
                 }
+                // if the J key is released
+                if (!key_press.getOrDefault(KeyCode.J, false)) {
+                    jPress = false; // reset the flag
+                }
+
             }
         }.start();
     }

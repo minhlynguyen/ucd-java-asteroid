@@ -10,6 +10,10 @@ public abstract class Character{
     // and a 2d point to represent the movement of each object
     private Polygon object;
     private Point2D movement;
+	private Point2D test;
+	private static final double maxShipVelocity=7;
+	private static final double shipAcceleration=0.06;
+	private static final double shipTurnAngle=5;
 
     public Character(Polygon polygon, int x, int y){
         //create the user_ship shape
@@ -27,11 +31,11 @@ public abstract class Character{
     }
     // turn it left
     public void turnLeft(){
-        this.object.setRotate(this.object.getRotate() - 5);
+        this.object.setRotate(this.object.getRotate() - shipTurnAngle);
     }
     // turn it right
     public void turnRight(){
-        this.object.setRotate(this.object.getRotate() + 5);
+        this.object.setRotate(this.object.getRotate() + shipTurnAngle);
     }
     // move the object
     public void move() {
@@ -60,33 +64,21 @@ public abstract class Character{
 	}
     // accelerate the object
     public void accelerate() {
-        double changeX = Math.cos(Math.toRadians(this.object.getRotate()));
-        double changeY = Math.sin(Math.toRadians(this.object.getRotate()));
+		
+		double changeX = Math.cos(Math.toRadians(this.object.getRotate()));
+		double changeY = Math.sin(Math.toRadians(this.object.getRotate()));
+		//only need few percent of the possible acceleration
+		changeX *= shipAcceleration;
+		changeY *= shipAcceleration;
+		//ensures that when the object is at maximum velocity
+		// we can accelerate in a different direction instead of being stuck
+		// at maximum velocity
+		test=this.movement.add(changeX, changeY);
 
-        //only need few percent of the possible acceleration
-        changeX *= 0.06;
-        changeY *= 0.06;
-    
-        this.movement = this.movement.add(changeX, changeY);
-    }
-
-	// decelerate the object
-    public void decelerate() {
-		//how to make a more effective reverse flag?
-		boolean reverse_flag=false;
-		//if we have reduded momentum to zero, we need to stop decelerating
-		if (this.movement.getX()==0 && this.movement.getY()==0) {
-			reverse_flag=true;
-		}
-
-		if (reverse_flag==false) {
-			double changeX = -Math.cos(Math.toRadians(this.object.getRotate()));
-			double changeY = -Math.sin(Math.toRadians(this.object.getRotate()));
-			//only decrememt by a few percent of the possible deceleration
-			changeX *= 0.06;
-			changeY *= 0.06;
+		if(this.movement.magnitude() < maxShipVelocity && test.magnitude()<maxShipVelocity) {
 			this.movement = this.movement.add(changeX, changeY);
 		}
-	}
+    }
+
 
 }

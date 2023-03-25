@@ -1,6 +1,8 @@
 package asteroid_app.initial;
 //import polygon to draw a polygon
 import javafx.scene.shape.Polygon;
+//To make a smoother screen transition
+import javafx.geometry.Bounds;
 //import point 2d to represent the movement of any object
 import javafx.geometry.Point2D;
 
@@ -10,13 +12,19 @@ public abstract class Character{
     // and a 2d point to represent the movement of each object
     private Polygon object;
     private Point2D movement;
+	//test to see if the object is at it's maximum velocity
 	private Point2D test;
-	private static final double maxShipVelocity=7;
+	// ship velocity, acceleration and turn angle
+	private static final double maxShipVelocity=8;
 	private static final double shipAcceleration=0.06;
 	private static final double shipTurnAngle=5;
+	//screen edges removes the flashing of an object on the screen
+	//by adding this number to the comparison before relocating the object
+	private static final int screenEdges=15;
 
+	//constructor that each child object will call to
     public Character(Polygon polygon, int x, int y){
-        //create the user_ship shape
+        //create the object's shape and location
         this.object = polygon;
         this.object.setTranslateX(x);
         this.object.setTranslateY(y);
@@ -25,24 +33,54 @@ public abstract class Character{
         this.movement = new Point2D(0, 0);
     }
 
-    //return the object
+    //return the current object
     public Polygon getChar(){
         return this.object;
     }
+
     // turn it left
     public void turnLeft(){
+		//set the rotation to its current-the tun angle
         this.object.setRotate(this.object.getRotate() - shipTurnAngle);
     }
+
     // turn it right
     public void turnRight(){
+		// add the angle to turn right
         this.object.setRotate(this.object.getRotate() + shipTurnAngle);
     }
+
     // move the object
-    public void move() {
+	public void move() {
+		//add any acceleration to the current movement
+		this.object.setTranslateX(this.object.getTranslateX() + this.movement.getX());
+		this.object.setTranslateY(this.object.getTranslateY() + this.movement.getY());
+	
+		//get the extremeties of the object
+		Bounds boundsInScreen = this.object.getBoundsInParent();
+		double minX = boundsInScreen.getMinX();
+		double maxX = boundsInScreen.getMaxX();
+		double minY = boundsInScreen.getMinY();
+		double maxY = boundsInScreen.getMaxY();
+	
+		//check if the ship is partially out of the screen
+		if(minX < -screenEdges) {
+			this.object.setTranslateX(this.object.getTranslateX() + window.WIDTH);
+		} else if(maxX > window.WIDTH + screenEdges) {
+			this.object.setTranslateX(this.object.getTranslateX() % window.WIDTH);
+		}
+	
+		if(minY < -screenEdges) {
+			this.object.setTranslateY(this.object.getTranslateY() + window.HEIGHT);
+		} else if(maxY > window.HEIGHT + screenEdges) {
+			this.object.setTranslateY(this.object.getTranslateY() % window.HEIGHT);
+		}
+
+		//This code gives more imprecise screen transitions
+		/*
 		//add any acceleration to the current movement
         this.object.setTranslateX(this.object.getTranslateX() + this.movement.getX());
         this.object.setTranslateY(this.object.getTranslateY() + this.movement.getY());
-
 
 		//if the object is out of the screen, move it to the other side
 		//exit the screen from the left side, enter from the right side
@@ -60,11 +98,19 @@ public abstract class Character{
 		//exit the screen from the bottom, enter from the top
 		if (this.object.getTranslateY() > window.HEIGHT) {
 			this.object.setTranslateY(this.object.getTranslateY() % window.HEIGHT);
-		}
+		}		 
+		 */
 	}
+	
+	//set the movement to zero
+	public void stopMovement(){
+		this.movement = new Point2D(0, 0);
+	}
+
     // accelerate the object
     public void accelerate() {
-		
+		//Calculate acceleration by using trigonometery to calculate the change in the x and y directions
+		// through radian rotation
 		double changeX = Math.cos(Math.toRadians(this.object.getRotate()));
 		double changeY = Math.sin(Math.toRadians(this.object.getRotate()));
 		//only need few percent of the possible acceleration
@@ -75,10 +121,9 @@ public abstract class Character{
 		// at maximum velocity
 		test=this.movement.add(changeX, changeY);
 
-		if(this.movement.magnitude() < maxShipVelocity && test.magnitude()<maxShipVelocity) {
+		//if our new velocity reduces our current velocity then go with the new velocity
+		if(this.movement.magnitude() <= maxShipVelocity && test.magnitude() <= maxShipVelocity) {
 			this.movement = this.movement.add(changeX, changeY);
 		}
     }
-
-
 }

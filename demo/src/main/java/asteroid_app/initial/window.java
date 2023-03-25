@@ -1,6 +1,5 @@
 //this is the package name
 package asteroid_app.initial;
-
 // Application is the base class for all JavaFX applications
 //need javafx to display the window
 import javafx.application.Application;
@@ -12,13 +11,12 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 //import circle to draw a circle
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Polygon;
 //import polygon to draw a polygon
+import javafx.scene.shape.Polygon;
 // Label for the text inside the window
 import javafx.scene.control.Label;
 
-
-//Stuff for user_ship
+//Stuff for keypresses
 import java.util.HashMap;
 import javafx.scene.input.KeyCode;
 import java.util.Map;
@@ -39,13 +37,10 @@ public class window extends Application{
         // create a pane and set size
         Pane pane = new Pane();
         pane.setPrefSize(WIDTH, HEIGHT);
-        // create label
-        // create a scene
+        // create a scene and label
         Scene scene = new Scene(pane);
-
         Label label = new Label("This is how text is added to the screen.");
         pane.getChildren().add(label);
-
 
         //Object creation:
                 // create the characters
@@ -56,8 +51,6 @@ public class window extends Application{
         
         //Polygon alien = Alien.createAlien();
         //pane.getChildren().add(alien);
-
-
 
         //Circle
         // create circle location from top left is 300x 200y and radius is 50
@@ -70,13 +63,11 @@ public class window extends Application{
         //add the user_ship to the pane
         pane.getChildren().add(ship.getChar());
 
-
         //set the title of the window
-        stage.setTitle("Asteroids");
+        stage.setTitle("Group 11-Asteroids Game");
         stage.setScene(scene);
         // Display the stage
         stage.show();
-
 
         //Key Presses:
         //create a hash map(key value pairs stored in a hash table) to store the key presses
@@ -91,7 +82,7 @@ public class window extends Application{
         new AnimationTimer(){
             //check if j key was pressed so we dont repeatedly go into hyperspace
             //inserted here to prevent multiple jumps
-            boolean jPress = false;
+            private boolean jPress = false;
 
             @Override
             public void handle(long now){
@@ -105,8 +96,7 @@ public class window extends Application{
                     //rotate the user_ship right
                     ship.turnRight();
                 }
-                // what does this do?
-                ship.move();
+
                 //if the up key is pressed
                 if(key_press.getOrDefault(KeyCode.UP, false)){
                     //accelerate the user_ship
@@ -123,7 +113,8 @@ public class window extends Application{
                 if (!key_press.getOrDefault(KeyCode.J, false)) {
                     jPress = false; // reset the flag
                 }
-
+                // update the ship's movement
+                ship.move();
             }
         }.start();
     }

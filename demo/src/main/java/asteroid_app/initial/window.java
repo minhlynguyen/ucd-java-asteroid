@@ -115,24 +115,22 @@ public class window extends Application{
                 }
                 //if the space key is pressed: Create a projectile. Only keep 3 projectile in the projectiles list
                 if (key_press.getOrDefault(KeyCode.SPACE,false) && projectiles.size() < 3){
-                    Projectile proj = new Projectile();
-                    // Projectile is created at the same position as the ship
-                    proj.projectile.setTranslateX(ship.u_ship.getTranslateX());
-                    proj.projectile.setTranslateY(ship.u_ship.getTranslateY());
+                    // New projectile created has the same position as the ship
+                    Projectile proj = new Projectile((int) ship.u_ship.getTranslateX(),(int) ship.u_ship.getTranslateY());
 
                     // Rotate like the ship
-                    proj.projectile.setRotate(ship.u_ship.getRotate());
+                    proj.getShape().setRotate(ship.u_ship.getRotate());
 
                     // Add the shooted projectile to the projectiles list 
                     projectiles.add(proj);
 
-                    // Add projectile to the screen
-                    pane.getChildren().add(proj.projectile);
+                    // Add the projectile shape to the screen
+                    pane.getChildren().add(proj.getShape());
                     //    
                 }
                 // let the projectile move forward
-                projectiles.forEach(proj -> proj.projectile.setTranslateX(proj.projectile.getTranslateX()+Math.cos(Math.toRadians(proj.projectile.getRotate()))));
-                projectiles.forEach(proj -> proj.projectile.setTranslateY(proj.projectile.getTranslateY()+Math.cos(Math.toRadians(proj.projectile.getRotate()))));
+                projectiles.forEach(proj -> proj.getShape().setTranslateX(proj.getShape().getTranslateX()+Math.cos(Math.toRadians(ship.u_ship.getRotate()))));
+                projectiles.forEach(proj -> proj.getShape().setTranslateY(proj.getShape().getTranslateY()+Math.cos(Math.toRadians(ship.u_ship.getRotate()))));
                 
             }
         }.start();

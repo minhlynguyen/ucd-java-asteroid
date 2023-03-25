@@ -17,12 +17,17 @@ import javafx.scene.shape.Polygon;
 // Label for the text inside the window
 import javafx.scene.control.Label;
 
-
+import java.net.PortUnreachableException;
 //Stuff for user_ship
 import java.util.HashMap;
+
 import javafx.scene.input.KeyCode;
 import java.util.Map;
 import javafx.animation.AnimationTimer;
+
+//Stuff for Projectiles
+import java.util.List;
+import java.util.ArrayList;
 
 
 //window extends the application class from javafx
@@ -45,7 +50,7 @@ public class window extends Application{
 
 
         //Object creation:
-                // create the characters
+        // create the characters
         
         //as the level increase,add a for loop to increase asteroid 
         Polygon asteroid = Asteroid.createAsteroid();
@@ -53,8 +58,6 @@ public class window extends Application{
         
         Polygon alien = Alien.createAlien();
         pane.getChildren().add(alien);
-
-
 
         //Circle
         // create circle location from top left is 300x 200y and radius is 50
@@ -69,6 +72,10 @@ public class window extends Application{
         ship.u_ship.setTranslateY(200);
         pane.getChildren().add(ship.u_ship);
 
+        //Projectile
+        // Declare a list of for projectiles, but leave it empty because we don'w want any projectile on screen
+        // when the application start
+        List<Projectile> projectiles = new ArrayList();
 
         //set the title of the window
         stage.setTitle("Asteroids");
@@ -84,7 +91,6 @@ public class window extends Application{
         scene.setOnKeyPressed(event -> {key_press.put(event.getCode(), Boolean.TRUE);});
         //add key release handler
         scene.setOnKeyReleased(event -> {key_press.put(event.getCode(), Boolean.FALSE);});
-
 
         //Animation controls:
         //use an animation timer to update the screen
@@ -107,6 +113,27 @@ public class window extends Application{
                     ship.u_ship.setTranslateX(ship.u_ship.getTranslateX()+Math.cos(Math.toRadians(ship.u_ship.getRotate())));
                     ship.u_ship.setTranslateY(ship.u_ship.getTranslateY()+Math.sin(Math.toRadians(ship.u_ship.getRotate())));
                 }
+                //if the space key is pressed: Create a projectile. Only keep 3 projectile in the projectiles list
+                if (key_press.getOrDefault(KeyCode.SPACE,false) && projectiles.size() < 3){
+                    Projectile proj = new Projectile();
+                    // Projectile is created at the same position as the ship
+                    proj.projectile.setTranslateX(ship.u_ship.getTranslateX());
+                    proj.projectile.setTranslateY(ship.u_ship.getTranslateY());
+
+                    // Rotate like the ship
+                    proj.projectile.setRotate(ship.u_ship.getRotate());
+
+                    // Add the shooted projectile to the projectiles list 
+                    projectiles.add(proj);
+
+                    // Add projectile to the screen
+                    pane.getChildren().add(proj.projectile);
+                    //    
+                }
+                // let the projectile move forward
+                projectiles.forEach(proj -> proj.projectile.setTranslateX(proj.projectile.getTranslateX()+Math.cos(Math.toRadians(proj.projectile.getRotate()))));
+                projectiles.forEach(proj -> proj.projectile.setTranslateY(proj.projectile.getTranslateY()+Math.cos(Math.toRadians(proj.projectile.getRotate()))));
+                
             }
         }.start();
     }

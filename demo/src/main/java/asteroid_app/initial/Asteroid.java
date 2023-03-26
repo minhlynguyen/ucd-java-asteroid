@@ -6,14 +6,14 @@ import javafx.scene.shape.Polygon;
 
 public class Asteroid extends Character{
 	
+	public static Polygon asteroid;
 //	List<Asteroid> asteroids = new ArrayList<>();
-	
+   	
 	public static Polygon createAsteroid(){
-		
 		Random rnd = new Random();
 		//side is the length of polygon's one side
 		double side = 50+rnd.nextInt(10);
-		Polygon asteroid = new Polygon();
+		asteroid = new Polygon();
 		
 		double c1 = Math.cos(Math.PI/3);
 		double s1 = Math.sin(Math.PI/3);
@@ -39,6 +39,12 @@ public class Asteroid extends Character{
 		
 		System.out.println(asteroid);
 		return asteroid;			
+	}
+
+	public Asteroid(int x, int y){
+		this.shape = asteroid;
+		this.shape.setTranslateX(x);
+		this.shape.setTranslateY(y);
 	}
 	
 }

@@ -2,8 +2,13 @@ package asteroid_app.initial;
 
 import java.util.Random;
 
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Shape;
+
 public class Character {
-	
+
+	public Polygon shape;
+	private Shape collisionArea;
 	public static double initX;
 	public static double initY;
 	
@@ -15,6 +20,11 @@ public class Character {
 //		
 //		this.initX = initX;
 //		this.initY = initY;
-		
+	}
+
+	
+	public boolean collide(Character other) {
+		collisionArea = Shape.intersect(this.shape, other.shape);
+		return collisionArea.getBoundsInLocal().getWidth() != -1;
 	}
 }

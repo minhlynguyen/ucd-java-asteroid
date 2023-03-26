@@ -23,11 +23,13 @@ import java.util.HashMap;
 
 import javafx.scene.input.KeyCode;
 import java.util.Map;
+
 import javafx.animation.AnimationTimer;
 
 //Stuff for Projectiles
 import java.util.List;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 
 //window extends the application class from javafx
@@ -53,9 +55,12 @@ public class window extends Application{
         // create the characters
         
         //as the level increase,add a for loop to increase asteroid 
+        List<Polygon> asteroids = new ArrayList<>();
         Polygon asteroid = Asteroid.createAsteroid();
+        asteroids.add(asteroid);        
         pane.getChildren().add(asteroid);
         
+
         Polygon alien = Alien.createAlien();
         pane.getChildren().add(alien);
 
@@ -114,25 +119,31 @@ public class window extends Application{
                     ship.u_ship.setTranslateY(ship.u_ship.getTranslateY()+Math.sin(Math.toRadians(ship.u_ship.getRotate())));
                 }
                 //if the space key is pressed: Create a projectile. Only keep 3 projectile in the projectiles list
-                if (key_press.getOrDefault(KeyCode.SPACE,false) && projectiles.size() < 3){
-                    // New projectile created has the same position as the ship
-                    Projectile proj = new Projectile((int) ship.u_ship.getTranslateX(),(int) ship.u_ship.getTranslateY());
-
-                    // Rotate like the ship
-                    proj.getShape().setRotate(ship.u_ship.getRotate());
-
+                if (key_press.getOrDefault(KeyCode.SPACE,false) && projectiles.size() < 10){
+                    // New projectile created at the same position as the ship, with direction same as the direction of the ship
+                    Projectile proj = new Projectile((int) ship.u_ship.getTranslateX(),(int) ship.u_ship.getTranslateY(),ship.u_ship.getRotate());
+                
                     // Add the shooted projectile to the projectiles list 
                     projectiles.add(proj);
-
                     // Add the projectile shape to the screen
-                    pane.getChildren().add(proj.getShape());
-                    //    
-                }
-                // let the projectile move forward
-                projectiles.forEach(proj -> proj.getShape().setTranslateX(proj.getShape().getTranslateX()+Math.cos(Math.toRadians(ship.u_ship.getRotate()))));
-                projectiles.forEach(proj -> proj.getShape().setTranslateY(proj.getShape().getTranslateY()+Math.cos(Math.toRadians(ship.u_ship.getRotate()))));
-                
+                    pane.getChildren().add(proj.shape);
+                }               
+                    // let the projectile move
+                    projectiles.forEach(proj -> proj.shape.setTranslateX(proj.shape.getTranslateX()+Math.cos(Math.toRadians(proj.shape.getRotate()))));
+                    projectiles.forEach(proj -> proj.shape.setTranslateY(proj.shape.getTranslateY()+Math.sin(Math.toRadians(proj.shape.getRotate()))));
+                    
+                    // let the projectile hit asteroids
+                    // Filter all asteroid that hit the projectile and add to the hits collection
+                    projectiles.forEach(proj -> {List<Polygon> hits = asteroids.stream()
+                        .filter(asteroid -> asteroid.collide(proj))
+                        .collect(Collectors.toList());
+                        hits.stream().forEach(hit -> {asteroids.remove(hit);
+                            pane.getChildren().remove(hit);
+                        });
+                    });
+
             }
+
         }.start();
     }
 //run the application

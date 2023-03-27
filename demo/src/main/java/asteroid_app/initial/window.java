@@ -1,5 +1,5 @@
 //this is the package name
-package demo.src.main.java.asteroid_app.initial;
+package asteroid_app.initial;
 // Application is the base class for all JavaFX applications
 //need javafx to display the window
 import javafx.application.Application;

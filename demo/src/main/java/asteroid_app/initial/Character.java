@@ -107,6 +107,7 @@ public abstract class Character{
 		this.movement = new Point2D(0, 0);
 	}
 
+
     // accelerate the object
     public void accelerate() {
 		//Calculate acceleration by using trigonometery to calculate the change in the x and y directions
@@ -127,3 +128,36 @@ public abstract class Character{
 		}
     }
 }
+
+}
+
+/*
+package asteroid_app.initial;
+
+import java.util.Random;
+
+public class Character {
+    protected double initX;
+    protected double initY;
+
+    public void setPosition(double initX, double initY) {
+        this.initX = initX;
+        this.initY = initY;
+    }
+
+    public void setRandomPosition() {
+        Random rnd = new Random();
+        initX = rnd.nextDouble() * 200;
+        initY = rnd.nextDouble() * 200;
+    }
+
+    public double getInitX() {
+        return initX;
+    }
+
+    public double getInitY() {
+        return initY;
+    }
+}
+*/
+

@@ -1,0 +1,21 @@
+package asteroid_app.initial;
+
+import javafx.scene.Node;
+
+// A class to keep game objects on the screen when they reach the edge.
+public class KeepObjectsOnScreen {
+    private double screenWidth;
+    private double screenHeight;
+
+    // Constructor that takes the screen width and height as parameters.
+    public KeepObjectsOnScreen(double screenWidth, double screenHeight) {
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
+    }
+
+    // Method that wraps the object around when it reaches the edge of the screen.
+    public void wrapAround(Node object) {
+        object.setTranslateX((object.getTranslateX() + screenWidth) % screenWidth);
+        object.setTranslateY((object.getTranslateY() + screenHeight) % screenHeight);
+    }
+}

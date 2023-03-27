@@ -107,7 +107,6 @@ public abstract class Character{
 		this.movement = new Point2D(0, 0);
 	}
 
-
     // accelerate the object
     public void accelerate() {
 		//Calculate acceleration by using trigonometery to calculate the change in the x and y directions
@@ -128,9 +127,6 @@ public abstract class Character{
 		}
     }
 }
-
-}
-
 /*
 package asteroid_app.initial;
 
@@ -160,4 +156,3 @@ public class Character {
     }
 }
 */
-

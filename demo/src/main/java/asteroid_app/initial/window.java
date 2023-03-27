@@ -57,6 +57,11 @@ public class window extends Application{
         Circle circle = new Circle(100, 100, 30);
         pane.getChildren().add(circle);
 
+        //Alien
+        Alien alien_ship=new Alien (200,300);//test to see where to put it
+        alien_ship.createAlienShip(200,300);
+        pane.getChildren().add(alien_ship.getChar());
+
         //Ship
         //create a user_ship object and initialize location
         User_ship ship = new User_ship(WIDTH/2, HEIGHT/2);
@@ -115,6 +120,7 @@ public class window extends Application{
                 }
                 // update the ship's movement
                 ship.move();
+                alien_ship.move();
             }
         }.start();
     }

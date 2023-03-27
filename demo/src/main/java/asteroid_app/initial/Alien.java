@@ -3,7 +3,7 @@ package asteroid_app.initial;
 import java.util.Random;
 
 import javafx.scene.shape.Polygon;
-
+/* 
 public class Alien extends Character{
 
 	public static Polygon createAlien() {
@@ -44,3 +44,4 @@ public class Alien extends Character{
 
 	}
 }
+*/

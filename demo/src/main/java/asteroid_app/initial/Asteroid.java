@@ -3,7 +3,7 @@ package asteroid_app.initial;
 import java.util.Random;
 
 import javafx.scene.shape.Polygon;
-
+/* 
 public class Asteroid extends Character{
 	
 //	List<Asteroid> asteroids = new ArrayList<>();
@@ -37,8 +37,8 @@ public class Asteroid extends Character{
 		asteroid.setTranslateX(initX);
 		asteroid.setTranslateY(initY);
 		
-		System.out.println(asteroid);
+		//System.out.println(asteroid);
 		return asteroid;			
 	}
 	
-}
+}*/

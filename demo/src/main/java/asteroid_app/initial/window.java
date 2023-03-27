@@ -119,7 +119,7 @@ public class window extends Application{
                     ship.u_ship.setTranslateY(ship.u_ship.getTranslateY()+Math.sin(Math.toRadians(ship.u_ship.getRotate())));
                 }
                 //if the space key is pressed: Create a projectile. Only keep 3 projectile in the projectiles list
-                if (key_press.getOrDefault(KeyCode.SPACE,false) && projectiles.size() < 10){
+                if (key_press.getOrDefault(KeyCode.SPACE,false)){
                     // New projectile created at the same position as the ship, with direction same as the direction of the ship
                     Projectile proj = new Projectile((int) ship.u_ship.getTranslateX(),(int) ship.u_ship.getTranslateY(),ship.u_ship.getRotate());
                 
@@ -134,13 +134,13 @@ public class window extends Application{
                     
                     // let the projectile hit asteroids
                     // Filter all asteroid that hit the projectile and add to the hits collection
-                    projectiles.forEach(proj -> {List<Polygon> hits = asteroids.stream()
-                        .filter(asteroid -> asteroid.collide(proj))
-                        .collect(Collectors.toList());
-                        hits.stream().forEach(hit -> {asteroids.remove(hit);
-                            pane.getChildren().remove(hit);
-                        });
-                    });
+                    // projectiles.forEach(proj -> {List<Polygon> hits = asteroids.stream()
+                    //     .filter(asteroid -> asteroid.collide(proj))
+                    //     .collect(Collectors.toList());
+                    //     hits.stream().forEach(hit -> {asteroids.remove(hit);
+                    //         pane.getChildren().remove(hit);
+                    //     });
+                    // });
 
             }
 

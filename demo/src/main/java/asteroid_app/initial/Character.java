@@ -24,7 +24,7 @@ public abstract class Character{
 	private static final int screenEdges=15;
 
 	//constructor that each child object will call to
-    public Character(Polygon polygon, int x, int y){
+    public Character(Polygon polygon, double x, double y){
         //create the object's shape and location
         this.object = polygon;
         this.object.setTranslateX(x);

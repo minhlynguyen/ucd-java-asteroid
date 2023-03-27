@@ -26,7 +26,7 @@ public class Asteroid extends Character {
 
 		this.initialsize = size;
 
-		speed();
+		accelerate();
 
 	}
 
@@ -42,4 +42,4 @@ public class Asteroid extends Character {
 	}
 
 }
->>>>>>> yuanjun-asteroid&startmenu
+

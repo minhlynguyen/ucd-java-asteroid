@@ -1,6 +1,7 @@
-package asteroid_app.initial;
+package demo.src.main.java.asteroid_app.initial;
 //import polygon to draw a polygon
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Shape;
 //To make a smoother screen transition
 import javafx.geometry.Bounds;
 //import point 2d to represent the movement of any object
@@ -126,6 +127,18 @@ public abstract class Character{
 			this.movement = this.movement.add(changeX, changeY);
 		}
     }
+
+		// To check if the objects collide, we check if they have common space polygon
+		public Boolean collision(Character other){
+			Shape collisionSpace = Shape.intersect(this.object, other.getChar());
+			// If the width of the common space is >= 0, then they have collided
+			if (collisionSpace.getBoundsInLocal().getWidth() >= 0){
+				return true;
+			}else{
+				return false;
+			}
+		}
+
 }
 /*
 package asteroid_app.initial;
@@ -156,3 +169,4 @@ public class Character {
     }
 }
 */
+

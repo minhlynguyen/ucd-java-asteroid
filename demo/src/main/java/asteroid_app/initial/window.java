@@ -9,13 +9,8 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 // Pane is the base class for all layout panes
 import javafx.scene.layout.Pane;
-//import circle to draw a circle
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Polygon;
-//import polygon to draw a polygon
-import javafx.scene.shape.Polygon;
-// Label for the text inside the window
-import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
+
 //import java.util.* to create a list for asteroids
 import java.util.*;
 //import javafx.scene.control.Button to display button
@@ -32,12 +27,14 @@ import javafx.animation.AnimationTimer;
 public class window extends Application {
 
     //define the size of the screen can be accessed by all classes
-    public static int WIDTH = 800;
-    public static int HEIGHT = 600;
+    public static int WIDTH = 1400;
+    public static int HEIGHT = 1000;
     //the window class overrides the start mehtod from the application class
     //takes a single parameter of type stage
     //inside the start method is where the User interface is created
 
+
+    
     @Override
     public void start(Stage stage) throws Exception {
         // create a pane and set size
@@ -47,8 +44,6 @@ public class window extends Application {
         // create a scene and label
 
         Scene scene = new Scene(pane);
-        Label label = new Label("This is how text is added to the screen.");
-        pane.getChildren().add(label);
 
         // Object creation:
         // create the characters
@@ -69,11 +64,6 @@ public class window extends Application {
         // as the level increase, add a for loop to increase asteroid
         // Polygon asteroid = Asteroid.createAsteroid();
         // pane.getChildren().add(asteroid);
-
-        // Circle
-        // create circle location from top left is 300x 200y and radius is 50
-        Circle circle = new Circle(100, 100, 30);
-        pane.getChildren().add(circle);
 
         //Alien
         Alien alien_ship=new Alien (200,300);//test to see where to put it
@@ -130,7 +120,7 @@ public class window extends Application {
             //check if j key was pressed so we dont repeatedly go into hyperspace
             //inserted here to prevent multiple jumps
             private boolean jPress = false;
-
+            private int initial=0;
             @Override
             public void handle(long now){
                 //if the left key is pressed
@@ -146,9 +136,28 @@ public class window extends Application {
 
                 //if the up key is pressed
                 if(key_press.getOrDefault(KeyCode.UP, false)){
-                    //accelerate the user_ship
-                    ship.accelerate();
+                    
+                    if (initial==0){
+                        //add the boosters to the pane
+                        ship.accelerate();
+                        Boosters boosters = new Boosters(ship.getX(), ship.getY(), ship.getAngle());
+                        boosters.move();
+                        pane.getChildren().add(boosters.getChar());
+                        initial=1;}
+
+                    else{
+                        //remove the boosters from the pane
+                        ship.accelerate();
+                        pane.getChildren().remove(pane.getChildren().size()-1);
+                        //add the boosters to the pane
+                        Boosters boosters = new Boosters(ship.getX(), ship.getY(), ship.getAngle());
+                        boosters.setFill("RED");
+                        boosters.move();
+                        pane.getChildren().add(boosters.getChar());
+                    }                  
                 }
+                //remove the boosters from the pane
+                
                 
                 // if the J key is pressed for jump and has not already jumped
                 if (key_press.getOrDefault(KeyCode.J, false) && jPress==false) {

@@ -1,9 +1,8 @@
 package asteroid_app.initial;
+import javafx.scene.canvas.GraphicsContext;
 //import polygon to draw a polygon
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
-//To make a smoother screen transition
-import javafx.geometry.Bounds;
 //import point 2d to represent the movement of any object
 import javafx.geometry.Point2D;
 
@@ -12,16 +11,13 @@ public abstract class Character{
     //define a private polygon object to reprent each object
     // and a 2d point to represent the movement of each object
     private Polygon object;
-    private Point2D movement;
+    protected Point2D movement;
 	//test to see if the object is at it's maximum velocity
 	private Point2D test;
 	// ship velocity, acceleration and turn angle
 	private static final double maxShipVelocity=8;
 	private static final double shipAcceleration=0.06;
 	private static final double shipTurnAngle=5;
-	//screen edges removes the flashing of an object on the screen
-	//by adding this number to the comparison before relocating the object
-	private static final int screenEdges=15;
 
 	//constructor that each child object will call to
     public Character(Polygon polygon, double x, double y){
@@ -53,32 +49,7 @@ public abstract class Character{
 
     // move the object
 	public void move() {
-		//add any acceleration to the current movement
-		this.object.setTranslateX(this.object.getTranslateX() + this.movement.getX());
-		this.object.setTranslateY(this.object.getTranslateY() + this.movement.getY());
-	
-		//get the extremeties of the object
-		Bounds boundsInScreen = this.object.getBoundsInParent();
-		double minX = boundsInScreen.getMinX();
-		double maxX = boundsInScreen.getMaxX();
-		double minY = boundsInScreen.getMinY();
-		double maxY = boundsInScreen.getMaxY();
-	
-		//check if the ship is partially out of the screen
-		if(minX < -screenEdges) {
-			this.object.setTranslateX(this.object.getTranslateX() + window.WIDTH);
-		} else if(maxX > window.WIDTH + screenEdges) {
-			this.object.setTranslateX(this.object.getTranslateX() % window.WIDTH);
-		}
-	
-		if(minY < -screenEdges) {
-			this.object.setTranslateY(this.object.getTranslateY() + window.HEIGHT);
-		} else if(maxY > window.HEIGHT + screenEdges) {
-			this.object.setTranslateY(this.object.getTranslateY() % window.HEIGHT);
-		}
-
-		//This code gives more imprecise screen transitions
-		/*
+		
 		//add any acceleration to the current movement
         this.object.setTranslateX(this.object.getTranslateX() + this.movement.getX());
         this.object.setTranslateY(this.object.getTranslateY() + this.movement.getY());
@@ -100,7 +71,6 @@ public abstract class Character{
 		if (this.object.getTranslateY() > window.HEIGHT) {
 			this.object.setTranslateY(this.object.getTranslateY() % window.HEIGHT);
 		}		 
-		 */
 	}
 	
 	//set the movement to zero
@@ -138,7 +108,6 @@ public abstract class Character{
 				return false;
 			}
 		}
-
 }
 /*
 package asteroid_app.initial;

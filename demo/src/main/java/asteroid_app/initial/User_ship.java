@@ -12,21 +12,33 @@ public class User_ship extends Character {
     public User_ship(int x, int y) {
         // create the shape of the ship
         //each is an x,y co-ordinate for each point
-        super(new Polygon(-10,0,0,-10,-10,-20,20,-10), x, y);
+        super(new Polygon(-20,0,0,-20,-20,-40,40,-20), x, y);
     }
 
-    //set a new x position for the ship
+    public int getX(){
+        double d = this.getChar().getTranslateX();
+        int i= (int) d;
+        return i;
+    }
+
+    public int getY(){
+        double d = this.getChar().getTranslateY();
+        int i= (int) d;
+        return i;
+    }
+
+    public double getAngle(){
+        double d = this.getChar().getRotate();
+        return d;
+    }
+
     public void setTranslateX(int x) {
-        // this ship, call method getChar from Character and 
-        // set the x co-ordinate
         this.getChar().setTranslateX(x);
     }
-
-    //similarly for the y co-ordinate
+    
     public void setTranslateY(int y) {
         this.getChar().setTranslateY(y);
     }
-
     //jump to a new location within the window
     public void hyperspaceJump() {
         //Generate a random location within the window
@@ -34,6 +46,7 @@ public class User_ship extends Character {
         int newX = random.nextInt(window.WIDTH);
         int newY = random.nextInt(window.HEIGHT);
         //if these new co-ordinates collide with another object go again
+        
         /*
         if(newX == any value that currently has an asteroid){
             find a newX

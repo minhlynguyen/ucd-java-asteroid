@@ -1,6 +1,4 @@
 package asteroid_app.initial;
-import javafx.geometry.Point2D;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 //import polygon to draw a polygon
@@ -19,26 +17,6 @@ public class User_ship extends Character {
         super(new Polygon(-20,20,0,0,-20,-20,40,0), x, y);
     }
 
-    public int getX(){
-        //get this to return to 0,0 point of the ship:
-
-
-        double d = this.getChar().getTranslateX();
-        int i= (int) d;
-        return i;
-    }
-
-    public int getY(){
-        double d = this.getChar().getTranslateY();
-        int i= (int) d;
-        return i;
-    }
-
-    public double getAngle(){
-        double d = this.getChar().getRotate();
-        return d;
-    }
-
     public void setTranslateX(int x) {
         this.getChar().setTranslateX(x);
     }
@@ -46,6 +24,7 @@ public class User_ship extends Character {
     public void setTranslateY(int y) {
         this.getChar().setTranslateY(y);
     }
+    
     public void hyperspaceJump(Pane pane) {
         //Generate a random location within the window
         boolean freeSpace=false;

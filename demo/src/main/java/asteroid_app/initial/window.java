@@ -33,7 +33,6 @@ public class window extends Application {
     //inside the start method is where the User interface is created
 
 
-    
     @Override
     public void start(Stage stage) throws Exception {
         // create a pane and set size
@@ -50,7 +49,7 @@ public class window extends Application {
         // Asteroid
         // At the beginning,  use a list to create several asteroid
 	    List<Asteroid> asteroids = new ArrayList<>();
-        for(int i=0; i<30; i++){
+        for(int i=0; i<40; i++){
             double x = new Random().nextDouble()*1000;
             double y = new Random().nextDouble()*1000;
             Asteroid asteroid = new Asteroid(x, y, 3);
@@ -119,7 +118,7 @@ public class window extends Application {
             //check if j key was pressed so we dont repeatedly go into hyperspace
             //inserted here to prevent multiple jumps
             private boolean jPress = false;
-            private int initial=0;
+            
             @Override
             public void handle(long now){
                 //if the left key is pressed
@@ -134,30 +133,10 @@ public class window extends Application {
                 }
 
                 //if the up key is pressed
-                if(key_press.getOrDefault(KeyCode.UP, false)){
-                    
-                    if (initial==0){
-                        //add the boosters to the pane
-                        ship.accelerate();
-                        Boosters boosters = new Boosters(ship.getX(), ship.getY(), ship.getAngle());
-                        boosters.move();
-                        pane.getChildren().add(boosters.getChar());
-                        initial=1;}
-
-                    else{
-                        //remove the boosters from the pane
-                        ship.accelerate();
-                        pane.getChildren().remove(pane.getChildren().size()-1);
-                        //add the boosters to the pane
-                        Boosters boosters = new Boosters(ship.getX(), ship.getY(), ship.getAngle());
-                        boosters.setFill("RED");
-                        boosters.move();
-                        pane.getChildren().add(boosters.getChar());
-                    }                  
+                if(key_press.getOrDefault(KeyCode.UP, false)) {
+                    ship.accelerate();
                 }
-                //remove the boosters from the pane
-                
-                
+
                 // if the J key is pressed for jump and has not already jumped
                 if (key_press.getOrDefault(KeyCode.J, false) && jPress==false) {
                     //jump to a new location and if successful set flag to true

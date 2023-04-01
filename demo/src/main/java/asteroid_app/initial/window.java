@@ -50,7 +50,7 @@ public class window extends Application {
         // Asteroid
         // At the beginning,  use a list to create several asteroid
 	    List<Asteroid> asteroids = new ArrayList<>();
-        for(int i=0; i<5; i++){
+        for(int i=0; i<30; i++){
             double x = new Random().nextDouble()*1000;
             double y = new Random().nextDouble()*1000;
             Asteroid asteroid = new Asteroid(x, y, 3);
@@ -161,7 +161,7 @@ public class window extends Application {
                 // if the J key is pressed for jump and has not already jumped
                 if (key_press.getOrDefault(KeyCode.J, false) && jPress==false) {
                     //jump to a new location and if successful set flag to true
-                    ship.hyperspaceJump();
+                    ship.hyperspaceJump(pane);
                     jPress = true;                   
                 }
                 // if the J key is released

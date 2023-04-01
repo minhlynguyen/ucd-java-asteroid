@@ -1,6 +1,5 @@
 //this is the package name
 package asteroid_app.initial;
-
 // Application is the base class for all JavaFX applications
 //need javafx to display the window
 import javafx.application.Application;
@@ -14,80 +13,108 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 //import polygon to draw a polygon
+import javafx.scene.shape.Polygon;
 // Label for the text inside the window
 import javafx.scene.control.Label;
+//import java.util.* to create a list for asteroids
+import java.util.*;
+//import javafx.scene.control.Button to display button
+import javafx.scene.control.Button;
 
-import java.net.PortUnreachableException;
-//Stuff for user_ship
+//Stuff for keypresses
 import java.util.HashMap;
-
 import javafx.scene.input.KeyCode;
 import java.util.Map;
-
 import javafx.animation.AnimationTimer;
-
-//Stuff for Projectiles
-import java.util.List;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 
 //window extends the application class from javafx
-public class window extends Application{
+public class window extends Application {
 
+    //define the size of the screen can be accessed by all classes
+    public static int WIDTH = 800;
+    public static int HEIGHT = 600;
     //the window class overrides the start mehtod from the application class
     //takes a single parameter of type stage
     //inside the start method is where the User interface is created
+
     @Override
-    public void start(Stage stage) throws Exception{
+    public void start(Stage stage) throws Exception {
         // create a pane and set size
         Pane pane = new Pane();
-        pane.setPrefSize(600, 400);
-        // create label
-        // create a scene
-        Scene scene = new Scene(pane);
 
+        pane.setPrefSize(WIDTH, HEIGHT);
+        // create a scene and label
+
+        Scene scene = new Scene(pane);
         Label label = new Label("This is how text is added to the screen.");
         pane.getChildren().add(label);
 
-
-        //Object creation:
+        // Object creation:
         // create the characters
-        
-        //as the level increase,add a for loop to increase asteroid 
-        List<Polygon> asteroids = new ArrayList<>();
-        Polygon asteroid = Asteroid.createAsteroid();
-        asteroids.add(asteroid);        
-        pane.getChildren().add(asteroid);
-        
 
-        Polygon alien = Alien.createAlien();
-        pane.getChildren().add(alien);
+        // Asteroid
+        // At the beginning,  use a list to create several asteroid
+	    List<Asteroid> asteroids = new ArrayList<>();
+        for(int i=0; i<5; i++){
+            double x = new Random().nextDouble()*1000;
+            double y = new Random().nextDouble()*1000;
+            Asteroid asteroid = new Asteroid(x, y, 3);
+            asteroids.add(asteroid);
+        }
 
-        //Circle
+        // Add these asteroids to Pane
+        asteroids.forEach(asteroid -> pane.getChildren().add(asteroid.getChar())); 
+
+        // as the level increase, add a for loop to increase asteroid
+        // Polygon asteroid = Asteroid.createAsteroid();
+        // pane.getChildren().add(asteroid);
+
+        // Circle
         // create circle location from top left is 300x 200y and radius is 50
         Circle circle = new Circle(100, 100, 30);
         pane.getChildren().add(circle);
 
+        //Alien
+        Alien alien_ship=new Alien (200,300);//test to see where to put it
+        alien_ship.createAlienShip(200,300);
+        pane.getChildren().add(alien_ship.getChar());
+
         //Ship
-        //create a user_ship object
-        user_ship ship=new user_ship();
-        //set the location of the user_ship to center of the screen
-        ship.u_ship.setTranslateX(300);
-        ship.u_ship.setTranslateY(200);
-        pane.getChildren().add(ship.u_ship);
+        //create a user_ship object and initialize location
+        User_ship ship = new User_ship(WIDTH/2, HEIGHT/2);
+        //add the user_ship to the pane
+        pane.getChildren().add(ship.getChar());
 
-        //Projectile
-        // Declare a list of for projectiles, but leave it empty because we don'w want any projectile on screen
-        // when the application start
-        List<Projectile> projectiles = new ArrayList();
+        // Construct a new pane to manage the controls
+        Pane startMenuPane = new Pane();
+        startMenuPane.setPrefSize(WIDTH, HEIGHT);
 
-        //set the title of the window
-        stage.setTitle("Asteroids");
-        stage.setScene(scene);
+        // Construct a new start menu scene
+        Scene startMenuScene = new Scene(startMenuPane);
+
+        // Labels on the screen
+        // Label headline = new Label("ASTEROIDS");
+        Button playGame = new Button("PLAY GAME");
+        // Label highScores = new Label("HIGH SCORES");
+        // Label website = new Label("www.freevideogamesonline.com");
+
+        // Add labels into startMenuPane
+        // startMenuPane.getChildren().add(headline);
+        startMenuPane.getChildren().add(playGame);
+        // startMenuPane.getChildren().add(highScores);
+        // startMenuPane.getChildren().add(website);
+
+
+        // set the title of the window
+        stage.setTitle("Group 11-Asteroids Game");
+        stage.setScene(startMenuScene);
+
+        // When click on play game button, enter the game play scene
+        playGame.setOnAction(e -> stage.setScene(scene));
+
         // Display the stage
         stage.show();
-
 
         //Key Presses:
         //create a hash map(key value pairs stored in a hash table) to store the key presses
@@ -100,53 +127,82 @@ public class window extends Application{
         //Animation controls:
         //use an animation timer to update the screen
         new AnimationTimer(){
+            //check if j key was pressed so we dont repeatedly go into hyperspace
+            //inserted here to prevent multiple jumps
+            private boolean jPress = false;
+
             @Override
             public void handle(long now){
                 //if the left key is pressed
                 if(key_press.getOrDefault(KeyCode.LEFT, false)){
                     //rotate the user_ship left
-                    ship.u_ship.setRotate(ship.u_ship.getRotate()-5);
+                    ship.turnLeft();
                 }
                 //if the right key is pressed
                 if(key_press.getOrDefault(KeyCode.RIGHT, false)){
                     //rotate the user_ship right
-                    ship.u_ship.setRotate(ship.u_ship.getRotate()+5);
+                    ship.turnRight();
                 }
+
                 //if the up key is pressed
                 if(key_press.getOrDefault(KeyCode.UP, false)){
-                    //move the user_ship forward
-                    ship.u_ship.setTranslateX(ship.u_ship.getTranslateX()+Math.cos(Math.toRadians(ship.u_ship.getRotate())));
-                    ship.u_ship.setTranslateY(ship.u_ship.getTranslateY()+Math.sin(Math.toRadians(ship.u_ship.getRotate())));
+                    //accelerate the user_ship
+                    ship.accelerate();
                 }
-                //if the space key is pressed: Create a projectile. Only keep 3 projectile in the projectiles list
-                if (key_press.getOrDefault(KeyCode.SPACE,false)){
-                    // New projectile created at the same position as the ship, with direction same as the direction of the ship
-                    Projectile proj = new Projectile((int) ship.u_ship.getTranslateX(),(int) ship.u_ship.getTranslateY(),ship.u_ship.getRotate());
                 
-                    // Add the shooted projectile to the projectiles list 
-                    projectiles.add(proj);
-                    // Add the projectile shape to the screen
-                    pane.getChildren().add(proj.shape);
-                }               
-                    // let the projectile move
-                    projectiles.forEach(proj -> proj.shape.setTranslateX(proj.shape.getTranslateX()+Math.cos(Math.toRadians(proj.shape.getRotate()))));
-                    projectiles.forEach(proj -> proj.shape.setTranslateY(proj.shape.getTranslateY()+Math.sin(Math.toRadians(proj.shape.getRotate()))));
+                // if the J key is pressed for jump and has not already jumped
+                if (key_press.getOrDefault(KeyCode.J, false) && jPress==false) {
+                    //jump to a new location and if successful set flag to true
+                    ship.hyperspaceJump();
+                    jPress = true;                   
+                }
+                // if the J key is released
+                if (!key_press.getOrDefault(KeyCode.J, false)) {
+                    jPress = false; // reset the flag
+                }
+                // update the ship's movement
+                ship.move();
+                alien_ship.move();
+
+                // Move the asteriods
+                asteroids.forEach(asteroid -> asteroid.move());
                     
-                    // let the projectile hit asteroids
-                    // Filter all asteroid that hit the projectile and add to the hits collection
-                    // projectiles.forEach(proj -> {List<Polygon> hits = asteroids.stream()
-                    //     .filter(asteroid -> asteroid.collide(proj))
-                    //     .collect(Collectors.toList());
-                    //     hits.stream().forEach(hit -> {asteroids.remove(hit);
-                    //         pane.getChildren().remove(hit);
-                    //     });
-                    // });
+                // When the collision happens
+                asteroids.forEach(asteroid -> {
+                    if(asteroid.collision(ship)){
+
+                        // Remove the collided asteroid from the pane and asteroids list when collision happens
+                        pane.getChildren().remove(asteroid.getChar());
+                        asteroids.remove(asteroid);
+
+                        // Then add two new smaller asteroids on the scene and in the asteroids list
+                        // If the size=3 asteroid is collided
+                        if(asteroid.getInitialSize() == 3){
+                            for(int i=0; i<2; i++){
+                                Asteroid newAsteroid = new Asteroid(asteroid.getChar().getTranslateX(), asteroid.getChar().getTranslateY(), 2);
+                                asteroids.add(newAsteroid);
+                                pane.getChildren().add(newAsteroid.getChar());
+                                newAsteroid.move();
+                            }
+                        }
+
+                        // If the size=2 asteroid is collided:
+                        if(asteroid.getInitialSize() == 2){
+                            for(int i=0; i<2; i++){
+                                Asteroid newAsteroid = new Asteroid(asteroid.getChar().getTranslateX(), asteroid.getChar().getTranslateY(), 1);
+                                asteroids.add(newAsteroid);
+                                pane.getChildren().add(newAsteroid.getChar());
+                                newAsteroid.move();
+                            }
+                        }
+                }});
 
             }
-
         }.start();
     }
-//run the application
+
+
+    // run the application
     public static void main(String[] args) {
         launch(args);
     }

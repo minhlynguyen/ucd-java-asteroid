@@ -2,49 +2,44 @@ package asteroid_app.initial;
 
 import java.util.Random;
 
-import javafx.scene.shape.Polygon;
+public class Asteroid extends Character {
 
-public class Asteroid extends Character{
-	
-	public static Polygon asteroid;
-//	List<Asteroid> asteroids = new ArrayList<>();
-   	
-	public static Polygon createAsteroid(){
+	private double movingAngle;
+	private int initialsize;
+
+	// Except variables x,y inherited from character, asteroid also needs to set its size
+	public Asteroid(double x, double y, int size){
+
+		// Use PolygonCreator class to create an asteroid polygon
+		super(new PolygonCreator().createPolygon(size), x, y);
+
+		// Only asteroid needs to set an initial angle, which can use initialAngle to express
+		//Because the direction is random, so we use Random() to generate an angle
 		Random rnd = new Random();
-		//side is the length of polygon's one side
-		double side = 50+rnd.nextInt(10);
-		asteroid = new Polygon();
-		
-		double c1 = Math.cos(Math.PI/3);
-		double s1 = Math.sin(Math.PI/3);
-		double c2 = Math.cos(Math.PI/6);
-		double s2 = Math.sin(Math.PI/6);
-		
-		asteroid.getPoints().addAll(
-				0.0, 0.0,
-				side*c1, -1*side*s1,
-				side*c2, -1*side*s2,
-				side*c2, side*s2,
-				side*c1, side*s1,
-				-1*side*c1, side*s1,
-				-1*side*c2, -1*side*s2,
-				-1*side*c1, -1*side*s1
-				);
-		
 
-		initX =400;
-		initY = 400;
-		asteroid.setTranslateX(initX);
-		asteroid.setTranslateY(initY);
-		
-		System.out.println(asteroid);
-		return asteroid;			
+		// The max angle is 360
+		// We import setRotate method to set its initial angel
+		super.getChar().setRotate(rnd.nextDouble()*360);
+
+		// Generate a fixed moving angle
+		this.movingAngle = 0.5 - rnd.nextDouble();
+
+		this.initialsize = size;
+
+		accelerate();
+
 	}
 
-	public Asteroid(int x, int y){
-		this.shape = asteroid;
-		this.shape.setTranslateX(x);
-		this.shape.setTranslateY(y);
+	// Asteroid has a random moving direction, so we need to set a override part in move() method
+	@Override
+	public void move(){
+		super.move();
+		super.getChar().setRotate(super.getChar().getRotate() + movingAngle);
 	}
-	
+
+	public int getInitialSize(){
+		return initialsize;
+	}
+
 }
+

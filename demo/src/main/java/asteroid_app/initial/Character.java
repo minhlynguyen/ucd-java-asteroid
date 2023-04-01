@@ -1,5 +1,4 @@
 package asteroid_app.initial;
-import javafx.scene.canvas.GraphicsContext;
 //import polygon to draw a polygon
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;

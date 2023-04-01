@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 // Pane is the base class for all layout panes
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 
 //import java.util.* to create a list for asteroids
 import java.util.*;

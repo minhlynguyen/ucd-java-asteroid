@@ -86,6 +86,9 @@ public class window extends Application {
         //add the user_ship to the pane
         pane.getChildren().add(ship.getChar());
 
+        //Bullet
+        List<Bullet> bullets = new ArrayList<>();
+
         // Construct a new pane to manage the controls
         Pane startMenuPane = new Pane();
         startMenuPane.setPrefSize(WIDTH, HEIGHT);
@@ -160,12 +163,36 @@ public class window extends Application {
                 if (!key_press.getOrDefault(KeyCode.J, false)) {
                     jPress = false; // reset the flag
                 }
+                
+                // if the spacebar is pressed, and only 3 bullets on screen
+                if (key_press.getOrDefault(KeyCode.SPACE, false) && bullets.size() < 3) {
+                    // the bullet appear in the screen 
+                    // at the same coordinates as current coordinates of the ship
+                    // with same rotation angle
+                    Bullet bullet = new Bullet((int) ship.getChar().getTranslateX(), (int) ship.getChar().getTranslateY());
+                    bullet.getChar().setRotate(ship.getChar().getRotate());
+                    pane.getChildren().add(bullet.getChar());
+
+                    // add the new bullet to the list of bullets
+                    bullets.add(bullet);
+
+                    // acclerate the speed of the bullet:
+                    bullet.accelerate();
+
+                    // set the movement for the bullet is 3x faster than other character (the ship)
+                    bullet.setMovement(bullet.getMovement().multiply(30));                
+                }
+
+
                 // update the ship's movement
                 ship.move();
                 alien_ship.move();
-
+                
                 // Move the asteriods
                 asteroids.forEach(asteroid -> asteroid.move());
+
+                // Move the bullets
+                bullets.forEach(bullet -> bullet.move());
                     
                 // When the collision happens
                 asteroids.forEach(asteroid -> {

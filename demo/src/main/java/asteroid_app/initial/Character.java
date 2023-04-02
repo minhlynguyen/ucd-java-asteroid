@@ -34,10 +34,20 @@ public abstract class Character{
         this.movement = new Point2D(0, 0);
     }
 
-    //return the current object
+    //return the polygon of the current object
     public Polygon getChar(){
         return this.object;
     }
+
+	// return the current movement of the object
+	public Point2D getMovement(){
+		return this.movement;
+	}
+
+	// set the movement for a character
+	public void setMovement(Point2D point){
+		this.movement=point;
+	}
 
     // turn it left
     public void turnLeft(){

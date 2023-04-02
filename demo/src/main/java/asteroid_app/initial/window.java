@@ -43,7 +43,7 @@ public class window extends Application {
     //takes a single parameter of type stage
     //inside the start method is where the User interface is created
 
-    public static int pointX = WIDTH/2;
+    public static int pointX = WIDTH/2-7;
     public static int pointY = 20;
 
 
@@ -249,28 +249,31 @@ public class window extends Application {
                             bullet.setAlive(false);
                             asteroid.setAlive(false);
                         }
+
+                        // adding point
+                        if(!bullet.getAlive()) {
+                            pointText.setText("Points: " + points.addAndGet(1000));
+                        }
                     });
                 });
 
                 // turn the ArrayList of asteroids to a list to apply filter & collect method to create a list of collided bullets
                 bullets.stream()
-                .filter(bullet -> bullet.getAlive()==false)
+                .filter(bullet -> !bullet.getAlive())
                 .forEach(bullet -> pane.getChildren().remove(bullet.getChar()));
                 
                 bullets.removeAll(bullets.stream()
-                .filter(bullet -> bullet.getAlive()==false)
+                .filter(bullet -> !bullet.getAlive())
                 .collect(Collectors.toList()));
                 
                 asteroids.stream()
-                .filter(asteroid -> asteroid.getAlive()==false)
+                .filter(asteroid -> !asteroid.getAlive())
                 .forEach(asteroid -> pane.getChildren().remove(asteroid.getChar()));
                 
                 asteroids.removeAll(asteroids.stream()
-                .filter(asteroid -> asteroid.getAlive()==false)
+                .filter(asteroid -> !asteroid.getAlive())
                 .collect(Collectors.toList()));
 
-                // adding point
-                pointText.setText("Points: " + points.incrementAndGet());
             }
         }.start();
     }

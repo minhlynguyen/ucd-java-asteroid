@@ -1,10 +1,8 @@
-package asteroid_app.initial;
+package demo.src.main.java.asteroid_app.initial;
 
 //import polygon to draw a polygon
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
-//To make a smoother screen transition
-import javafx.geometry.Bounds;
 //import point 2d to represent the movement of any object
 import javafx.geometry.Point2D;
 
@@ -19,12 +17,11 @@ public abstract class Character {
 	// variable for the dead/alive status of Character
 	private Boolean alive;
 	// ship velocity, acceleration and turn angle
-	private static final double maxShipVelocity = 8;
-	private static final double shipAcceleration = 0.06;
-	private static final double shipTurnAngle = 5;
-	// screen edges removes the flashing of an object on the screen
-	// by adding this number to the comparison before relocating the object
-	private static final int screenEdges = 15;
+	private static final double maxShipVelocity=3;
+	private static final double shipAcceleration=0.06;
+	private static final double shipTurnAngle=5;
+	//screen edges removes the flashing of an object on the screen
+	//by adding this number to the comparison before relocating the object
 
 	// constructor that each child object will call to
 	public Character(Polygon polygon, double x, double y) {
@@ -79,56 +76,28 @@ public abstract class Character {
 
 	// move the object
 	public void move() {
-		// add any acceleration to the current movement
-		this.object.setTranslateX(this.object.getTranslateX() + this.movement.getX());
-		this.object.setTranslateY(this.object.getTranslateY() + this.movement.getY());
+		
+		//add any acceleration to the current movement
+        this.object.setTranslateX(this.object.getTranslateX() + this.movement.getX());
+        this.object.setTranslateY(this.object.getTranslateY() + this.movement.getY());
 
-		// get the extremeties of the object
-		Bounds boundsInScreen = this.object.getBoundsInParent();
-		double minX = boundsInScreen.getMinX();
-		double maxX = boundsInScreen.getMaxX();
-		double minY = boundsInScreen.getMinY();
-		double maxY = boundsInScreen.getMaxY();
-
-		// check if the ship is partially out of the screen
-		if (minX < -screenEdges) {
+		//if the object is out of the screen, move it to the other side
+		//exit the screen from the left side, enter from the right side
+		if (this.object.getTranslateX() < 0) {
 			this.object.setTranslateX(this.object.getTranslateX() + window.WIDTH);
-		} else if (maxX > window.WIDTH + screenEdges) {
+		}
+		//exit the screen from the right side, enter from the left side
+		if (this.object.getTranslateX() > window.WIDTH) {
 			this.object.setTranslateX(this.object.getTranslateX() % window.WIDTH);
 		}
-
-		if (minY < -screenEdges) {
+		//exit the screen from the top, enter from the bottom
+		if (this.object.getTranslateY() < 0) {
 			this.object.setTranslateY(this.object.getTranslateY() + window.HEIGHT);
-		} else if (maxY > window.HEIGHT + screenEdges) {
-			this.object.setTranslateY(this.object.getTranslateY() % window.HEIGHT);
 		}
-
-		// This code gives more imprecise screen transitions
-		/*
-		 * //add any acceleration to the current movement
-		 * this.object.setTranslateX(this.object.getTranslateX() +
-		 * this.movement.getX());
-		 * this.object.setTranslateY(this.object.getTranslateY() +
-		 * this.movement.getY());
-		 * 
-		 * //if the object is out of the screen, move it to the other side
-		 * //exit the screen from the left side, enter from the right side
-		 * if (this.object.getTranslateX() < 0) {
-		 * this.object.setTranslateX(this.object.getTranslateX() + window.WIDTH);
-		 * }
-		 * //exit the screen from the right side, enter from the left side
-		 * if (this.object.getTranslateX() > window.WIDTH) {
-		 * this.object.setTranslateX(this.object.getTranslateX() % window.WIDTH);
-		 * }
-		 * //exit the screen from the top, enter from the bottom
-		 * if (this.object.getTranslateY() < 0) {
-		 * this.object.setTranslateY(this.object.getTranslateY() + window.HEIGHT);
-		 * }
-		 * //exit the screen from the bottom, enter from the top
-		 * if (this.object.getTranslateY() > window.HEIGHT) {
-		 * this.object.setTranslateY(this.object.getTranslateY() % window.HEIGHT);
-		 * }
-		 */
+		//exit the screen from the bottom, enter from the top
+		if (this.object.getTranslateY() > window.HEIGHT) {
+			this.object.setTranslateY(this.object.getTranslateY() % window.HEIGHT);
+		}		 
 	}
 
 	// set the movement to zero
@@ -159,46 +128,14 @@ public abstract class Character {
 	}
 
 	// To check if the objects collide, we check if they have common space polygon
-	public Boolean collision(Character other) {
+	public Boolean collision(Character other){
 		Shape collisionSpace = Shape.intersect(this.object, other.getChar());
 		// If the width of the common space is >= 0, then they have collided
-		if (collisionSpace.getBoundsInLocal().getWidth() >= 0) {
+		if (collisionSpace.getBoundsInLocal().getWidth() >= 0){
 			return true;
-		} else {
+		}else{
 			return false;
 		}
 	}
-
 }
-/*
- * package asteroid_app.initial;
- * 
- * import java.util.Random;
- * 
- * import javafx.scene.shape.Polygon;
- * import javafx.scene.shape.Shape;
- * 
- * public class Character {
- * protected double initX;
- * protected double initY;
- * 
- * public void setPosition(double initX, double initY) {
- * this.initX = initX;
- * this.initY = initY;
- * }
- * 
- * public void setRandomPosition() {
- * Random rnd = new Random();
- * initX = rnd.nextDouble() * 200;
- * initY = rnd.nextDouble() * 200;
- * }
- * 
- * public double getInitX() {
- * return initX;
- * }
- * 
- * public double getInitY() {
- * return initY;
- * }
- * }
- */
+

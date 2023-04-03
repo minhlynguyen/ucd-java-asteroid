@@ -1,5 +1,5 @@
 //this is the package name
-package asteroid_app.initial;
+package demo.src.main.java.asteroid_app.initial;
 
 // Application is the base class for all JavaFX applications
 //need javafx to display the window
@@ -10,15 +10,9 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 // Pane is the base class for all layout panes
 import javafx.scene.layout.Pane;
-//import circle to draw a circle
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Polygon;
-//to display the points of user
 import javafx.scene.text.Text;
-//import polygon to draw a polygon
-import javafx.scene.shape.Polygon;
-// Label for the text inside the window
 import javafx.scene.control.Label;
+
 //import java.util.* to create a list for asteroids
 import java.util.*;
 //import javafx.scene.control.Button to display button
@@ -45,12 +39,12 @@ import javafx.animation.AnimationTimer;
 //window extends the application class from javafx
 public class window extends Application {
 
-    // define the size of the screen can be accessed by all classes
-    public static int WIDTH = 800;
-    public static int HEIGHT = 600;
-    // the window class overrides the start mehtod from the application class
-    // takes a single parameter of type stage
-    // inside the start method is where the User interface is created
+    //define the size of the screen can be accessed by all classes
+    public static int WIDTH = 1400;
+    public static int HEIGHT = 1000;
+    //the window class overrides the start mehtod from the application class
+    //takes a single parameter of type stage
+    //inside the start method is where the User interface is created
 
     public static int pointX = WIDTH / 2 - 7;
     public static int pointY = 20;
@@ -63,8 +57,6 @@ public class window extends Application {
 
         // create a scene and label
         Scene scene = new Scene(pane);
-        Label label = new Label("This is how text is added to the screen.");
-        pane.getChildren().add(label);
 
         // display the point
         Text pointText = new Text(pointX, pointY, "Points: 0");
@@ -93,14 +85,9 @@ public class window extends Application {
         // Polygon asteroid = Asteroid.createAsteroid();
         // pane.getChildren().add(asteroid);
 
-        // Circle
-        // create circle location from top left is 300x 200y and radius is 50
-        Circle circle = new Circle(100, 100, 30);
-        pane.getChildren().add(circle);
-
-        // Alien
-        Alien alien_ship = new Alien(200, 300);// test to see where to put it
-        alien_ship.createAlienShip(200, 300);
+        //Alien
+        Alien alien_ship=new Alien (200,300);//test to see where to put it
+        alien_ship.createAlienShip(200,300);
         pane.getChildren().add(alien_ship.getChar());
 
         // Ship
@@ -185,10 +172,10 @@ public class window extends Application {
                 }
 
                 // if the J key is pressed for jump and has not already jumped
-                if (key_press.getOrDefault(KeyCode.J, false) && jPress == false) {
-                    // jump to a new location and if successful set flag to true
-                    ship.hyperspaceJump();
-                    jPress = true;
+                if (key_press.getOrDefault(KeyCode.J, false) && jPress==false) {
+                    //jump to a new location and if successful set flag to true
+                    ship.hyperspaceJump(pane);
+                    jPress = true;                   
                 }
                 // if the J key is released
                 if (!key_press.getOrDefault(KeyCode.J, false)) {

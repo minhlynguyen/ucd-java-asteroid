@@ -78,32 +78,7 @@ public abstract class Character{
 
     // move the object
 	public void move() {
-		//add any acceleration to the current movement
-		this.object.setTranslateX(this.object.getTranslateX() + this.movement.getX());
-		this.object.setTranslateY(this.object.getTranslateY() + this.movement.getY());
-	
-		//get the extremeties of the object
-		Bounds boundsInScreen = this.object.getBoundsInParent();
-		double minX = boundsInScreen.getMinX();
-		double maxX = boundsInScreen.getMaxX();
-		double minY = boundsInScreen.getMinY();
-		double maxY = boundsInScreen.getMaxY();
-	
-		//check if the ship is partially out of the screen
-		if(minX < -screenEdges) {
-			this.object.setTranslateX(this.object.getTranslateX() + window.WIDTH);
-		} else if(maxX > window.WIDTH + screenEdges) {
-			this.object.setTranslateX(this.object.getTranslateX() % window.WIDTH);
-		}
-	
-		if(minY < -screenEdges) {
-			this.object.setTranslateY(this.object.getTranslateY() + window.HEIGHT);
-		} else if(maxY > window.HEIGHT + screenEdges) {
-			this.object.setTranslateY(this.object.getTranslateY() % window.HEIGHT);
-		}
 
-		//This code gives more imprecise screen transitions
-		/*
 		//add any acceleration to the current movement
         this.object.setTranslateX(this.object.getTranslateX() + this.movement.getX());
         this.object.setTranslateY(this.object.getTranslateY() + this.movement.getY());
@@ -125,7 +100,7 @@ public abstract class Character{
 		if (this.object.getTranslateY() > window.HEIGHT) {
 			this.object.setTranslateY(this.object.getTranslateY() % window.HEIGHT);
 		}		 
-		 */
+		
 	}
 	
 	//set the movement to zero

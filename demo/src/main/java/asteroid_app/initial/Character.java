@@ -106,6 +106,7 @@ public abstract class Character{
 	}
 
     // accelerate the object
+    // accelerate the object
     public void accelerate() {
 		//Calculate acceleration by using trigonometery to calculate the change in the x and y directions
 		// through radian rotation

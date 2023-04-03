@@ -26,8 +26,6 @@ public class Asteroid extends Character {
 
 		this.initialsize = size;
 
-
-		accelerate();
 		//increase their initial speed by accelerating upon creation
 		//increase this as levels increase?
 		for(int i=0; i<rnd.nextInt(150); i++){

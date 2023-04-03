@@ -75,7 +75,7 @@ public abstract class Character{
 
     // move the object
 	public void move() {
-
+		
 		//add any acceleration to the current movement
         this.object.setTranslateX(this.object.getTranslateX() + this.movement.getX());
         this.object.setTranslateY(this.object.getTranslateY() + this.movement.getY());
@@ -97,7 +97,6 @@ public abstract class Character{
 		if (this.object.getTranslateY() > window.HEIGHT) {
 			this.object.setTranslateY(this.object.getTranslateY() % window.HEIGHT);
 		}		 
-		
 	}
 	
 	//set the movement to zero
@@ -105,7 +104,6 @@ public abstract class Character{
 		this.movement = new Point2D(0, 0);
 	}
 
-    // accelerate the object
     // accelerate the object
     public void accelerate() {
 		//Calculate acceleration by using trigonometery to calculate the change in the x and y directions
@@ -126,48 +124,15 @@ public abstract class Character{
 		}
     }
 
-		// To check if the objects collide, we check if they have common space polygon
-		public Boolean collision(Character other){
-			Shape collisionSpace = Shape.intersect(this.object, other.getChar());
-			// If the width of the common space is >= 0, then they have collided
-			if (collisionSpace.getBoundsInLocal().getWidth() >= 0){
-				return true;
-			}else{
-				return false;
-			}
+	// To check if the objects collide, we check if they have common space polygon
+	public Boolean collision(Character other){
+		Shape collisionSpace = Shape.intersect(this.object, other.getChar());
+		// If the width of the common space is >= 0, then they have collided
+		if (collisionSpace.getBoundsInLocal().getWidth() >= 0){
+			return true;
+		}else{
+			return false;
 		}
-
+	}
 }
-/*
-package asteroid_app.initial;
-
-import java.util.Random;
-
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Shape;
-
-public class Character {
-    protected double initX;
-    protected double initY;
-
-    public void setPosition(double initX, double initY) {
-        this.initX = initX;
-        this.initY = initY;
-    }
-
-    public void setRandomPosition() {
-        Random rnd = new Random();
-        initX = rnd.nextDouble() * 200;
-        initY = rnd.nextDouble() * 200;
-    }
-
-    public double getInitX() {
-        return initX;
-    }
-
-    public double getInitY() {
-        return initY;
-    }
-}
-*/
 

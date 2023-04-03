@@ -14,7 +14,7 @@ public abstract class Character{
 	//test to see if the object is at it's maximum velocity
 	private Point2D test;
 	// ship velocity, acceleration and turn angle
-	private static final double maxShipVelocity=8;
+	private static final double maxShipVelocity=10;
 	private static final double shipAcceleration=0.06;
 	private static final double shipTurnAngle=5;
 

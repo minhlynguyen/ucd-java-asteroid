@@ -190,14 +190,13 @@ public class window extends Application {
 
                     // add the new bullet to the list of bullets
                     bullets.add(bullet);
+                    pane.getChildren().add(bullet.getChar());
 
                     // acclerate the speed of the bullet:
                     bullet.accelerate();
 
                     // set the movement for the bullet is 3x faster than other character (the ship)
-                    bullet.setMovement(bullet.getMovement().multiply(30));  
-                    
-                    pane.getChildren().add(bullet.getChar());
+                    bullet.setMovement(bullet.getMovement().multiply(30));                  
                 }
                 
 
@@ -257,6 +256,7 @@ public class window extends Application {
                     });
                 });
 
+                System.out.print(bullets.size());
                 // turn the ArrayList of asteroids to a list to apply filter & collect method to create a list of collided bullets
                 bullets.stream()
                 .filter(bullet -> !bullet.getAlive())
@@ -265,6 +265,8 @@ public class window extends Application {
                 bullets.removeAll(bullets.stream()
                 .filter(bullet -> !bullet.getAlive())
                 .collect(Collectors.toList()));
+
+                System.out.print(bullets.size());
                 
                 asteroids.stream()
                 .filter(asteroid -> !asteroid.getAlive())
@@ -273,7 +275,6 @@ public class window extends Application {
                 asteroids.removeAll(asteroids.stream()
                 .filter(asteroid -> !asteroid.getAlive())
                 .collect(Collectors.toList()));
-
             }
         }.start();
     }

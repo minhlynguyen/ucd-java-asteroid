@@ -49,7 +49,7 @@ public class window extends Application {
         // Asteroid
         // At the beginning,  use a list to create several asteroid
 	    List<Asteroid> asteroids = new ArrayList<>();
-        for(int i=0; i<40; i++){
+        for(int i=0; i<10; i++){
             double x = new Random().nextDouble()*1000;
             double y = new Random().nextDouble()*1000;
             Asteroid asteroid = new Asteroid(x, y, 3);

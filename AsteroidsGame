@@ -1,0 +1,31 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class AsteroidsGame {
+
+    private JButton highScoreButton;
+    private JFrame highScoreFrame;
+
+    public AsteroidsGame() {
+ 
+
+        highScoreButton = new JButton("High Scores");
+        highScoreButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<Integer> scores = highScoreManager.getScores();
+                HighScorePanel highScorePanel = new HighScorePanel(scores);
+                highScoreFrame = new JFrame("High Scores");
+                highScoreFrame.add(highScorePanel);
+                highScoreFrame.pack();
+                highScoreFrame.setVisible(true);
+            }
+        });
+
+    }
+
+}

@@ -1,4 +1,4 @@
-package demo.src.main.java.asteroid_app.initial;
+package asteroid_app.initial;
 
 // A class that represents the lives of a player in a game.
 public class PlayerLives {

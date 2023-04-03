@@ -1,4 +1,5 @@
-package demo.src.main.java.asteroid_app.initial;
+package asteroid_app.initial;
+
 public class IncrementScore {
     private int score;
 

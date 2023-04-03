@@ -6,12 +6,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class AsteroidsGame {
-    // ...
+
     private JButton highScoreButton;
     private JFrame highScoreFrame;
 
     public AsteroidsGame() {
-        // ...
+ 
 
         highScoreButton = new JButton("High Scores");
         highScoreButton.addActionListener(new ActionListener() {
@@ -25,8 +25,7 @@ public class AsteroidsGame {
                 highScoreFrame.setVisible(true);
             }
         });
-        // ...
+
     }
 
-    // ...
 }

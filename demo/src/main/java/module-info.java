@@ -1,4 +1,4 @@
-module asteroid_app.initial {
+module demo.src.main.java.asteroid_app.initial {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.graphics;

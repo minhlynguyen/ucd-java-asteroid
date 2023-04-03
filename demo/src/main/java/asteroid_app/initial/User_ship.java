@@ -1,8 +1,8 @@
 package asteroid_app.initial;
-import javafx.scene.Node;
-import javafx.scene.layout.Pane;
 //import polygon to draw a polygon
 import javafx.scene.shape.Polygon;
+import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 //for hyperspace jump
 import java.util.Random;
 
@@ -17,16 +17,21 @@ public class User_ship extends Character {
         super(new Polygon(-20,20,0,0,-20,-20,40,0), x, y);
     }
 
+    //set a new x position for the ship
     public void setTranslateX(int x) {
+        // this ship, call method getChar from Character and 
+        // set the x co-ordinate
         this.getChar().setTranslateX(x);
     }
-    
+
+    //similarly for the y co-ordinate
     public void setTranslateY(int y) {
         this.getChar().setTranslateY(y);
     }
-    
+
+    //jump to a new location within the window
     public void hyperspaceJump(Pane pane) {
-        //Generate a random location within the window
+
         boolean freeSpace=false;
         while (freeSpace==false){
             Random random = new Random();
@@ -56,6 +61,6 @@ public class User_ship extends Character {
             }
         }
     }
-    
 }
+
 

@@ -15,6 +15,8 @@ public abstract class Character{
     private Point2D movement;
 	//test to see if the object is at it's maximum velocity
 	private Point2D test;
+	// variable for the dead/alive status of Character
+	private Boolean alive;
 	// ship velocity, acceleration and turn angle
 	private static final double maxShipVelocity=8;
 	private static final double shipAcceleration=0.06;
@@ -32,12 +34,35 @@ public abstract class Character{
 
         //initialize the movement of the object to zero
         this.movement = new Point2D(0, 0);
+
+		//when created all characters are alive
+		this.alive = true;
     }
 
-    //return the current object
+    //return the polygon of the current object
     public Polygon getChar(){
         return this.object;
     }
+
+	// return the current movement of the object
+	public Point2D getMovement(){
+		return this.movement;
+	}
+
+	// set the movement for a character
+	public void setMovement(Point2D point){
+		this.movement=point;
+	}
+
+	// get the living status of a character
+	public Boolean getAlive(){
+		return this.alive;
+	}
+
+	// set the living status of a character
+	public void setAlive(Boolean live){
+		this.alive = live;
+	}
 
     // turn it left
     public void turnLeft(){
@@ -144,6 +169,9 @@ public abstract class Character{
 package asteroid_app.initial;
 
 import java.util.Random;
+
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Shape;
 
 public class Character {
     protected double initX;

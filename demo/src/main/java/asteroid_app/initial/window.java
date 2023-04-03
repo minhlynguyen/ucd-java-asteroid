@@ -12,6 +12,8 @@ import javafx.scene.layout.Pane;
 //import circle to draw a circle
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
+//to display the points of user
+import javafx.scene.text.Text;
 //import polygon to draw a polygon
 import javafx.scene.shape.Polygon;
 // Label for the text inside the window
@@ -25,6 +27,9 @@ import javafx.scene.control.Button;
 import java.util.HashMap;
 import javafx.scene.input.KeyCode;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+
 import javafx.animation.AnimationTimer;
 
 
@@ -38,17 +43,27 @@ public class window extends Application {
     //takes a single parameter of type stage
     //inside the start method is where the User interface is created
 
+    public static int pointX = WIDTH/2-7;
+    public static int pointY = 20;
+
+
     @Override
     public void start(Stage stage) throws Exception {
         // create a pane and set size
         Pane pane = new Pane();
-
         pane.setPrefSize(WIDTH, HEIGHT);
+        
         // create a scene and label
-
         Scene scene = new Scene(pane);
         Label label = new Label("This is how text is added to the screen.");
         pane.getChildren().add(label);
+
+        // display the point
+        Text pointText = new Text(pointX, pointY, "Points: 0");
+        pane.getChildren().add(pointText);
+
+        // calculate the point
+        AtomicInteger points = new AtomicInteger();
 
         // Object creation:
         // create the characters
@@ -85,6 +100,9 @@ public class window extends Application {
         User_ship ship = new User_ship(WIDTH/2, HEIGHT/2);
         //add the user_ship to the pane
         pane.getChildren().add(ship.getChar());
+
+        //Bullet
+        List<Bullet> bullets = new ArrayList<>();
 
         // Construct a new pane to manage the controls
         Pane startMenuPane = new Pane();
@@ -160,15 +178,43 @@ public class window extends Application {
                 if (!key_press.getOrDefault(KeyCode.J, false)) {
                     jPress = false; // reset the flag
                 }
+                
+                // if the spacebar is pressed, and only 3 bullets on screen
+                if (key_press.getOrDefault(KeyCode.SPACE, false) && bullets.size() < 3) {
+                    // the bullet appear in the screen 
+                    // at the same coordinates as current coordinates of the ship
+                    // with same rotation angle
+                    Bullet bullet = new Bullet((int) ship.getChar().getTranslateX(), (int) ship.getChar().getTranslateY());
+                    bullet.getChar().setRotate(ship.getChar().getRotate());
+                    
+
+                    // add the new bullet to the list of bullets
+                    bullets.add(bullet);
+
+                    // acclerate the speed of the bullet:
+                    bullet.accelerate();
+
+                    // set the movement for the bullet is 3x faster than other character (the ship)
+                    bullet.setMovement(bullet.getMovement().multiply(30));  
+                    
+                    pane.getChildren().add(bullet.getChar());
+                }
+                
+
+
                 // update the ship's movement
                 ship.move();
                 alien_ship.move();
-
+                
                 // Move the asteriods
                 asteroids.forEach(asteroid -> asteroid.move());
+
+                // Move the bullets
+                bullets.forEach(bullet -> bullet.move());
                     
-                // When the collision happens
+                // When the collision between an asteroid ...
                 asteroids.forEach(asteroid -> {
+                    // ... and the ship happens
                     if(asteroid.collision(ship)){
 
                         // Remove the collided asteroid from the pane and asteroids list when collision happens
@@ -195,7 +241,38 @@ public class window extends Application {
                                 newAsteroid.move();
                             }
                         }
-                }});
+                    }
+
+                // ... and a bullet happens
+                    bullets.forEach(bullet -> {
+                        if(asteroid.collision(bullet)){
+                            bullet.setAlive(false);
+                            asteroid.setAlive(false);
+                        }
+
+                        // adding point
+                        if(!bullet.getAlive()) {
+                            pointText.setText("Points: " + points.addAndGet(1000));
+                        }
+                    });
+                });
+
+                // turn the ArrayList of asteroids to a list to apply filter & collect method to create a list of collided bullets
+                bullets.stream()
+                .filter(bullet -> !bullet.getAlive())
+                .forEach(bullet -> pane.getChildren().remove(bullet.getChar()));
+                
+                bullets.removeAll(bullets.stream()
+                .filter(bullet -> !bullet.getAlive())
+                .collect(Collectors.toList()));
+                
+                asteroids.stream()
+                .filter(asteroid -> !asteroid.getAlive())
+                .forEach(asteroid -> pane.getChildren().remove(asteroid.getChar()));
+                
+                asteroids.removeAll(asteroids.stream()
+                .filter(asteroid -> !asteroid.getAlive())
+                .collect(Collectors.toList()));
 
             }
         }.start();

@@ -2,8 +2,6 @@ package asteroid_app.initial;
 //import polygon to draw a polygon
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
-//To make a smoother screen transition
-import javafx.geometry.Bounds;
 //import point 2d to represent the movement of any object
 import javafx.geometry.Point2D;
 
@@ -18,12 +16,11 @@ public abstract class Character{
 	// variable for the dead/alive status of Character
 	private Boolean alive;
 	// ship velocity, acceleration and turn angle
-	private static final double maxShipVelocity=8;
+	private static final double maxShipVelocity=3;
 	private static final double shipAcceleration=0.06;
 	private static final double shipTurnAngle=5;
 	//screen edges removes the flashing of an object on the screen
 	//by adding this number to the comparison before relocating the object
-	private static final int screenEdges=15;
 
 	//constructor that each child object will call to
     public Character(Polygon polygon, double x, double y){

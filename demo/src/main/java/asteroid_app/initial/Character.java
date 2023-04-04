@@ -1,4 +1,5 @@
-package demo.src.main.java.asteroid_app.initial;
+package asteroid_app.initial;
+// package.demo.src.main.java.asteroid_app.initial;
 
 //import polygon to draw a polygon
 import javafx.scene.shape.Polygon;
@@ -15,7 +16,7 @@ public abstract class Character {
 	// test to see if the object is at it's maximum velocity
 	private Point2D test;
 	// variable for the dead/alive status of Character
-	private Boolean alive;
+	private boolean alive;
 	// ship velocity, acceleration and turn angle
 	private static final double maxShipVelocity=3;
 	private static final double shipAcceleration=0.06;
@@ -53,12 +54,12 @@ public abstract class Character {
 	}
 
 	// get the living status of a character
-	public Boolean getAlive() {
+	public boolean getAlive() {
 		return this.alive;
 	}
 
 	// set the living status of a character
-	public void setAlive(Boolean live) {
+	public void setAlive(boolean live) {
 		this.alive = live;
 	}
 
@@ -128,7 +129,7 @@ public abstract class Character {
 	}
 
 	// To check if the objects collide, we check if they have common space polygon
-	public Boolean collision(Character other){
+	public boolean collision(Character other){
 		Shape collisionSpace = Shape.intersect(this.object, other.getChar());
 		// If the width of the common space is >= 0, then they have collided
 		if (collisionSpace.getBoundsInLocal().getWidth() >= 0){

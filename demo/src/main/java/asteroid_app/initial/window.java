@@ -1,5 +1,6 @@
 //this is the package name
-package demo.src.main.java.asteroid_app.initial;
+package asteroid_app.initial;
+// package.demo.src.main.java.asteroid_app.initial
 
 // Application is the base class for all JavaFX applications
 //need javafx to display the window
@@ -12,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 //import java.util.* to create a list for asteroids
 import java.util.*;
@@ -23,8 +25,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 //import Fontweight to set the style of labels and buttons
 import javafx.scene.text.FontWeight;
+import javafx.scene.layout.Border;
 //import BorderPanet to set the position of the nodes
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
 //Stuff for keypresses
@@ -45,29 +51,58 @@ public class window extends Application {
     //the window class overrides the start mehtod from the application class
     //takes a single parameter of type stage
     //inside the start method is where the User interface is created
-
     public static int pointX = WIDTH / 2 - 7;
-    public static int pointY = 20;
-
+    public static int pointY = 20;    
+    // calculate the point
+    public static  AtomicInteger points = new AtomicInteger();
+    
     @Override
     public void start(Stage stage) throws Exception {
-        // create a pane and set size
+
+        // Create the main scenes
+        
+        // ------ START MENU SCENE ------
+        // set a border pane to obtain and set the position of nodes
+        BorderPane borderPane = new BorderPane();
+
+        // create a scene
+        Scene startMenuScene = new Scene(borderPane, WIDTH, HEIGHT);
+
+        // labels on the screen
+        Label headline = new Label("ASTEROIDS");
+        headline.setFont(Font.font("Monospaced", FontWeight.BOLD, 100));
+        Button playGame = new Button("PLAY GAME");
+        Button highScores = new Button("HIGH SCORES");
+        Label website = new Label("www.freevideogamesonline.com");
+
+        // create a Vbox to manage the nodes on the start menu
+        VBox vBox = new VBox(30, headline, playGame, highScores, website);
+
+        // set the position of vBox
+        vBox.setAlignment(Pos.CENTER);
+
+        // add vBox into root
+        borderPane.setCenter(vBox);
+               
+        
+        // // ------ MAIN SCENE ------
+        // create a pane and border pan and set size
         Pane pane = new Pane();
         pane.setPrefSize(WIDTH, HEIGHT);
-
-        // create a scene and label
-        Scene scene = new Scene(pane);
-
+        
+        // create scenes and labels
+        Scene mainScene = new Scene(pane);
+        
         // display the point
         Text pointText = new Text(pointX, pointY, "Points: 0");
         pane.getChildren().add(pointText);
 
-        // calculate the point
+        // quit button
+               // calculate the point
         AtomicInteger points = new AtomicInteger();
-
+        
         // Object creation:
         // create the characters
-
         // Asteroid
         // At the beginning, use a list to create several asteroid
         List<Asteroid> asteroids = new ArrayList<>();
@@ -98,50 +133,83 @@ public class window extends Application {
 
         // Bullet
         List<Bullet> bullets = new ArrayList<>();
+        
+        // QuitGame button
+        Button quitGame = new Button("QUIT");
+        Button restartGame = new Button("RESTART");
 
-        // Start Menu
-        // set a border pane to ocntain and set the position of nodes
-        BorderPane borderPane = new BorderPane();
+        // Control box
+        HBox controlBox = new HBox(10, quitGame, restartGame);
+        controlBox.setAlignment(Pos.CENTER);
+        pane.getChildren().add(controlBox);
+        controlBox.setTranslateX(WIDTH*0.9);
+        controlBox.setTranslateY(HEIGHT*0.01);
 
-        // create a new scene
-        Scene startMenuScene = new Scene(borderPane, WIDTH, HEIGHT);
+        // ------ GAME OVER SCENE ------
+        // GridPane gridPane = new GridPane();
+        // gridPane.setAlignment(Pos.BASELINE-CENTER);
+        // gridPane.setHgap(10);
+        // gridPane.setVgap(30);
+        // gridPane.setPadding(new Insets(0, 10, 0, 10));
 
-        // labels on the screen
-        Label headline = new Label("ASTEROIDS");
-        headline.setFont(Font.font("Monospaced", FontWeight.BOLD, 100));
-        Button playGame = new Button("PLAY GAME");
-        Button highScores = new Button("HIGH SCORES");
-        Label website = new Label("www.freevideogamesonline.com");
+        // Label nameField = new Label("Enter your name:");
+        TextField nameText = new TextField();
+        nameText.setPrefWidth(100);
+        // gridPane.add(nameField, 0, 0);
+        // gridPane.add(nameText, 1, 0);
+        
+        Label headlineover = new Label("GAME OVER");
+        headlineover.setFont(Font.font("Monospaced", FontWeight.BOLD, 50));
+        // Button playGameSm = new Button("PLAY GAME");
+        Label yourScore = new Label("Your score is");
+        
+        // Score update later
+        int topTenMin = 4000;
+        int finalScore = 5000;
+        
+        Label score = new Label(""+finalScore);
+        Label yourName = new Label("Enter your name");
 
-        // create a Vbox to manage the nodes on the start menu
-        VBox vBox = new VBox(30, headline, playGame, highScores, website);
+        Button saveScore = new Button("Save");
+        Button seeHighScore = new Button("High Scores");
+        
+        VBox infoBox;
+        
+        
+        if(finalScore >= topTenMin){
+            infoBox = new VBox(25, headlineover, yourScore, score, yourName, nameText, saveScore);
+        }else{
+            infoBox = new VBox(25, headlineover, yourScore, score, seeHighScore);
+        }
+        
+        infoBox.setAlignment(Pos.CENTER);
+        Scene gameOverScene= new Scene(infoBox,WIDTH*0.6,HEIGHT*0.8);
 
-        // set the position of vBox
-        vBox.setAlignment(Pos.CENTER);
-
-        // add vBox into root
-        borderPane.setCenter(vBox);
-
+        // ------ SWITCHING BETWEEN SCENEs ------
         // set the title of the window
-        stage.setTitle("Group 11-Asteroids Game");
+        stage.setTitle("Group 11-Asteroids Game"); 
+        // Initally, startMenuScene
         stage.setScene(startMenuScene);
-
-        // when click on play game button, enter the game play scene
-        playGame.setOnAction(e -> stage.setScene(scene));
+        // When click on play game button, enter the game main scene
+        playGame.setOnAction(e -> stage.setScene(mainScene));
+        // When click on quit button, enter the gameover scene
+        quitGame.setOnAction(e -> stage.setScene(gameOverScene));
+        restartGame.setOnAction(e -> stage.setScene(startMenuScene));
 
         // display the stage
         stage.show();
+        pane.requestFocus();
 
         // Key Presses:
         // create a hash map(key value pairs stored in a hash table) to store the key
         // presses
         Map<KeyCode, Boolean> key_press = new HashMap<>();
         // add key pressed handler
-        scene.setOnKeyPressed(event -> {
+        mainScene.setOnKeyPressed(event -> {
             key_press.put(event.getCode(), Boolean.TRUE);
         });
         // add key release handler
-        scene.setOnKeyReleased(event -> {
+        mainScene.setOnKeyReleased(event -> {
             key_press.put(event.getCode(), Boolean.FALSE);
         });
 
@@ -183,7 +251,7 @@ public class window extends Application {
                 }
 
                 // if the spacebar is pressed, and only 3 bullets on screen
-                if (key_press.getOrDefault(KeyCode.SPACE, false) && bullets.size() < 3) {
+                if (key_press.getOrDefault(KeyCode.SPACE, false)) {
                     // the bullet appear in the screen
                     // at the same coordinates as current coordinates of the ship
                     // with same rotation angle
@@ -288,3 +356,4 @@ public class window extends Application {
         launch(args);
     }
 }
+

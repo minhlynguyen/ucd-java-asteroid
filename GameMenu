@@ -1,0 +1,37 @@
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+
+public class GameMenu extends JFrame {
+
+    private JButton startButton;
+    private JButton highscoresButton;
+
+    public GameMenu() {
+        // Set up the JFrame
+        setTitle("Asteroids Game");
+        setSize(500, 600);
+        setLayout(new BorderLayout());
+
+        // Create buttons
+        startButton = new JButton("Start Game");
+        highscoresButton = new JButton("High Scores");
+
+        // Add buttons to the JFrame
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(6, 1, 10, 10));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        buttonPanel.add(startButton);
+        buttonPanel.add(highscoresButton);
+
+        // Add button panel to the JFrame
+        add(buttonPanel, BorderLayout.CENTER);
+
+        // Display the JFrame
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new GameMenu());
+    }
+}

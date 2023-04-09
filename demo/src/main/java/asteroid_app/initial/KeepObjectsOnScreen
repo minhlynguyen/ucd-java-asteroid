@@ -4,18 +4,18 @@ import javafx.scene.Node;
 
 // A class to keep game objects on the screen when they reach the edge.
 public class KeepObjectsOnScreen {
-    private double screenWidth;
-    private double screenHeight;
+    private double viewportWidth;
+    private double viewportHeight;
 
-    // Constructor that takes the screen width and height as parameters.
-    public KeepObjectsOnScreen(double screenWidth, double screenHeight) {
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
+    // Constructor that takes the viewport width and height as parameters.
+    public KeepObjectsOnScreen(double viewportWidth, double viewportHeight) {
+        this.viewportWidth = viewportWidth;
+        this.viewportHeight = viewportHeight;
     }
 
     // Method that wraps the object around when it reaches the edge of the screen.
     public void wrapAround(Node object) {
-        object.setTranslateX((object.getTranslateX() + screenWidth) % screenWidth);
-        object.setTranslateY((object.getTranslateY() + screenHeight) % screenHeight);
+        object.setTranslateX((object.getTranslateX() + viewportWidth) % viewportWidth);
+        object.setTranslateY((object.getTranslateY() + viewportHeight) % viewportHeight);
     }
 }

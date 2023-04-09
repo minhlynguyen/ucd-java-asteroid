@@ -2,20 +2,42 @@ package asteroid_app.initial;
 
 import javafx.scene.Node;
 
-// A class to keep game objects on the screen when they reach the edge.
 public class KeepObjectsOnScreen {
-    private double viewportWidth;
-    private double viewportHeight;
+    private int screenWidth;
+    private int screenHeight;
+    private boolean isOffScreen = false;
 
-    // Constructor that takes the viewport width and height as parameters.
-    public KeepObjectsOnScreen(double viewportWidth, double viewportHeight) {
-        this.viewportWidth = viewportWidth;
-        this.viewportHeight = viewportHeight;
+    public KeepObjectsOnScreen(int screenWidth, int screenHeight) {
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
     }
 
-    // Method that wraps the object around when it reaches the edge of the screen.
-    public void wrapAround(Node object) {
-        object.setTranslateX((object.getTranslateX() + viewportWidth) % viewportWidth);
-        object.setTranslateY((object.getTranslateY() + viewportHeight) % viewportHeight);
+    public void checkBoundaries(Ship ship) {
+        int x = ship.getPosition().x;
+        int y = ship.getPosition().y;
+        int radius = ship.getRadius();
+
+        // Check if the ship is off the left or right edge of the screen
+        if (x < -radius) {
+            x = screenWidth + radius;
+            isOffScreen = true;
+        } else if (x > screenWidth + radius) {
+            x = -radius;
+            isOffScreen = true;
+        }
+
+        // Check if the ship is off the top or bottom edge of the screen
+        if (y < -radius) {
+            y = screenHeight + radius;
+            isOffScreen = true;
+        } else if (y > screenHeight + radius) {
+            y = -radius;
+            isOffScreen = true;
+        }
+
+        if (isOffScreen) {
+            ship.setPosition(new Point(x, y));
+            isOffScreen = false;
+        }
     }
 }

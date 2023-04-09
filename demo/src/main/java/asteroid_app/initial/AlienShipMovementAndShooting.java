@@ -45,3 +45,4 @@ public class AlienShipMovementAndShooting {
         velocityY = Math.sin(angle) * speed;
     }
 }
+

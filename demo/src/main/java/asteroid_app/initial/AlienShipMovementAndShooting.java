@@ -7,8 +7,8 @@ public class AlienShipMovementAndShooting {
     private double velocityY;
     private long lastShotTime;
     private long lastVelocityUpdateTime;
-    private long shotInterval = 1000; // Interval between shots in milliseconds
-    private long velocityUpdateInterval = 2000; // Interval between velocity updates in milliseconds
+    private static final long SHOT_INTERVAL = 1000; // Interval between shots in milliseconds
+    private static final long VELOCITY_UPDATE_INTERVAL = 2000; // Interval between velocity updates in milliseconds
     private Random random = new Random();
 
     public AlienShipMovementAndShooting(double velocityX, double velocityY) {
@@ -20,12 +20,12 @@ public class AlienShipMovementAndShooting {
         alien.setTranslateX(alien.getTranslateX() + velocityX);
         alien.setTranslateY(alien.getTranslateY() + velocityY);
 
-        if (now - lastShotTime > shotInterval * 1000000) { // Convert to nanoseconds
+        if (now - lastShotTime > SHOT_INTERVAL * 1000000) { // Convert to nanoseconds
             shoot(alien, player);
             lastShotTime = now;
         }
 
-        if (now - lastVelocityUpdateTime > velocityUpdateInterval * 1000000) { // Convert to nanoseconds
+        if (now - lastVelocityUpdateTime > VELOCITY_UPDATE_INTERVAL * 1000000) { // Convert to nanoseconds
             updateVelocity();
             lastVelocityUpdateTime = now;
         }

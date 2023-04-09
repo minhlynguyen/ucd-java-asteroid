@@ -1,21 +1,44 @@
 package asteroid_app.initial;
 
-// A class that represents the creation of an alien ship in the game.
+import java.util.Random;
+
 public class AlienShipCreation {
+    private static final int MIN_ALIEN_SHIP_SPAWN_DELAY = 10000;
+    private static final int MAX_ALIEN_SHIP_SPAWN_DELAY = 15000;
+    private static final int ALIEN_SHIP_SPEED = 5;
 
-    private double x;
-    private double y;
+    private int screenWidth;
+    private int screenHeight;
+    private long lastAlienShipSpawnTime;
+    private int alienShipSpawnDelay;
+    private Random random;
 
-    public AlienShipCreation(double x, double y) {
-        this.x = x;
-        this.y = y;
+    public AlienShipCreation(int screenWidth, int screenHeight) {
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
+        lastAlienShipSpawnTime = System.currentTimeMillis();
+        alienShipSpawnDelay = newRandomAlienShipSpawnDelay();
+        random = new Random();
     }
 
-    // Method that creates a new Alien object with the given x and y coordinates.
-    public Alien createAlienShip() {
-        Alien alien = new Alien();
-        alien.setTranslateX(x);
-        alien.setTranslateY(y);
-        return alien;
+    public void update() {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastAlienShipSpawnTime >= alienShipSpawnDelay) {
+            spawnAlienShip();
+            lastAlienShipSpawnTime = currentTime;
+            alienShipSpawnDelay = newRandomAlienShipSpawnDelay();
+        }
+    }
+
+    private int newRandomAlienShipSpawnDelay() {
+        return random.nextInt(MAX_ALIEN_SHIP_SPAWN_DELAY - MIN_ALIEN_SHIP_SPAWN_DELAY) + MIN_ALIEN_SHIP_SPAWN_DELAY;
+    }
+
+    private void spawnAlienShip() {
+        int x = -AlienShip.RADIUS;
+        int y = random.nextInt(screenHeight);
+        int angle = random.nextInt(90) + 45;
+        AlienShip alienShip = new AlienShip(x, y, angle, ALIEN_SHIP_SPEED);
+        Game.getInstance().addAlienShip(alienShip);
     }
 }

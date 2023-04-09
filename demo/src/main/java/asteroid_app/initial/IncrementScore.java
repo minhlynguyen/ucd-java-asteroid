@@ -1,22 +1,21 @@
 package asteroid_app.initial;
 
+// A class that represents score incrementation in the game.
 public class IncrementScore {
     private int score;
 
+    // Constructor that initializes the score to 0.
     public IncrementScore() {
-        score = 0;
+        this.score = 0;
     }
 
-    public void addPoints(int points, PlayerLives playerLives) {
-        int oldScore = score;
-        score += points;
-
-        if (oldScore / 10000 < score / 10000) {
-            playerLives.gainLife();
-        }
-    }
-
+    // Method that returns the current score.
     public int getScore() {
         return score;
+    }
+
+    // Method that increments the score by the given amount.
+    public void incrementScore(int amount) {
+        score += amount;
     }
 }

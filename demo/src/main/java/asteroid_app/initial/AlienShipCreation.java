@@ -3,42 +3,67 @@ package asteroid_app.initial;
 import java.util.Random;
 
 public class AlienShipCreation {
-    private static final int MIN_ALIEN_SHIP_SPAWN_DELAY = 10000;
-    private static final int MAX_ALIEN_SHIP_SPAWN_DELAY = 15000;
-    private static final int ALIEN_SHIP_SPEED = 5;
-
     private int screenWidth;
     private int screenHeight;
-    private long lastAlienShipSpawnTime;
-    private int alienShipSpawnDelay;
     private Random random;
+    private int shotInterval = 2000;
+    private int timeSinceLastShot = 0;
 
     public AlienShipCreation(int screenWidth, int screenHeight) {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
-        lastAlienShipSpawnTime = System.currentTimeMillis();
-        alienShipSpawnDelay = newRandomAlienShipSpawnDelay();
         random = new Random();
     }
 
-    public void update() {
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - lastAlienShipSpawnTime >= alienShipSpawnDelay) {
-            spawnAlienShip();
-            lastAlienShipSpawnTime = currentTime;
-            alienShipSpawnDelay = newRandomAlienShipSpawnDelay();
+    public AlienShip createAlienShip() {
+        int x, y, dx, dy;
+        do {
+            x = random.nextInt(screenWidth);
+            y = random.nextInt(screenHeight);
+        } while (x > screenWidth / 3 && x < screenWidth * 2 / 3 && y > screenHeight / 3 && y < screenHeight * 2 / 3);
+        // The above loop ensures that the alien ship does not spawn too close to the player's starting position
+
+        // Randomize the direction of movement
+        double angle = random.nextDouble() * 2 * Math.PI;
+        dx = (int) Math.round(10 * Math.cos(angle));
+        dy = (int) Math.round(10 * Math.sin(angle));
+
+        return new AlienShip(new Point(x, y), new Vector(dx, dy));
+    }
+
+    public void update(int delta, AlienShip alienShip, PlayerShip playerShip, BulletCreation bulletCreation) {
+        timeSinceLastShot += delta;
+        if (timeSinceLastShot >= shotInterval) {
+            shoot(alienShip, playerShip, bulletCreation);
+            timeSinceLastShot = 0;
+        }
+        
+        // Randomize the direction of movement every 200 updates
+        if (random.nextInt(200) == 0) {
+            double angle = random.nextDouble() * 2 * Math.PI;
+            alienShip.setVelocity(new Vector(Math.cos(angle) * AlienShip.SPEED, Math.sin(angle) * AlienShip.SPEED));
+        }
+        
+        // Move the alien ship
+        alienShip.move(delta);
+        
+        // Check if the alien ship has gone off the screen and reposition it if necessary
+        if (alienShip.getPosition().x < -AlienShip.RADIUS) {
+            alienShip.getPosition().x = screenWidth + AlienShip.RADIUS;
+        } else if (alienShip.getPosition().x > screenWidth + AlienShip.RADIUS) {
+            alienShip.getPosition().x = -AlienShip.RADIUS;
+        }
+        
+        if (alienShip.getPosition().y < -AlienShip.RADIUS) {
+            alienShip.getPosition().y = screenHeight + AlienShip.RADIUS;
+        } else if (alienShip.getPosition().y > screenHeight + AlienShip.RADIUS) {
+            alienShip.getPosition().y = -AlienShip.RADIUS;
         }
     }
 
-    private int newRandomAlienShipSpawnDelay() {
-        return random.nextInt(MAX_ALIEN_SHIP_SPAWN_DELAY - MIN_ALIEN_SHIP_SPAWN_DELAY) + MIN_ALIEN_SHIP_SPAWN_DELAY;
-    }
-
-    private void spawnAlienShip() {
-        int x = -AlienShip.RADIUS;
-        int y = random.nextInt(screenHeight);
-        int angle = random.nextInt(90) + 45;
-        AlienShip alienShip = new AlienShip(x, y, angle, ALIEN_SHIP_SPEED);
-        Game.getInstance().addAlienShip(alienShip);
+    private void shoot(AlienShip alienShip, PlayerShip playerShip, BulletCreation bulletCreation) {
+        Vector direction = new Vector(playerShip.getPosition().x - alienShip.getPosition().x, playerShip.getPosition().y - alienShip.getPosition().y);
+        direction.normalize();
+        bulletCreation.createBullet(alienShip.getPosition(), direction, true);
     }
 }

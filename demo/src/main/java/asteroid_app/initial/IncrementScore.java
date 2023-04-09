@@ -1,12 +1,15 @@
 package asteroid_app.initial;
 
-// A class that represents score incrementation in the game.
+// A class to keep track of the player's score.
 public class IncrementScore {
+    public static final int POINTS_FOR_ASTEROID = 10;
+    public static final int POINTS_FOR_ALIEN = 50;
+
     private int score;
 
-    // Constructor that initializes the score to 0.
+    // Constructor that initializes the score to zero.
     public IncrementScore() {
-        this.score = 0;
+        score = 0;
     }
 
     // Method that returns the current score.
@@ -14,8 +17,18 @@ public class IncrementScore {
         return score;
     }
 
-    // Method that increments the score by the given amount.
-    public void incrementScore(int amount) {
-        score += amount;
+    // Method that increments the score by the specified amount.
+    public void incrementScore(int points) {
+        score += points;
+    }
+
+    // Method that increments the score by the standard amount for an asteroid.
+    public void incrementScoreForAsteroid() {
+        incrementScore(POINTS_FOR_ASTEROID);
+    }
+
+    // Method that increments the score by the standard amount for an alien.
+    public void incrementScoreForAlien() {
+        incrementScore(POINTS_FOR_ALIEN);
     }
 }

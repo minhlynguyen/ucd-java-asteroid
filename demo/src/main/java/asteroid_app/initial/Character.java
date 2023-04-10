@@ -1,4 +1,5 @@
-package asteroid_app.initial;
+package demo.src.main.java.asteroid_app.initial;
+
 //import polygon to draw a polygon
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
@@ -13,40 +14,65 @@ public abstract class Character{
     protected Point2D movement;
 	//test to see if the object is at it's maximum velocity
 	private Point2D test;
+	// variable for the dead/alive status of Character
+	private Boolean alive;
 	// ship velocity, acceleration and turn angle
 	private static final double maxShipVelocity=10;
 	private static final double shipAcceleration=0.06;
 	private static final double shipTurnAngle=5;
 
-	//constructor that each child object will call to
-    public Character(Polygon polygon, double x, double y){
-        //create the object's shape and location
-        this.object = polygon;
-        this.object.setTranslateX(x);
-        this.object.setTranslateY(y);
+	// constructor that each child object will call to
+	public Character(Polygon polygon, double x, double y) {
+		// create the object's shape and location
+		this.object = polygon;
+		this.object.setTranslateX(x);
+		this.object.setTranslateY(y);
 
-        //initialize the movement of the object to zero
-        this.movement = new Point2D(0, 0);
-    }
+		// initialize the movement of the object to zero
+		this.movement = new Point2D(0, 0);
 
-    //return the current object
-    public Polygon getChar(){
-        return this.object;
-    }
+		// when created all characters are alive
+		this.alive = true;
+	}
 
-    // turn it left
-    public void turnLeft(){
-		//set the rotation to its current-the tun angle
-        this.object.setRotate(this.object.getRotate() - shipTurnAngle);
-    }
+	// return the polygon of the current object
+	public Polygon getChar() {
+		return this.object;
+	}
 
-    // turn it right
-    public void turnRight(){
+	// return the current movement of the object
+	public Point2D getMovement() {
+		return this.movement;
+	}
+
+	// set the movement for a character
+	public void setMovement(Point2D point) {
+		this.movement = point;
+	}
+
+	// get the living status of a character
+	public Boolean getAlive() {
+		return this.alive;
+	}
+
+	// set the living status of a character
+	public void setAlive(Boolean live) {
+		this.alive = live;
+	}
+
+	// turn it left
+	public void turnLeft() {
+		// set the rotation to its current-the tun angle
+		this.object.setRotate(this.object.getRotate() - shipTurnAngle);
+	}
+
+	// turn it right
+	public void turnRight() {
 		// add the angle to turn right
-        this.object.setRotate(this.object.getRotate() + shipTurnAngle);
-    }
+		this.object.setRotate(this.object.getRotate() + shipTurnAngle);
+	}
 
-    // move the object
+	// move the object
 	public void move() {
 		
 		//add any acceleration to the current movement
@@ -71,31 +97,33 @@ public abstract class Character{
 			this.object.setTranslateY(this.object.getTranslateY() % window.HEIGHT);
 		}		 
 	}
-	
-	//set the movement to zero
-	public void stopMovement(){
+
+	// set the movement to zero
+	public void stopMovement() {
 		this.movement = new Point2D(0, 0);
 	}
 
-    // accelerate the object
-    public void accelerate() {
-		//Calculate acceleration by using trigonometery to calculate the change in the x and y directions
+	// accelerate the object
+	public void accelerate() {
+		// Calculate acceleration by using trigonometery to calculate the change in the
+		// x and y directions
 		// through radian rotation
 		double changeX = Math.cos(Math.toRadians(this.object.getRotate()));
 		double changeY = Math.sin(Math.toRadians(this.object.getRotate()));
-		//only need few percent of the possible acceleration
+		// only need few percent of the possible acceleration
 		changeX *= shipAcceleration;
 		changeY *= shipAcceleration;
-		//ensures that when the object is at maximum velocity
+		// ensures that when the object is at maximum velocity
 		// we can accelerate in a different direction instead of being stuck
 		// at maximum velocity
-		test=this.movement.add(changeX, changeY);
+		test = this.movement.add(changeX, changeY);
 
-		//if our new velocity reduces our current velocity then go with the new velocity
-		if(this.movement.magnitude() <= maxShipVelocity && test.magnitude() <= maxShipVelocity) {
+		// if our new velocity reduces our current velocity then go with the new
+		// velocity
+		if (this.movement.magnitude() <= maxShipVelocity && test.magnitude() <= maxShipVelocity) {
 			this.movement = this.movement.add(changeX, changeY);
 		}
-    }
+	}
 
 	// To check if the objects collide, we check if they have common space polygon
 	public Boolean collision(Character other){

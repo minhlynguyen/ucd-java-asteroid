@@ -1,4 +1,4 @@
-package demo.src.main.java.asteroid_app.initial;
+package asteroid_app.initial;
 
 //import polygon to draw a polygon
 import javafx.scene.shape.Polygon;
@@ -7,21 +7,18 @@ import javafx.scene.shape.Shape;
 import javafx.geometry.Point2D;
 
 //this character class is the parent class of all the characters in the game
-public abstract class Character {
-	// define a private polygon object to reprent each object
-	// and a 2d point to represent the movement of each object
-	private Polygon object;
-	private Point2D movement;
-	// test to see if the object is at it's maximum velocity
+public abstract class Character{
+    //define a private polygon object to reprent each object
+    // and a 2d point to represent the movement of each object
+    private Polygon object;
+    protected Point2D movement;
+	//test to see if the object is at it's maximum velocity
 	private Point2D test;
 	// variable for the dead/alive status of Character
 	private Boolean alive;
 	// ship velocity, acceleration and turn angle
-	private static final double maxShipVelocity=3;
-	private static final double shipAcceleration=0.06;
-	private static final double shipTurnAngle=5;
-	//screen edges removes the flashing of an object on the screen
-	//by adding this number to the comparison before relocating the object
+	private static final double maxShipVelocity=1.2;
+	private static final double shipTurnAngle=0.5;
 
 	// constructor that each child object will call to
 	public Character(Polygon polygon, double x, double y) {
@@ -106,15 +103,15 @@ public abstract class Character {
 	}
 
 	// accelerate the object
-	public void accelerate() {
+	public void accelerate(double acceleration) {
 		// Calculate acceleration by using trigonometery to calculate the change in the
 		// x and y directions
 		// through radian rotation
 		double changeX = Math.cos(Math.toRadians(this.object.getRotate()));
 		double changeY = Math.sin(Math.toRadians(this.object.getRotate()));
 		// only need few percent of the possible acceleration
-		changeX *= shipAcceleration;
-		changeY *= shipAcceleration;
+		changeX *= acceleration;
+		changeY *= acceleration;
 		// ensures that when the object is at maximum velocity
 		// we can accelerate in a different direction instead of being stuck
 		// at maximum velocity

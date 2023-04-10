@@ -1,4 +1,4 @@
-package demo.src.main.java.asteroid_app.initial;
+package asteroid_app.initial;
 
 import java.util.Random;
 
@@ -31,7 +31,7 @@ public class Asteroid extends Character {
 		//increase their initial speed by accelerating upon creation
 		//increase this as levels increase?
 		for(int i=0; i<rnd.nextInt(150); i++){
-			this.accelerate();
+			this.accelerate(0.005);
 		}
 
 	}

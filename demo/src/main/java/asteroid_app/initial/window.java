@@ -1,5 +1,5 @@
 //this is the package name
-package demo.src.main.java.asteroid_app.initial;
+package asteroid_app.initial;
 
 // Application is the base class for all JavaFX applications
 //need javafx to display the window
@@ -12,7 +12,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.control.Label;
-
 //import java.util.* to create a list for asteroids
 import java.util.*;
 //import javafx.scene.control.Button to display button
@@ -31,6 +30,7 @@ import javafx.geometry.Pos;
 import java.util.HashMap;
 import javafx.scene.input.KeyCode;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -45,7 +45,6 @@ public class window extends Application {
     //the window class overrides the start mehtod from the application class
     //takes a single parameter of type stage
     //inside the start method is where the User interface is created
-
     public static int pointX = WIDTH / 2 - 7;
     public static int pointY = 20;
 
@@ -58,7 +57,7 @@ public class window extends Application {
         // create a scene and label
         Scene scene = new Scene(pane);
 
-        // display the point
+        // display the points
         Text pointText = new Text(pointX, pointY, "Points: 0");
         pane.getChildren().add(pointText);
 
@@ -69,11 +68,11 @@ public class window extends Application {
         // create the characters
 
         // Asteroid
-        // At the beginning, use a list to create several asteroid
-        List<Asteroid> asteroids = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            double x = new Random().nextDouble() * 1000;
-            double y = new Random().nextDouble() * 1000;
+        // At the beginning,  use a list to create several asteroid
+	    List<Asteroid> asteroids = new ArrayList<>();
+        for(int i=0; i<10; i++){
+            double x = new Random().nextDouble()*1000;
+            double y = new Random().nextDouble()*1000;
             Asteroid asteroid = new Asteroid(x, y, 3);
             asteroids.add(asteroid);
         }
@@ -86,9 +85,6 @@ public class window extends Application {
         // pane.getChildren().add(asteroid);
 
         //Alien
-        Alien alien_ship=new Alien (200,300);//test to see where to put it
-        alien_ship.createAlienShip(200,300);
-        pane.getChildren().add(alien_ship.getChar());
 
         // Ship
         // create a user_ship object and initialize location
@@ -151,7 +147,7 @@ public class window extends Application {
             // check if j key was pressed so we dont repeatedly go into hyperspace
             // inserted here to prevent multiple jumps
             private boolean jPress = false;
-
+            
             @Override
             public void handle(long now) {
                 // if the left key is pressed
@@ -168,12 +164,13 @@ public class window extends Application {
                 // if the up key is pressed
                 if (key_press.getOrDefault(KeyCode.UP, false)) {
                     // accelerate the user_ship
-                    ship.accelerate();
+                    ship.accelerate(0.002);
                 }
 
                 // if the J key is pressed for jump and has not already jumped
                 if (key_press.getOrDefault(KeyCode.J, false) && jPress==false) {
                     //jump to a new location and if successful set flag to true
+                    ship.hyperspaceJump(pane);
                     ship.hyperspaceJump(pane);
                     jPress = true;                   
                 }
@@ -195,7 +192,7 @@ public class window extends Application {
                     bullets.add(bullet);
 
                     // acclerate the speed of the bullet:
-                    bullet.accelerate();
+                    bullet.accelerate(0.05);
 
                     // set the movement for the bullet is 3x faster than other character (the ship)
                     bullet.setMovement(bullet.getMovement().multiply(30));
@@ -205,13 +202,15 @@ public class window extends Application {
 
                 // update the ship's movement
                 ship.move();
-                alien_ship.move();
+                //alien_ship.move();
 
                 // Move the asteriods
                 asteroids.forEach(asteroid -> asteroid.move());
 
                 // Move the bullets
                 bullets.forEach(bullet -> bullet.move());
+
+                //remove asteroids that are hit by bullets
 
                 // When the collision between an asteroid ...
                 asteroids.forEach(asteroid -> {
@@ -278,7 +277,6 @@ public class window extends Application {
                 asteroids.removeAll(asteroids.stream()
                         .filter(asteroid -> !asteroid.getAlive())
                         .collect(Collectors.toList()));
-
             }
         }.start();
     }

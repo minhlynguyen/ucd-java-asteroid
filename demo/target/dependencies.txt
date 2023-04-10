@@ -1,0 +1,11 @@
+digraph "asteroids_app.initial:demo:jar:1" { 
+	"asteroids_app.initial:demo:jar:1" -> "org.openjfx:javafx-controls:jar:13:compile" ; 
+	"asteroids_app.initial:demo:jar:1" -> "org.openjfx:javafx-fxml:jar:13:compile" ; 
+	"asteroids_app.initial:demo:jar:1" -> "org.openjfx:javafx-graphics:jar:mac:17:compile" ; 
+	"org.openjfx:javafx-controls:jar:13:compile" -> "org.openjfx:javafx-controls:jar:linux:13:compile" ; 
+	"org.openjfx:javafx-controls:jar:13:compile" -> "org.openjfx:javafx-graphics:jar:13:compile" ; 
+	"org.openjfx:javafx-fxml:jar:13:compile" -> "org.openjfx:javafx-fxml:jar:linux:13:compile" ; 
+	"org.openjfx:javafx-graphics:jar:mac:17:compile" -> "org.openjfx:javafx-graphics:jar:linux:17:compile" ; 
+	"org.openjfx:javafx-graphics:jar:mac:17:compile" -> "org.openjfx:javafx-base:jar:17:compile" ; 
+	"org.openjfx:javafx-base:jar:17:compile" -> "org.openjfx:javafx-base:jar:linux:17:compile" ; 
+ } 

@@ -6,6 +6,8 @@ import javafx.scene.layout.Pane;
 //for hyperspace jump
 import java.util.Random;
 
+
+//Take my branch and get the movement working correvtly on the main
 //The user ship class is a child of character
 public class User_ship extends Character {
 
@@ -31,13 +33,12 @@ public class User_ship extends Character {
 
     //jump to a new location within the window
     public void hyperspaceJump(Pane pane) {
-
         boolean freeSpace=false;
         while (freeSpace==false){
             Random random = new Random();
             int newX = random.nextInt((int) pane.getWidth());
             int newY = random.nextInt((int) pane.getHeight());
-            // Check for collisions within a 5 pixel radius around the new location
+            // Check for collisions within a 50 pixel radius around the new location
             boolean containsPolygon = false;
             for (Node node : pane.getChildren()) {
                 if (node instanceof Polygon) {

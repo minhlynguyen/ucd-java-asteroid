@@ -1,4 +1,4 @@
-package demo.src.main.java.asteroid_app.initial;
+package asteroid_app.initial;
 
 //import polygon to draw a polygon
 import javafx.scene.shape.Polygon;
@@ -17,9 +17,9 @@ public abstract class Character{
 	// variable for the dead/alive status of Character
 	private Boolean alive;
 	// ship velocity, acceleration and turn angle
-	private static final double maxShipVelocity=10;
-	private static final double shipAcceleration=0.06;
-	private static final double shipTurnAngle=5;
+	private static final double maxShipVelocity=1;
+	private static final double shipAcceleration=0.006;
+	private static final double shipTurnAngle=0.5;
 
 	// constructor that each child object will call to
 	public Character(Polygon polygon, double x, double y) {

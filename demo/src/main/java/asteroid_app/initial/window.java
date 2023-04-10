@@ -1,5 +1,5 @@
 //this is the package name
-package demo.src.main.java.asteroid_app.initial;
+package asteroid_app.initial;
 
 // Application is the base class for all JavaFX applications
 //need javafx to display the window
@@ -32,6 +32,7 @@ import javafx.geometry.Pos;
 import java.util.HashMap;
 import javafx.scene.input.KeyCode;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -216,15 +217,20 @@ public class window extends Application {
                 // Move the bullets
                 bullets.forEach(bullet -> bullet.move());
 
+                //remove asteroids that are hit by bullets
+                List<Asteroid> asteroids = new CopyOnWriteArrayList<>();
+                List<Asteroid> asteroidsToRemove = new ArrayList<>();
+
                 // When the collision between an asteroid ...
-                asteroids.forEach(asteroid -> {
+                Iterator<Asteroid> asteroidIterator = asteroids.iterator();
+                while (asteroidIterator.hasNext()) {
+                    Asteroid asteroid = asteroidIterator.next();
+
                     // ... and the ship happens
                     if (asteroid.collision(ship)) {
-
-                        // Remove the collided asteroid from the pane and asteroids list when collision
-                        // happens
+                        // Remove the collided asteroid from the pane and asteroids list when collision happens
                         pane.getChildren().remove(asteroid.getChar());
-                        asteroids.remove(asteroid);
+                        asteroidIterator.remove();
 
                         // Then add two new smaller asteroids on the scene and in the asteroids list
                         // If the size=3 asteroid is collided
@@ -253,6 +259,7 @@ public class window extends Application {
                     // ... and a bullet happens
                     bullets.forEach(bullet -> {
                         if (asteroid.collision(bullet)) {
+                            asteroidsToRemove.add(asteroid);
                             bullet.setAlive(false);
                             asteroid.setAlive(false);
                         }
@@ -262,25 +269,28 @@ public class window extends Application {
                             pointText.setText("Points: " + points.addAndGet(1000));
                         }
                     });
+                }
+
+                final List<Asteroid> asteroidsCopy = new CopyOnWriteArrayList<>(asteroids);
+                asteroidsCopy.forEach(asteroid -> {
+                    if (asteroid.collision(ship)) {
+                        // your code here
+                    }
+
+                    bullets.forEach(bullet -> {
+                        if (asteroid.collision(bullet)) {
+                            asteroidsToRemove.add(asteroid);
+                            bullet.setAlive(false);
+                            asteroid.setAlive(false);
+                        }
+                    });
+
+                    if (!asteroid.getAlive()) {
+                        pane.getChildren().remove(asteroid.getChar());
+                        asteroids.remove(asteroid);
+                    }
                 });
 
-                // turn the ArrayList of asteroids to a list to apply filter & collect method to
-                // create a list of collided bullets
-                bullets.stream()
-                        .filter(bullet -> !bullet.getAlive())
-                        .forEach(bullet -> pane.getChildren().remove(bullet.getChar()));
-
-                bullets.removeAll(bullets.stream()
-                        .filter(bullet -> !bullet.getAlive())
-                        .collect(Collectors.toList()));
-
-                asteroids.stream()
-                        .filter(asteroid -> !asteroid.getAlive())
-                        .forEach(asteroid -> pane.getChildren().remove(asteroid.getChar()));
-
-                asteroids.removeAll(asteroids.stream()
-                        .filter(asteroid -> !asteroid.getAlive())
-                        .collect(Collectors.toList()));
 
             }
         }.start();

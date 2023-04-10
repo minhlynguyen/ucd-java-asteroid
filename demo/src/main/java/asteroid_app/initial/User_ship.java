@@ -6,6 +6,8 @@ import javafx.scene.layout.Pane;
 //for hyperspace jump
 import java.util.Random;
 
+
+//Take my branch and get the movement working correvtly on the main
 //The user ship class is a child of character
 public class User_ship extends Character {
 

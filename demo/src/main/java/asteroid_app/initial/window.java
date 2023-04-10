@@ -10,10 +10,8 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 // Pane is the base class for all layout panes
 import javafx.scene.layout.Pane;
-
 import javafx.scene.text.Text;
 import javafx.scene.control.Label;
-
 //import java.util.* to create a list for asteroids
 import java.util.*;
 //import javafx.scene.control.Button to display button
@@ -47,7 +45,6 @@ public class window extends Application {
     //the window class overrides the start mehtod from the application class
     //takes a single parameter of type stage
     //inside the start method is where the User interface is created
-
     public static int pointX = WIDTH / 2 - 7;
     public static int pointY = 20;
 
@@ -88,9 +85,6 @@ public class window extends Application {
         // pane.getChildren().add(asteroid);
 
         //Alien
-        Alien alien_ship=new Alien (200,300);//test to see where to put it
-        alien_ship.createAlienShip(200,300);
-        pane.getChildren().add(alien_ship.getChar());
 
         // Ship
         // create a user_ship object and initialize location
@@ -170,9 +164,8 @@ public class window extends Application {
                 // if the up key is pressed
                 if (key_press.getOrDefault(KeyCode.UP, false)) {
                     // accelerate the user_ship
-                    ship.accelerate(0.001);
+                    ship.accelerate(0.002);
                 }
-
 
                 // if the J key is pressed for jump and has not already jumped
                 if (key_press.getOrDefault(KeyCode.J, false) && jPress==false) {
@@ -209,7 +202,7 @@ public class window extends Application {
 
                 // update the ship's movement
                 ship.move();
-                alien_ship.move();
+                //alien_ship.move();
 
                 // Move the asteriods
                 asteroids.forEach(asteroid -> asteroid.move());
@@ -218,19 +211,16 @@ public class window extends Application {
                 bullets.forEach(bullet -> bullet.move());
 
                 //remove asteroids that are hit by bullets
-                List<Asteroid> asteroids = new CopyOnWriteArrayList<>();
-                List<Asteroid> asteroidsToRemove = new ArrayList<>();
 
                 // When the collision between an asteroid ...
-                Iterator<Asteroid> asteroidIterator = asteroids.iterator();
-                while (asteroidIterator.hasNext()) {
-                    Asteroid asteroid = asteroidIterator.next();
-
+                asteroids.forEach(asteroid -> {
                     // ... and the ship happens
                     if (asteroid.collision(ship)) {
-                        // Remove the collided asteroid from the pane and asteroids list when collision happens
+
+                        // Remove the collided asteroid from the pane and asteroids list when collision
+                        // happens
                         pane.getChildren().remove(asteroid.getChar());
-                        asteroidIterator.remove();
+                        asteroids.remove(asteroid);
 
                         // Then add two new smaller asteroids on the scene and in the asteroids list
                         // If the size=3 asteroid is collided
@@ -259,7 +249,6 @@ public class window extends Application {
                     // ... and a bullet happens
                     bullets.forEach(bullet -> {
                         if (asteroid.collision(bullet)) {
-                            asteroidsToRemove.add(asteroid);
                             bullet.setAlive(false);
                             asteroid.setAlive(false);
                         }
@@ -269,29 +258,25 @@ public class window extends Application {
                             pointText.setText("Points: " + points.addAndGet(1000));
                         }
                     });
-                }
-
-                final List<Asteroid> asteroidsCopy = new CopyOnWriteArrayList<>(asteroids);
-                asteroidsCopy.forEach(asteroid -> {
-                    if (asteroid.collision(ship)) {
-                        // your code here
-                    }
-
-                    bullets.forEach(bullet -> {
-                        if (asteroid.collision(bullet)) {
-                            asteroidsToRemove.add(asteroid);
-                            bullet.setAlive(false);
-                            asteroid.setAlive(false);
-                        }
-                    });
-
-                    if (!asteroid.getAlive()) {
-                        pane.getChildren().remove(asteroid.getChar());
-                        asteroids.remove(asteroid);
-                    }
                 });
 
+                // turn the ArrayList of asteroids to a list to apply filter & collect method to
+                // create a list of collided bullets
+                bullets.stream()
+                        .filter(bullet -> !bullet.getAlive())
+                        .forEach(bullet -> pane.getChildren().remove(bullet.getChar()));
 
+                bullets.removeAll(bullets.stream()
+                        .filter(bullet -> !bullet.getAlive())
+                        .collect(Collectors.toList()));
+
+                asteroids.stream()
+                        .filter(asteroid -> !asteroid.getAlive())
+                        .forEach(asteroid -> pane.getChildren().remove(asteroid.getChar()));
+
+                asteroids.removeAll(asteroids.stream()
+                        .filter(asteroid -> !asteroid.getAlive())
+                        .collect(Collectors.toList()));
             }
         }.start();
     }

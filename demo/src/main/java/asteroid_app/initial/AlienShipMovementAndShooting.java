@@ -2,7 +2,7 @@ package asteroid_app.initial;
 
 import java.util.Random;
 
-public class AlienShipMovementAndShooting {
+/*public class AlienShipMovementAndShooting {
     private double velocityX;
     private double velocityY;
     private long lastShotTime;
@@ -16,7 +16,7 @@ public class AlienShipMovementAndShooting {
         this.velocityY = velocityY;
     }
 
-    public void update(Alien alien, Player player, long now) {
+    public void update(Alien alien, User_ship player, long now) {
         alien.setTranslateX(alien.getTranslateX() + velocityX);
         alien.setTranslateY(alien.getTranslateY() + velocityY);
 
@@ -31,7 +31,7 @@ public class AlienShipMovementAndShooting {
         }
     }
 
-    public void shoot(Alien alien, Player player) {
+    public void shoot(Alien alien, User_ship player) {
         // Create bullet object and set its trajectory towards the player's current position
         // The implementation are missing 
     }
@@ -44,5 +44,5 @@ public class AlienShipMovementAndShooting {
         velocityX = Math.cos(angle) * speed;
         velocityY = Math.sin(angle) * speed;
     }
-}
+}*/
 

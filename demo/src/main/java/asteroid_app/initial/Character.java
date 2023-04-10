@@ -17,7 +17,7 @@ public abstract class Character{
 	// variable for the dead/alive status of Character
 	private Boolean alive;
 	// ship velocity, acceleration and turn angle
-	private static final double maxShipVelocity=1;
+	private static final double maxShipVelocity=1.2;
 	private static final double shipTurnAngle=0.5;
 
 	// constructor that each child object will call to

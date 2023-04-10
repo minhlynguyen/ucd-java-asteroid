@@ -2,94 +2,68 @@ package asteroid_app.initial;
 
 import java.util.Random;
 
-import javafx.scene.shape.Polygon;
+/*public class Alien extends Character {
+    private int screenWidth;
+    private int screenHeight;
+    private Random random;
+    private int shotInterval = 2000;
+    private int timeSinceLastShot = 0;
 
-public class Alien extends Character {
+    public AlienShipCreation() {
+        this.screenWidth = window.WIDTH;
+        this.screenHeight = window.HEIGHT;
+        random = new Random();
+    }
 
-	public Alien(int x, int y) {
-		// create the shape of the ship
-		// each is an x,y co-ordinate for each point
-		super(new Polygon(0.0, 0.0,
-				5.0, 0.0,
-				10.0, 5.0,
-				20.0, 10.0,
-				10.0, 15.0,
-				-5.0, 15.0,
-				-15.0, 10.0,
-				-5.0, 5.0), x, y);
-	}
+    public Alien createAlienShip() {
+        int x, y, dx, dy;
+        do {
+            x = random.nextInt(screenWidth);
+            y = random.nextInt(screenHeight);
+        } while (x > screenWidth / 3 && x < screenWidth * 2 / 3 && y > screenHeight / 3 && y < screenHeight * 2 / 3);
+        // The above loop ensures that the alien ship does not spawn too close to the player's starting position
 
-	public Alien createAlienShip(int x, int y) {
-		Alien alien = new Alien(x, y); // Create a new Alien object
-		alien.setTranslateX(x); // Set the x coordinate
-		alien.setTranslateY(y); // Set the y coordinate
-		return alien; // Return the created Alien object
-	}
+        // Randomize the direction of movement
+        double angle = random.nextDouble() * 2 * Math.PI;
+        dx = (int) Math.round(10 * Math.cos(angle));
+        dy = (int) Math.round(10 * Math.sin(angle));
 
-	// set a new x position for the alien
-	public void setTranslateX(int x) {
-		// this ship, call method getChar from Character and
-		// set the x co-ordinate
-		this.getChar().setTranslateX(x);
-	}
+        return new Alien(new Point(x, y), new Vector(dx, dy));
+    }
 
-	// similarly for the y co-ordinate
-	public void setTranslateY(int y) {
-		this.getChar().setTranslateY(y);
-	}
+    public void update(int delta, AlienShip alienShip, PlayerShip playerShip, BulletCreation bulletCreation) {
+        timeSinceLastShot += delta;
+        if (timeSinceLastShot >= shotInterval) {
+            shoot(alienShip, playerShip, bulletCreation);
+            timeSinceLastShot = 0;
+        }
+        
+        // Randomize the direction of movement every 200 updates
+        if (random.nextInt(200) == 0) {
+            double angle = random.nextDouble() * 2 * Math.PI;
+            alienShip.setVelocity(new Vector(Math.cos(angle) * AlienShip.SPEED, Math.sin(angle) * AlienShip.SPEED));
+        }
+        
+        // Move the alien ship
+        alienShip.move(delta);
+        
+        // Check if the alien ship has gone off the screen and reposition it if necessary
+        if (alienShip.getPosition().x < -AlienShip.RADIUS) {
+            alienShip.getPosition().x = screenWidth + AlienShip.RADIUS;
+        } else if (alienShip.getPosition().x > screenWidth + AlienShip.RADIUS) {
+            alienShip.getPosition().x = -AlienShip.RADIUS;
+        }
+        
+        if (alienShip.getPosition().y < -AlienShip.RADIUS) {
+            alienShip.getPosition().y = screenHeight + AlienShip.RADIUS;
+        } else if (alienShip.getPosition().y > screenHeight + AlienShip.RADIUS) {
+            alienShip.getPosition().y = -AlienShip.RADIUS;
+        }
+    }
 
-	// public void size() {
-	// int middleSize = 5;
-	// int superSize = 10;
-	// this.x *= middleSize;
-	// this.y *= superSize;
-	// }
-
-	public void multiply() {
-
-	}
-	/// Alien ship movement and shooting
-
-	private double velocityX;
-	private double velocityY;
-	private long lastShotTime;
-	private long lastVelocityUpdateTime;
-	private long shotInterval = 1000; // Interval between shots in milliseconds
-	private long velocityUpdateInterval = 2000; // Interval between velocity updates in milliseconds
-	private Random random = new Random();
-
-	public void AlienShipMovementAndShooting(double velocityX, double velocityY) {
-		this.velocityX = velocityX;
-		this.velocityY = velocityY;
-	}
-
-	public void update(Alien alien, User_ship player, long now) {
-		alien.move();
-
-		if (now - lastShotTime > shotInterval * 1000000) { // Convert to nanoseconds
-			shoot(alien, player);
-			lastShotTime = now;
-		}
-
-		if (now - lastVelocityUpdateTime > velocityUpdateInterval * 1000000) { // Convert to nanoseconds
-			updateVelocity();
-			lastVelocityUpdateTime = now;
-		}
-	}
-
-	public void shoot(Alien alien, User_ship player) {
-		// Create bullet object and set its trajectory towards the player's current
-		// position
-		// The implementation are missing
-	}
-
-	private void updateVelocity() {
-		// Update velocities randomly
-		double angle = random.nextDouble() * 2 * Math.PI;
-		double speed = 2;
-
-		velocityX = Math.cos(angle) * speed;
-		velocityY = Math.sin(angle) * speed;
-	}
-
-}
+    private void shoot(Alien alienShip, User_ship playerShip, Bullet bulletCreation) {
+        Vector direction = new Vector(playerShip.getPosition().x - alienShip.getPosition().x, playerShip.getPosition().y - alienShip.getPosition().y);
+        direction.normalize();
+        bulletCreation.createBullet(alienShip.getPosition(), direction, true);
+    }
+}*/

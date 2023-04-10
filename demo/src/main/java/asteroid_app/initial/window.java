@@ -60,7 +60,7 @@ public class window extends Application {
         // create a scene and label
         Scene scene = new Scene(pane);
 
-        // display the point
+        // display the points
         Text pointText = new Text(pointX, pointY, "Points: 0");
         pane.getChildren().add(pointText);
 
@@ -170,7 +170,7 @@ public class window extends Application {
                 // if the up key is pressed
                 if (key_press.getOrDefault(KeyCode.UP, false)) {
                     // accelerate the user_ship
-                    ship.accelerate();
+                    ship.accelerate(0.001);
                 }
 
 
@@ -199,7 +199,7 @@ public class window extends Application {
                     bullets.add(bullet);
 
                     // acclerate the speed of the bullet:
-                    bullet.accelerate();
+                    bullet.accelerate(0.05);
 
                     // set the movement for the bullet is 3x faster than other character (the ship)
                     bullet.setMovement(bullet.getMovement().multiply(30));

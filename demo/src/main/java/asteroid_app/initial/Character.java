@@ -18,7 +18,6 @@ public abstract class Character{
 	private Boolean alive;
 	// ship velocity, acceleration and turn angle
 	private static final double maxShipVelocity=1;
-	private static final double shipAcceleration=0.006;
 	private static final double shipTurnAngle=0.5;
 
 	// constructor that each child object will call to
@@ -104,15 +103,15 @@ public abstract class Character{
 	}
 
 	// accelerate the object
-	public void accelerate() {
+	public void accelerate(double acceleration) {
 		// Calculate acceleration by using trigonometery to calculate the change in the
 		// x and y directions
 		// through radian rotation
 		double changeX = Math.cos(Math.toRadians(this.object.getRotate()));
 		double changeY = Math.sin(Math.toRadians(this.object.getRotate()));
 		// only need few percent of the possible acceleration
-		changeX *= shipAcceleration;
-		changeY *= shipAcceleration;
+		changeX *= acceleration;
+		changeY *= acceleration;
 		// ensures that when the object is at maximum velocity
 		// we can accelerate in a different direction instead of being stuck
 		// at maximum velocity

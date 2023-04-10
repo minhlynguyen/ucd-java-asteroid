@@ -1,5 +1,5 @@
-// package asteroid_app.initial;
-package.demo.src.main.java.asteroid_app.initial;
+package asteroid_app.initial;
+// package.demo.src.main.java.asteroid_app.initial;
 
 import java.util.Random;
 

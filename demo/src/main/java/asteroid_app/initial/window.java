@@ -12,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+
 //import java.util.* to create a list for asteroids
 import java.util.*;
 //import javafx.scene.control.Button to display button
@@ -177,11 +179,13 @@ public class window extends Application {
         stage.setTitle("Group 11-Asteroids Game");
         stage.setScene(startMenuScene);
  
-        // when click on play game button, enter the game play scene
+        // On Start Menu when click on play game button, enter the game play scene
         playGame.setOnAction(e -> stage.setScene(mainScene));
+
         // When click on quit button, enter the gameover scene
         quitGame.setOnAction(e -> stage.setScene(gameOverScene));
         restartGame.setOnAction(e -> stage.setScene(startMenuScene));
+
 
         // display the stage
         stage.show();

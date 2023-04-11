@@ -16,8 +16,9 @@ import javafx.scene.control.Label;
 import java.util.*;
 //import javafx.scene.control.Button to display button
 import javafx.scene.control.Button;
-//import VBox to manage the nodes in a pane
+//import VBox and HBox to manage the nodes in a pane
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 //import Font to set the size of labels
 import javafx.scene.text.Font;
 //import Fontweight to set the style of labels and buttons
@@ -50,12 +51,14 @@ public class window extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        // create a pane and set size
+
+        // Create the game scences
+        // MAIN SCENE: create a pane and set size
         Pane pane = new Pane();
         pane.setPrefSize(WIDTH, HEIGHT);
 
         // create a scene and label
-        Scene scene = new Scene(pane);
+        Scene mainScene = new Scene(pane);
 
         // display the points
         Text pointText = new Text(pointX, pointY, "Points: 0");
@@ -95,6 +98,17 @@ public class window extends Application {
         // Bullet
         List<Bullet> bullets = new ArrayList<>();
 
+        // QuitGame button
+        Button quitGame = new Button("QUIT");
+        Button restartGame = new Button("RESTART");
+
+        // Control box
+        HBox controlBox = new HBox(10, quitGame, restartGame);
+        controlBox.setAlignment(Pos.CENTER);
+        pane.getChildren().add(controlBox);
+        controlBox.setTranslateX(WIDTH*0.9);
+        controlBox.setTranslateY(HEIGHT*0.01);
+
         // Start Menu
         // set a border pane to ocntain and set the position of nodes
         BorderPane borderPane = new BorderPane();
@@ -118,26 +132,71 @@ public class window extends Application {
         // add vBox into root
         borderPane.setCenter(vBox);
 
+        // ------ GAME OVER SCENE ------
+        // GridPane gridPane = new GridPane();
+        // gridPane.setAlignment(Pos.BASELINE-CENTER);
+        // gridPane.setHgap(10);
+        // gridPane.setVgap(30);
+        // gridPane.setPadding(new Insets(0, 10, 0, 10));
+
+        // Label nameField = new Label("Enter your name:");
+        TextField nameText = new TextField();
+        nameText.setPrefWidth(100);
+        // gridPane.add(nameField, 0, 0);
+        // gridPane.add(nameText, 1, 0);
+        
+        Label headlineover = new Label("GAME OVER");
+        headlineover.setFont(Font.font("Monospaced", FontWeight.BOLD, 50));
+        // Button playGameSm = new Button("PLAY GAME");
+        Label yourScore = new Label("Your score is");
+        
+        // Score update later
+        int topTenMin = 4000;
+        int finalScore = 5000;
+        
+        Label score = new Label(""+finalScore);
+        Label yourName = new Label("Enter your name");
+
+        Button saveScore = new Button("Save");
+        Button seeHighScore = new Button("High Scores");
+        
+        VBox infoBox;
+        
+        
+        if(finalScore >= topTenMin){
+            infoBox = new VBox(25, headlineover, yourScore, score, yourName, nameText, saveScore);
+        }else{
+            infoBox = new VBox(25, headlineover, yourScore, score, seeHighScore);
+        }
+        
+        infoBox.setAlignment(Pos.CENTER);
+        Scene gameOverScene= new Scene(infoBox,WIDTH*0.6,HEIGHT*0.8);
+
+        // ------ SWITCHING BETWEEN SCENEs ------
         // set the title of the window
         stage.setTitle("Group 11-Asteroids Game");
         stage.setScene(startMenuScene);
-
+ 
         // when click on play game button, enter the game play scene
-        playGame.setOnAction(e -> stage.setScene(scene));
+        playGame.setOnAction(e -> stage.setScene(mainScene));
+        // When click on quit button, enter the gameover scene
+        quitGame.setOnAction(e -> stage.setScene(gameOverScene));
+        restartGame.setOnAction(e -> stage.setScene(startMenuScene));
 
         // display the stage
         stage.show();
+        pane.requestFocus();
 
         // Key Presses:
         // create a hash map(key value pairs stored in a hash table) to store the key
         // presses
         Map<KeyCode, Boolean> key_press = new HashMap<>();
         // add key pressed handler
-        scene.setOnKeyPressed(event -> {
+        mainScene.setOnKeyPressed(event -> {
             key_press.put(event.getCode(), Boolean.TRUE);
         });
         // add key release handler
-        scene.setOnKeyReleased(event -> {
+        mainScene.setOnKeyReleased(event -> {
             key_press.put(event.getCode(), Boolean.FALSE);
         });
 

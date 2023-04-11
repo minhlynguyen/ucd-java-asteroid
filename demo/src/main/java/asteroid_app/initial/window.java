@@ -179,13 +179,12 @@ public class window extends Application {
         stage.setTitle("Group 11-Asteroids Game");
         stage.setScene(startMenuScene);
  
-        // On Start Menu when click on play game button, enter the game play scene
+        // when click on play game button, enter the game play scene
         playGame.setOnAction(e -> stage.setScene(mainScene));
-
         // When click on quit button, enter the gameover scene
         quitGame.setOnAction(e -> stage.setScene(gameOverScene));
         restartGame.setOnAction(e -> stage.setScene(startMenuScene));
-
+        
 
         // display the stage
         stage.show();

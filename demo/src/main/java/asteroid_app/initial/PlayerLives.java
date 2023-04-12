@@ -1,8 +1,8 @@
-package asteroid_app.initial;
+package demo.src.main.java.asteroid_app.initial;
 
 // A class that represents the lives of a player in a game.
 public class PlayerLives {
-    private int lives;
+    private static int lives;
 
     // Constructor that initializes the PlayerLives object with 3 lives.
     public PlayerLives() {
@@ -22,7 +22,7 @@ public class PlayerLives {
     }
 
     // Method that returns the current number of lives.
-    public int getLives() {
+    public static int getLives() {
         return lives;
     }
 }

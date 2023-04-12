@@ -1,4 +1,4 @@
-package asteroid_app.initial;
+package demo.src.main.java.asteroid_app.initial;
 
 import javafx.scene.shape.Polygon;
 
@@ -8,4 +8,3 @@ public class Bullet extends Character {
     }
 
 }
-

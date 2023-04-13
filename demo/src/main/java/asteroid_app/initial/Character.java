@@ -1,4 +1,4 @@
-package demo.src.main.java.asteroid_app.initial;
+package asteroid_app.initial;
 
 //import polygon to draw a polygon
 import javafx.scene.shape.Polygon;
@@ -81,19 +81,19 @@ public abstract class Character {
 		// if the object is out of the screen, move it to the other side
 		// exit the screen from the left side, enter from the right side
 		if (this.object.getTranslateX() < 0) {
-			this.object.setTranslateX(this.object.getTranslateX() + window.WIDTH);
+			this.object.setTranslateX(this.object.getTranslateX() + Main.WIDTH);
 		}
 		// exit the screen from the right side, enter from the left side
-		if (this.object.getTranslateX() > window.WIDTH) {
-			this.object.setTranslateX(this.object.getTranslateX() % window.WIDTH);
+		if (this.object.getTranslateX() > Main.WIDTH) {
+			this.object.setTranslateX(this.object.getTranslateX() % Main.WIDTH);
 		}
 		// exit the screen from the top, enter from the bottom
 		if (this.object.getTranslateY() < 0) {
-			this.object.setTranslateY(this.object.getTranslateY() + window.HEIGHT);
+			this.object.setTranslateY(this.object.getTranslateY() + Main.HEIGHT);
 		}
 		// exit the screen from the bottom, enter from the top
-		if (this.object.getTranslateY() > window.HEIGHT) {
-			this.object.setTranslateY(this.object.getTranslateY() % window.HEIGHT);
+		if (this.object.getTranslateY() > Main.HEIGHT) {
+			this.object.setTranslateY(this.object.getTranslateY() % Main.HEIGHT);
 		}
 	}
 

@@ -1,4 +1,4 @@
-package demo.src.main.java.asteroid_app.initial;
+package asteroid_app.initial;
 
 // Scene is the container for all content
 import javafx.scene.Scene;

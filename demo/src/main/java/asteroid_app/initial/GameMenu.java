@@ -1,4 +1,4 @@
-package demo.src.main.java.asteroid_app.initial;
+package asteroid_app.initial;
 
 // Scene is the container for all content
 import javafx.scene.Scene;
@@ -25,7 +25,7 @@ public class GameMenu {
 
         // create a pane and set size
         Pane pane = new Pane();
-        pane.setPrefSize(window.WIDTH, window.HEIGHT);
+        pane.setPrefSize(Main.WIDTH, Main.HEIGHT);
 
         Scene gameScene = new Scene(pane);
         
@@ -35,10 +35,10 @@ public class GameMenu {
         hBox.setAlignment(Pos.CENTER);
 
         // text to display points
-        Text pointText = new Text(window.pointX, window.pointY, "Points: 0");
+        Text pointText = new Text(Main.pointX, Main.pointY, "Points: 0");
 
         // text to display points
-        Text levelText = new Text(window.pointX, window.pointY, "Level:" + level);
+        Text levelText = new Text(Main.pointX, Main.pointY, "Level:" + level);
 
         hBox.getChildren().addAll(levelText, pointText);
         pane.getChildren().add(hBox);
@@ -67,7 +67,7 @@ public class GameMenu {
 
         // Ship
         // create a user_ship object and initialize location
-        User_ship ship = new User_ship(window.WIDTH / 2, window.HEIGHT / 2);
+        User_ship ship = new User_ship(Main.WIDTH / 2, Main.HEIGHT / 2);
         // add the user_ship to the pane
         pane.getChildren().add(ship.getChar());
 
@@ -224,6 +224,6 @@ public class GameMenu {
     }
 
     public static void resetGame(int level ) {
-        window.stage.setScene(newGameMenu(level));
+        Main.stage.setScene(newGameMenu(level));
     }
 }

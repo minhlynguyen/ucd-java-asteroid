@@ -1,4 +1,4 @@
-package demo.src.main.java.asteroid_app.initial;
+package asteroid_app.initial;
 
 // A class to keep track of the player's score.
 public class IncrementScore {

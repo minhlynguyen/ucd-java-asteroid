@@ -7,12 +7,12 @@ import javafx.scene.shape.Shape;
 import javafx.geometry.Point2D;
 
 //this character class is the parent class of all the characters in the game
-public abstract class Character{
-    //define a private polygon object to reprent each object
-    // and a 2d point to represent the movement of each object
-    private Polygon object;
-    protected Point2D movement;
-	//test to see if the object is at it's maximum velocity
+public abstract class Character {
+	// define a private polygon object to reprent each object
+	// and a 2d point to represent the movement of each object
+	private Polygon object;
+	protected Point2D movement;
+	// test to see if the object is at it's maximum velocity
 	private Point2D test;
 	// variable for the dead/alive status of Character
 	private Boolean alive;
@@ -73,28 +73,28 @@ public abstract class Character{
 
 	// move the object
 	public void move() {
-		
-		//add any acceleration to the current movement
-        this.object.setTranslateX(this.object.getTranslateX() + this.movement.getX());
-        this.object.setTranslateY(this.object.getTranslateY() + this.movement.getY());
 
-		//if the object is out of the screen, move it to the other side
-		//exit the screen from the left side, enter from the right side
+		// add any acceleration to the current movement
+		this.object.setTranslateX(this.object.getTranslateX() + this.movement.getX());
+		this.object.setTranslateY(this.object.getTranslateY() + this.movement.getY());
+
+		// if the object is out of the screen, move it to the other side
+		// exit the screen from the left side, enter from the right side
 		if (this.object.getTranslateX() < 0) {
-			this.object.setTranslateX(this.object.getTranslateX() + window.WIDTH);
+			this.object.setTranslateX(this.object.getTranslateX() + Main.WIDTH);
 		}
-		//exit the screen from the right side, enter from the left side
-		if (this.object.getTranslateX() > window.WIDTH) {
-			this.object.setTranslateX(this.object.getTranslateX() % window.WIDTH);
+		// exit the screen from the right side, enter from the left side
+		if (this.object.getTranslateX() > Main.WIDTH) {
+			this.object.setTranslateX(this.object.getTranslateX() % Main.WIDTH);
 		}
-		//exit the screen from the top, enter from the bottom
+		// exit the screen from the top, enter from the bottom
 		if (this.object.getTranslateY() < 0) {
-			this.object.setTranslateY(this.object.getTranslateY() + window.HEIGHT);
+			this.object.setTranslateY(this.object.getTranslateY() + Main.HEIGHT);
 		}
-		//exit the screen from the bottom, enter from the top
-		if (this.object.getTranslateY() > window.HEIGHT) {
-			this.object.setTranslateY(this.object.getTranslateY() % window.HEIGHT);
-		}		 
+		// exit the screen from the bottom, enter from the top
+		if (this.object.getTranslateY() > Main.HEIGHT) {
+			this.object.setTranslateY(this.object.getTranslateY() % Main.HEIGHT);
+		}
 	}
 
 	// set the movement to zero
@@ -125,12 +125,12 @@ public abstract class Character{
 	}
 
 	// To check if the objects collide, we check if they have common space polygon
-	public Boolean collision(Character other){
+	public Boolean collision(Character other) {
 		Shape collisionSpace = Shape.intersect(this.object, other.getChar());
 		// If the width of the common space is >= 0, then they have collided
-		if (collisionSpace.getBoundsInLocal().getWidth() >= 0){
+		if (collisionSpace.getBoundsInLocal().getWidth() >= 0) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}

@@ -90,6 +90,7 @@ public class GameMenu {
         controlBox.setTranslateY(Main.HEIGHT*0.01);
 
         pane.requestFocus();
+        
         // Key Presses:
         // create a hash map(key value pairs stored in a hash table) to store the key
         // presses
@@ -130,7 +131,7 @@ public class GameMenu {
                     // accelerate the user_ship
                     ship.accelerate(0.002);
                 }
-
+ 
                 // if the J key is pressed for jump and has not already jumped
                 if (key_press.getOrDefault(KeyCode.J, false) && jPress == false) {
                     // jump to a new location and if successful set flag to true

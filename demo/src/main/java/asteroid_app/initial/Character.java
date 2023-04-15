@@ -11,13 +11,13 @@ public abstract class Character {
 	// define a private polygon object to reprent each object
 	// and a 2d point to represent the movement of each object
 	private Polygon object;
-	protected Point2D movement;
+	private Point2D movement;
 	// test to see if the object is at it's maximum velocity
 	private Point2D test;
 	// variable for the dead/alive status of Character
 	private Boolean alive;
 	// ship velocity, acceleration and turn angle
-	private static final double maxShipVelocity=1.2;
+	private static final double maxShipVelocity=1.0;
 	private static final double shipTurnAngle=0.5;
 
 	// constructor that each child object will call to
@@ -71,6 +71,11 @@ public abstract class Character {
 		this.object.setRotate(this.object.getRotate() + shipTurnAngle);
 	}
 
+	// set the movement to zero
+	public void stopMovement() {
+		this.movement = new Point2D(0, 0);
+	}
+
 	// move the object
 	public void move() {
 
@@ -84,7 +89,7 @@ public abstract class Character {
 			this.object.setTranslateX(this.object.getTranslateX() + Main.WIDTH);
 		}
 		// exit the screen from the right side, enter from the left side
-		if (this.object.getTranslateX() > Main.WIDTH) {
+		else if (this.object.getTranslateX() > Main.WIDTH) {
 			this.object.setTranslateX(this.object.getTranslateX() % Main.WIDTH);
 		}
 		// exit the screen from the top, enter from the bottom
@@ -92,14 +97,9 @@ public abstract class Character {
 			this.object.setTranslateY(this.object.getTranslateY() + Main.HEIGHT);
 		}
 		// exit the screen from the bottom, enter from the top
-		if (this.object.getTranslateY() > Main.HEIGHT) {
+		else if (this.object.getTranslateY() > Main.HEIGHT) {
 			this.object.setTranslateY(this.object.getTranslateY() % Main.HEIGHT);
 		}
-	}
-
-	// set the movement to zero
-	public void stopMovement() {
-		this.movement = new Point2D(0, 0);
 	}
 
 	// accelerate the object

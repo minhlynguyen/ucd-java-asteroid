@@ -90,6 +90,7 @@ public class GameMenu {
         controlBox.setTranslateY(Main.HEIGHT*0.01);
 
         pane.requestFocus();
+        
         // Key Presses:
         // create a hash map(key value pairs stored in a hash table) to store the key
         // presses
@@ -110,6 +111,7 @@ public class GameMenu {
             // check if j key was pressed so we dont repeatedly go into hyperspace
             // inserted here to prevent multiple jumps
             private boolean jPress = false;
+            private boolean spacePress=false;
 
             @Override
             public void handle(long now) {
@@ -130,7 +132,7 @@ public class GameMenu {
                     // accelerate the user_ship
                     ship.accelerate(0.002);
                 }
-
+                
                 // if the J key is pressed for jump and has not already jumped
                 if (key_press.getOrDefault(KeyCode.J, false) && jPress == false) {
                     // jump to a new location and if successful set flag to true
@@ -144,7 +146,7 @@ public class GameMenu {
                 }
 
                 // if the spacebar is pressed, and only 3 bullets on screen
-                if (key_press.getOrDefault(KeyCode.SPACE, false)&& bullets.size() < 3) {
+                if (key_press.getOrDefault(KeyCode.SPACE, false)&& bullets.size() < 3 && spacePress==false) {
                     // the bullet appear in the screen
                     // at the same coordinates as current coordinates of the ship
                     // with same rotation angle
@@ -162,6 +164,12 @@ public class GameMenu {
                     bullet.setMovement(bullet.getMovement().multiply(30));
 
                     pane.getChildren().add(bullet.getChar());
+                    spacePress = true;
+                }
+
+                // if the spacebar is released
+                if (!key_press.getOrDefault(KeyCode.SPACE, false)) {
+                    spacePress =false ; // reset the flag
                 }
 
                 // update the ship's movement
@@ -208,6 +216,7 @@ public class GameMenu {
                     });
                 });
 
+
                 // turn the ArrayList of asteroids to a list to apply filter & collect method to
                 // create a list of collided bullets
                 bullets.stream()
@@ -227,6 +236,7 @@ public class GameMenu {
                         .collect(Collectors.toList()));
             }
         }.start();
+
         return mainScene;
     }
 

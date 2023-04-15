@@ -216,6 +216,7 @@ public class GameMenu {
                     });
                 });
 
+
                 // turn the ArrayList of asteroids to a list to apply filter & collect method to
                 // create a list of collided bullets
                 bullets.stream()
@@ -235,6 +236,7 @@ public class GameMenu {
                         .collect(Collectors.toList()));
             }
         }.start();
+
         return mainScene;
     }
 

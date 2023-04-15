@@ -4,16 +4,12 @@ package asteroid_app.initial;
 import javafx.scene.shape.Polygon;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
-
-import java.util.Collections;
 //for hyperspace jump
 import java.util.Random;
 
 //The user ship class is a child of character
 public class User_ship extends Character {
 
-    // define the booster flame shape
-    private static final Polygon BOOSTER_FLAME = new Polygon(-5, -5, 0, 0, -5, 5);
     private static final Polygon SHIP_SHAPE= new Polygon(-20, 20, 0, 0, -20, -20, 40, 0);
 
     // define a super constructor to create the ship

@@ -1,22 +1,27 @@
 package asteroid_app.initial;
+
 //import polygon to draw a polygon
 import javafx.scene.shape.Polygon;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
+
+import java.util.Collections;
 //for hyperspace jump
 import java.util.Random;
 
-
-//Take my branch and get the movement working correvtly on the main
 //The user ship class is a child of character
 public class User_ship extends Character {
+
+    // define the booster flame shape
+    private static final Polygon BOOSTER_FLAME = new Polygon(-5, -5, 0, 0, -5, 5);
+    private static final Polygon SHIP_SHAPE= new Polygon(-20, 20, 0, 0, -20, -20, 40, 0);
 
     // define a super constructor to create the ship
     // it inherits all the methods from Character class
     public User_ship(int x, int y) {
         // create the shape of the ship
         // each is an x,y co-ordinate for each point
-        super(new Polygon(-20, 20, 0, 0, -20, -20, 40, 0), x, y);
+        super(SHIP_SHAPE, x, y);
     }
 
     // set a new x position for the ship
@@ -36,15 +41,18 @@ public class User_ship extends Character {
         boolean freeSpace = false;
         while (freeSpace == false) {
             Random random = new Random();
+            //choose a random x,y co-ordinate within the window
             int newX = random.nextInt((int) pane.getWidth());
             int newY = random.nextInt((int) pane.getHeight());
             // Check for collisions within a 50 pixel radius around the new location
             boolean containsPolygon = false;
+            // loop through all the nodes in the pane
+            // each node is a polygon
             for (Node node : pane.getChildren()) {
                 if (node instanceof Polygon) {
                     Polygon polygon = (Polygon) node;
-                    double distance = Math.sqrt(
-                            Math.pow(newX - polygon.getTranslateX(), 2) + Math.pow(newY - polygon.getTranslateY(), 2));
+                    // calculate the distance between the new location and the polygon
+                    double distance = Math.sqrt(Math.pow(newX - polygon.getTranslateX(), 2) + Math.pow(newY - polygon.getTranslateY(), 2));
                     if (distance < 50 + polygon.getBoundsInLocal().getWidth() / 2) {
                         containsPolygon = true;
                         // get a new random location

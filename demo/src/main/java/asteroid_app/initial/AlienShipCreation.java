@@ -17,6 +17,7 @@ public class AlienShipCreation {
 
     private void initAlienShip() {
         alienShip = new AlienShip(0, 0);
+        alienShip.setChar(Alien.createAlien());
     }
 
     public AlienShip getAlienShip() {

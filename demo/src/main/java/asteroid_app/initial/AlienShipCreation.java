@@ -1,5 +1,8 @@
 package asteroid_app.initial;
 
+import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.util.Vector;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +54,15 @@ public class AlienShipCreation {
     }
 
     private void drawVectorShape(Graphics graphics, AlienShip ship) {
-        // Drawing code for the alien ship goes here
+      List<Point> points = ship.getPoints();
+    int[] xPoints = new int[points.size()];
+    int[] yPoints = new int[points.size()];
+
+    for (int i = 0; i < points.size(); i++) {
+        Point point = points.get(i);
+        xPoints[i] = (int) point.getX();
+        yPoints[i] = (int) point.getY();
+    }
+    graphics.drawPolygon(xPoints, yPoints, points.size());
     }
 }

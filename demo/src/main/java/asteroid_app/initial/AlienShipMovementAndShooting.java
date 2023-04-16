@@ -1,7 +1,7 @@
 package asteroid_app.initial;
 
-import java.util.ArrayList;
-import java.util.List;
+import javafx.geometry.Point2D;
+
 import java.util.Random;
 
 public class AlienShipMovementAndShooting {
@@ -16,34 +16,23 @@ public class AlienShipMovementAndShooting {
     private double randomDirection;
     private static final double MAX_DIRECTION_CHANGE = Math.PI / 6; // Maximum direction change in radians
 
-
-    private AlienShipCreation alienShip;
+    private AlienShip alienShip;
     private int playerScore = 0;
     private static final int SCREEN_MAX_X = 800;
     private static final int SCREEN_MAX_Y = 600;
 
-    public AlienShipMovementAndShooting(double velocityX, double velocityY, AlienShipCreation alienShipCreation, PlayerLives player) {
+    public AlienShipMovementAndShooting(double velocityX, double velocityY, AlienShip alienShip, PlayerLives player) {
         this.velocityX = velocityX;
         this.velocityY = velocityY;
-        this.alienShip = alienShipCreation.getAlienShip();
-        this.randomDirection = random.nextDouble() * 2 * Math.PI;
-    }
-   public AlienShipMovementAndShooting(double velocityX, double velocityY, AlienShipCreation alienShipCreation, PlayerLives player) {
-        this.velocityX = velocityX;
-        this.velocityY = velocityY;
-        this.alienShip = alienShipCreation.getAlienShip();
+        this.alienShip = alienShip;
         this.randomDirection = random.nextDouble() * 2 * Math.PI;
     }
 
-        moveAlienShip();
-    }
- private void updateVelocity() {
-        AlienShip alienShip = this.alienShip;
+    private void updateVelocity() {
         double speed = alienShip.getSpeed();
         velocityX = speed * Math.cos(randomDirection);
         velocityY = speed * Math.sin(randomDirection);
     }
-
 
     public void moveAlienShip() {
         if (!alienShip.isActive()) {
@@ -53,20 +42,20 @@ public class AlienShipMovementAndShooting {
             }
         } else {
             // move alien
-            alienShip.updatePosition(velocityX, velocityY);
-            double xPos = alienShip.getX();
+            alienShip.move(velocityX, velocityY);
+            double xPos = alienShip.getPosition().getX();
             wrapPosition(alienShip);
             // don't wrap x position
-            alienShip.setX(xPos);
+            alienShip.setPosition(new Point2D(xPos, alienShip.getPosition().getY()));
 
             if (alienShip.isLeftToRight()) {
                 // left to right
-                if (alienShip.getX() > SCREEN_MAX_X) {
+                if (alienShip.getPosition().getX() > SCREEN_MAX_X) {
                     endAlienShip();
                 }
             } else {
                 // right to left
-                if (alienShip.getX() < 0) {
+                if (alienShip.getPosition().getX() < 0) {
                     endAlienShip();
                 }
             }
@@ -87,10 +76,17 @@ public class AlienShipMovementAndShooting {
             }
 
             if (alienShip.getBulletCount() < MAX_ALIEN_BULLETS) {
-                fireAlienBullet(player);
+                fireAlienBullet(alienShip, player);
             }
         }
     }
 
+    private void spawnAlienShip() {
+        alienShip.setActive(true);
+        alienShip.setSpawnTimer(0);
+        double randomY = random.nextDouble() * SCREEN_MAX_Y;
+        alienShip.setPosition(new Point2D(0, randomY));
+        alienShip.setLeftToRight(true);
+        alienShip.resetChangeDirectionTimer();
+    }
 
-}

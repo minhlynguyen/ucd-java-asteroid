@@ -13,36 +13,37 @@ public class AlienShipMovementAndShooting {
     private static final long VELOCITY_UPDATE_INTERVAL = 2000; // Interval between velocity updates in milliseconds
     private static final int MAX_ALIEN_BULLETS = 10;
     private Random random = new Random();
+    private double randomDirection;
+    private static final double MAX_DIRECTION_CHANGE = Math.PI / 6; // Maximum direction change in radians
+
 
     private AlienShipCreation alienShip;
     private int playerScore = 0;
     private static final int SCREEN_MAX_X = 800;
     private static final int SCREEN_MAX_Y = 600;
 
-    public AlienShipMovementAndShooting(double velocityX, double velocityY, AlienShipCreation alienShip) {
+    public AlienShipMovementAndShooting(double velocityX, double velocityY, AlienShipCreation alienShipCreation, PlayerLives player) {
         this.velocityX = velocityX;
         this.velocityY = velocityY;
-        this.alienShip = alienShip;
+        this.alienShip = alienShipCreation.getAlienShip();
+        this.randomDirection = random.nextDouble() * 2 * Math.PI;
     }
-
-    public void update(PlayerLives player, long now) {
-        if (alienShip.isActive()) {
-            alienShip.setTranslateX(alienShip.getTranslateX() + velocityX);
-            alienShip.setTranslateY(alienShip.getTranslateY() + velocityY);
-        }
-
-        if (now - lastShotTime > SHOT_INTERVAL * 1000000) { // Convert to nanoseconds
-            shoot(player);
-            lastShotTime = now;
-        }
-
-        if (now - lastVelocityUpdateTime > VELOCITY_UPDATE_INTERVAL * 1000000) { // Convert to nanoseconds
-            updateVelocity();
-            lastVelocityUpdateTime = now;
-        }
+   public AlienShipMovementAndShooting(double velocityX, double velocityY, AlienShipCreation alienShipCreation, PlayerLives player) {
+        this.velocityX = velocityX;
+        this.velocityY = velocityY;
+        this.alienShip = alienShipCreation.getAlienShip();
+        this.randomDirection = random.nextDouble() * 2 * Math.PI;
+    }
 
         moveAlienShip();
     }
+ private void updateVelocity() {
+        AlienShip alienShip = this.alienShip;
+        double speed = alienShip.getSpeed();
+        velocityX = speed * Math.cos(randomDirection);
+        velocityY = speed * Math.sin(randomDirection);
+    }
+
 
     public void moveAlienShip() {
         if (!alienShip.isActive()) {

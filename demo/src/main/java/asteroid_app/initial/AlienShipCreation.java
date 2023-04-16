@@ -1,69 +1,56 @@
 package asteroid_app.initial;
 
+import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class AlienShipCreation {
     private int screenWidth;
     private int screenHeight;
     private Random random;
-    private int shotInterval = 2000;
-    private int timeSinceLastShot = 0;
+    private AlienShip alienShip;
 
     public AlienShipCreation(int screenWidth, int screenHeight) {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
-        random = new Random();
+        this.random = new Random();
+        initAlienShip();
     }
 
-    public AlienShip createAlienShip() {
-        int x, y, dx, dy;
-        do {
-            x = random.nextInt(screenWidth);
-            y = random.nextInt(screenHeight);
-        } while (x > screenWidth / 3 && x < screenWidth * 2 / 3 && y > screenHeight / 3 && y < screenHeight * 2 / 3);
-        // The above loop ensures that the alien ship does not spawn too close to the player's starting position
-
-        // Randomize the direction of movement
-        double angle = random.nextDouble() * 2 * Math.PI;
-        dx = (int) Math.round(10 * Math.cos(angle));
-        dy = (int) Math.round(10 * Math.sin(angle));
-
-        return new AlienShip(new Point(x, y), new Vector(dx, dy));
+    private void initAlienShip() {
+        alienShip = new AlienShip();
+        alienShip.setPosition(new Point(0, 0));
+        alienShip.setVelocity(new Vector(0, 0));
+        alienShip.setRotation(0);
+        alienShip.setRadius(10);
+        List<Point> points = createAlienShipShape();
+        alienShip.setPoints(points);
+        alienShip.setActive(false);
+        alienShip.setSpawnTimer(Utils.randomInt(1200, 2400));
     }
 
-    public void update(int delta, AlienShip alienShip, PlayerShip playerShip, BulletCreation bulletCreation) {
-        timeSinceLastShot += delta;
-        if (timeSinceLastShot >= shotInterval) {
-            shoot(alienShip, playerShip, bulletCreation);
-            timeSinceLastShot = 0;
-        }
-        
-        // Randomize the direction of movement every 200 updates
-        if (random.nextInt(200) == 0) {
-            double angle = random.nextDouble() * 2 * Math.PI;
-            alienShip.setVelocity(new Vector(Math.cos(angle) * AlienShip.SPEED, Math.sin(angle) * AlienShip.SPEED));
-        }
-        
-        // Move the alien ship
-        alienShip.move(delta);
-        
-        // Check if the alien ship has gone off the screen and reposition it if necessary
-        if (alienShip.getPosition().x < -AlienShip.RADIUS) {
-            alienShip.getPosition().x = screenWidth + AlienShip.RADIUS;
-        } else if (alienShip.getPosition().x > screenWidth + AlienShip.RADIUS) {
-            alienShip.getPosition().x = -AlienShip.RADIUS;
-        }
-        
-        if (alienShip.getPosition().y < -AlienShip.RADIUS) {
-            alienShip.getPosition().y = screenHeight + AlienShip.RADIUS;
-        } else if (alienShip.getPosition().y > screenHeight + AlienShip.RADIUS) {
-            alienShip.getPosition().y = -AlienShip.RADIUS;
+    private List<Point> createAlienShipShape() {
+        List<Point> points = new ArrayList<>();
+        points.add(new Point(8, 0));
+        points.add(new Point(-8, 6));
+        points.add(new Point(-4, 0));
+        points.add(new Point(-8, -6));
+        points.add(new Point(8, 0));
+        return points;
+    }
+
+    public AlienShip getAlienShip() {
+        return alienShip;
+    }
+
+    public void drawAlienShip(Graphics graphics) {
+        if (alienShip.isActive()) {
+            drawVectorShape(graphics, alienShip);
         }
     }
 
-    private void shoot(AlienShip alienShip, PlayerShip playerShip, BulletCreation bulletCreation) {
-        Vector direction = new Vector(playerShip.getPosition().x - alienShip.getPosition().x, playerShip.getPosition().y - alienShip.getPosition().y);
-        direction.normalize();
-        bulletCreation.createBullet(alienShip.getPosition(), direction, true);
+    private void drawVectorShape(Graphics graphics, AlienShip ship) {
+        // Drawing code for the alien ship goes here
     }
 }

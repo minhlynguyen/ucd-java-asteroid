@@ -21,27 +21,32 @@ import java.util.stream.Collectors;
 import javafx.animation.AnimationTimer;
 
 public class GameMenu {
+    private IncrementScore score;
+    private PlayerLives lives;
 
-    public static Scene newGameMenu(int level) {
+    public GameMenu() {
+        score = new IncrementScore();
+        lives = new PlayerLives();
+    }
 
-        // create a pane and set size
+
+   public Scene newGameMenu(int level) {
+
         Pane pane = new Pane();
         pane.setPrefSize(Main.WIDTH, Main.HEIGHT);
 
         Scene mainScene = new Scene(pane);
-        
 
-        // Create a hbox to display points and level
         HBox hBox = new HBox(400);
         hBox.setAlignment(Pos.CENTER);
 
-        // text to display points
-        Text pointText = new Text(Main.pointX, Main.pointY, "Points: 0");
+        Text pointText = new Text(Main.pointX, Main.pointY, "Points: " + score.getScore());
 
-        // text to display points
-        Text levelText = new Text(Main.pointX, Main.pointY, "Level:" + level);
+        Text levelText = new Text(Main.pointX, Main.pointY, "Level: " + level);
 
-        hBox.getChildren().addAll(levelText, pointText);
+        Text livesText = new Text(Main.pointX, Main.pointY, "Lives: " + lives.getLives());
+
+        hBox.getChildren().addAll(levelText, pointText, livesText);
         pane.getChildren().add(hBox);
 
         

@@ -29,6 +29,14 @@ public class GameMenu {
         lives = new PlayerLives();
     }
 
+    public IncrementScore getScore() {
+        return score;
+    }
+
+    public PlayerLives getLives() {
+        return lives;
+    }
+
 
    public Scene newGameMenu(int level) {
 

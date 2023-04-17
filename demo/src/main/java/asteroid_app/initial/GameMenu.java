@@ -22,7 +22,18 @@ import java.util.stream.Collectors;
 import javafx.animation.AnimationTimer;
 
 public class GameMenu {
+    
     private AlienShip alienShip;
+    private PlayerLives playerLives;
+    private Text livesText;
+    
+    public GameMenu() {
+        // Create the player's ship
+        User_ship userShip = new User_ship(400, 300);
+
+        // Create the player's lives object
+        playerLives = new PlayerLives(userShip);
+    }
 
     public static Scene newGameMenu(int level) {
 
@@ -42,9 +53,13 @@ public class GameMenu {
 
         // text to display points
         Text levelText = new Text(Main.pointX, Main.pointY, "Level:" + level);
+        
+        // create text to display lives
+        Text livesLabel = new Text(Main.WIDTH - 100, Main.HEIGHT - 50, "Lives: ");
+        livesText = new Text(Main.WIDTH - 50, Main.HEIGHT - 50, String.valueOf(playerLives.getLives()));
 
         hBox.getChildren().addAll(levelText, pointText);
-        pane.getChildren().add(hBox);
+        pane.getChildren().addAll(hBox, livesLabel, livesText);
 
         
         // calculate the point
@@ -256,6 +271,48 @@ public class GameMenu {
         loop.start();
 
         return mainScene;
+    }
+    
+      
+    // update the lives text in the scene
+    private void updateLives() {
+        livesText.setText(String.valueOf(playerLives.getLives()));
+    }
+    
+    // add points to the player's score and check if an extra life should be awarded
+    private void addPoints(int pointsToAdd) {
+        int currentScore = Integer.parseInt(pointText.getText().split(": ")[1]);
+        int newScore = currentScore + pointsToAdd;
+        pointText.setText("Points: " + newScore);
+        
+        if (newScore >= 10000 && !playerLives.getExtraLife()) {
+            playerLives.setExtraLife(true);
+            playerLives.increaseLives();
+            updateLives();
+        }
+        
+        resetExtraLife();
+    }
+    
+    // check if the player has an extra life
+    private boolean isExtraLife() {
+        return playerLives.getExtraLife();
+    }
+    
+    // reset the extra life flag
+    private void resetExtraLife() {
+        playerLives.setExtraLife(false);
+    }
+    
+    // check if the game is over and switch to the game over menu if necessary
+    private void updateGameOver() {
+        if (playerLives.getLives() <= 0) {
+            // switch to game over menu
+            Main.stage.setScene(GameOverMenu.newGameOverMenu());
+        } else {
+            // continue game
+            
+        }
     }
 
 

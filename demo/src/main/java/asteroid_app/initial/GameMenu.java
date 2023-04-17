@@ -4,6 +4,7 @@ package asteroid_app.initial;
 import javafx.scene.Scene;
 // Pane is the base class for all layout panes
 import javafx.scene.control.Button;
+import javafx.scene.effect.Light.Distant;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
@@ -107,7 +108,7 @@ public class GameMenu {
         
         // Animation controls:
         // use an animation timer to update the screen
-        new AnimationTimer() {
+        AnimationTimer loop = new AnimationTimer() {
             // check if j key was pressed so we dont repeatedly go into hyperspace
             // inserted here to prevent multiple jumps
             private boolean jPress = false;
@@ -146,12 +147,12 @@ public class GameMenu {
                 }
 
                 // if the spacebar is pressed, and only 3 bullets on screen
-                if (key_press.getOrDefault(KeyCode.SPACE, false)&& bullets.size() < 3 && spacePress==false) {
+                if (key_press.getOrDefault(KeyCode.SPACE, false) && spacePress==false) {
                     // the bullet appear in the screen
                     // at the same coordinates as current coordinates of the ship
                     // with same rotation angle
-                    Bullet bullet = new Bullet((int) ship.getChar().getTranslateX(),
-                            (int) ship.getChar().getTranslateY());
+                    Bullet bullet = new Bullet(ship.getChar().getTranslateX(),
+                            ship.getChar().getTranslateY());
                     bullet.getChar().setRotate(ship.getChar().getRotate());
 
                     // add the new bullet to the list of bullets
@@ -181,7 +182,16 @@ public class GameMenu {
                 asteroids.forEach(asteroid -> asteroid.move());
 
                 // Move the bullets
-                bullets.forEach(bullet -> bullet.move());
+                bullets.forEach(bullet -> {
+                    double x1 = bullet.getChar().getTranslateX();
+                    double y1 = bullet.getChar().getTranslateY();
+                    double travelDistance = Math.sqrt((x1-bullet.getOriginalX())*(x1-bullet.getOriginalX())+(y1-bullet.getOriginalY())*(y1-bullet.getOriginalY()));
+                    if (travelDistance <= 300){
+                        bullet.move();
+                    }else{
+                        pane.getChildren().remove(bullet.getChar());
+                    }
+                });
 
 
 
@@ -235,7 +245,9 @@ public class GameMenu {
                         .filter(asteroid -> !asteroid.getAlive())
                         .collect(Collectors.toList()));
             }
-        }.start();
+        };
+        
+        loop.start();
 
         return mainScene;
     }

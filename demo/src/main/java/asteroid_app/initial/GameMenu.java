@@ -33,18 +33,17 @@ public class GameMenu {
         score = new IncrementScore();
         lives = new PlayerLives();
 
-       // initialize AlienShipCreation object
+        // initialize AlienShipCreation object
         alienShipCreation = new AlienShipCreation(Main.WIDTH, Main.HEIGHT);
         // initialize AlienShipMovementAndShooting object
-        alienShipMovementAndShooting = new AlienShipMovementAndShooting(level, 0, alienShipCreation.getAlienShip(), getLives());
+        alienShipMovementAndShooting = new AlienShipMovementAndShooting(level, 0, alienShipCreation.getAlienShip(), score, lives);
         // other initialization code...
     }
 
     public void update() {
         // update player ship, asteroids, etc.
         // update alien ship
-        alienShipCreation.getAlienShip().moveTowardsTarget(playerShip.getPosition());
-        alienShipCreation.getAlienShip().updatePosition();
+        alienShipMovementAndShooting.moveAlienShip();
         // check for collisions
     }
 

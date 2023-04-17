@@ -20,8 +20,11 @@ public class AlienShipMovementAndShooting {
     private static final int SCREEN_MAX_X = 800;
     private static final int SCREEN_MAX_Y = 600;
 
-    public AlienShipMovementAndShooting(AlienShip alienShip) {
+    private user_ship userShip;
+
+    public AlienShipMovementAndShooting(AlienShip alienShip, user_ship userShip) {
         this.alienShip = alienShip;
+        this.userShip = userShip;
         this.randomDirection = random.nextDouble() * 2 * Math.PI;
         updateVelocity();
     }
@@ -50,8 +53,26 @@ public class AlienShipMovementAndShooting {
                 randomDirection = (randomDirection + random.nextDouble() * MAX_DIRECTION_CHANGE) % (2 * Math.PI);
                 updateVelocity();
             }
+            
+            long currentTime = System.currentTimeMillis();
+            if (alienShip.getBulletCount() < MAX_ALIEN_BULLETS && currentTime - lastShotTime >= SHOT_INTERVAL) {
+            lastShotTime = currentTime;
+            fireAlienBullet(alienShip, userShip);
+        }
 
            
         }
+
+     private void fireAlienBullet(AlienShip alienShip, user_ship userShip) {
+        Point2D alienShipPosition = alienShip.getPosition();
+        Point2D userShipPosition = userShip.getPosition();
+        Point2D direction = userShipPosition.subtract(alienShipPosition).normalize();
+
+        // Create a bullet and set its position
+        Bullet bullet = new Bullet((int) alienShipPosition.getX(), (int) alienShipPosition.getY());
+
+
+        // Increment the alien ship's bullet count
+        alienShip.incrementBulletCount();
     }
 }

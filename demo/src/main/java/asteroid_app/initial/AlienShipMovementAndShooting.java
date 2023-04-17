@@ -11,6 +11,8 @@ public class AlienShipMovementAndShooting {
     private AlienShip alienShip;
     private double velocityX;
     private double velocityY;
+    private IncrementScore score;
+    private PlayerLives lives;
     private long lastShotTime;
     private long lastVelocityUpdateTime;
     private static final long SHOT_INTERVAL = 1000; // Interval between shots in milliseconds
@@ -24,9 +26,11 @@ public class AlienShipMovementAndShooting {
 
     private user_ship userShip;
 
-    public AlienShipMovementAndShooting(AlienShip alienShip, user_ship userShip) {
+     public AlienShipMovementAndShooting(AlienShip alienShip, user_ship userShip, IncrementScore score, PlayerLives lives) {
         this.alienShip = alienShip;
         this.userShip = userShip;
+        this.score = score; 
+        this.lives = lives;
         this.randomDirection = random.nextDouble() * 2 * Math.PI;
         updateVelocity();
     }

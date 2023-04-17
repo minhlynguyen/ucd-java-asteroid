@@ -1,24 +1,35 @@
-package asteroid_app.initial;
-
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-
-// A class to keep track of the player's remaining lives.
 public class PlayerLives {
-    private IntegerProperty lives = new SimpleIntegerProperty(3);
+    private int lives;
+    private boolean extraLife;
+    private User_ship userShip;
 
-    // Method that returns the current number of lives.
+    public PlayerLives(User_ship userShip) {
+        this.lives = 3;
+        this.extraLife = false;
+        this.userShip = userShip;
+    }
+
     public int getLives() {
-        return lives.get();
-    }
-
-    // Method that decrements the number of lives by one.
-    public void loseLife() {
-        lives.set(lives.get() - 1);
-    }
-
-    // JavaFX property accessor for lives.
-    public IntegerProperty livesProperty() {
         return lives;
+    }
+
+    public boolean getExtraLife() {
+        return extraLife;
+    }
+
+    public void setExtraLife(boolean extraLife) {
+        this.extraLife = extraLife;
+    }
+
+    public void decreaseLives() {
+        lives--;
+    }
+
+    public void increaseLives() {
+        lives++;
+    }
+
+    public User_ship getUserShip() {
+        return userShip;
     }
 }

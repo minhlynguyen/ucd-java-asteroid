@@ -21,6 +21,28 @@ import java.util.stream.Collectors;
 import javafx.animation.AnimationTimer;
 
 public class GameMenu {
+    private AlienShipCreation alienShipCreation;
+
+    // constructor
+    public GameMenu(int level) {
+        // initialize AlienShipCreation object
+        alienShipCreation = new AlienShipCreation(Main.WIDTH, Main.HEIGHT);
+        // other initialization code...
+    }
+
+    public void update() {
+        // update player ship, asteroids, etc.
+        // update alien ship
+        alienShipCreation.getAlienShip().moveTowardsTarget(playerShip.getPosition());
+        alienShipCreation.getAlienShip().updatePosition();
+        // check for collisions
+    }
+
+    public void draw(GraphicsContext graphics) {
+        // draw player ship, asteroids, etc.
+        // draw alien ship
+        alienShipCreation.drawAlienShip(graphics);
+    }
     private IncrementScore score;
     private PlayerLives lives;
 
@@ -78,6 +100,7 @@ public class GameMenu {
         asteroids.forEach(asteroid -> pane.getChildren().add(asteroid.getChar()));
 
         // Alien
+       AlienShipMovementAndShooting alienShipMovement = new AlienShipMovementAndShooting(2, 0, alienShipCreation.getAlienShip(), getLives());
 
         // Ship
         // create a user_ship object and initialize location
@@ -188,7 +211,8 @@ public class GameMenu {
                 // update the ship's movement
                 ship.move();
                 
-                // alien_ship.move();
+                alien_ship.move();
+                
 
                 // Move the asteriods
                 asteroids.forEach(asteroid -> asteroid.move());

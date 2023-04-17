@@ -4,6 +4,8 @@ import asteroid_app.custom.AlienShip;
 import javafx.geometry.Point2D;
 
 import java.util.Random;
+import asteroid_app.initial.Bullet;
+
 
 public class AlienShipMovementAndShooting {
     private AlienShip alienShip;
@@ -47,21 +49,19 @@ public class AlienShipMovementAndShooting {
             alienShip.setPosition(new Point2D(newX, newY));
 
             // Update velocity periodically
-            long currentTime = System.currentTimeMillis();
-            if (currentTime - lastVelocityUpdateTime >= VELOCITY_UPDATE_INTERVAL) {
-                lastVelocityUpdateTime = currentTime;
-                randomDirection = (randomDirection + random.nextDouble() * MAX_DIRECTION_CHANGE) % (2 * Math.PI);
-                updateVelocity();
-            }
-            
-            long currentTime = System.currentTimeMillis();
-            if (alienShip.getBulletCount() < MAX_ALIEN_BULLETS && currentTime - lastShotTime >= SHOT_INTERVAL) {
+           long currentTime = System.currentTimeMillis();
+           if (currentTime - lastVelocityUpdateTime >= VELOCITY_UPDATE_INTERVAL) {
+            lastVelocityUpdateTime = currentTime;
+            randomDirection = (randomDirection + random.nextDouble() * MAX_DIRECTION_CHANGE) % (2 * Math.PI);
+            updateVelocity();
+        }
+        
+           if (alienShip.getBulletCount() < MAX_ALIEN_BULLETS && currentTime - lastShotTime >= SHOT_INTERVAL) {
             lastShotTime = currentTime;
             fireAlienBullet(alienShip, userShip);
         }
-
            
-        }
+      }
 
      private void fireAlienBullet(AlienShip alienShip, user_ship userShip) {
         Point2D alienShipPosition = alienShip.getPosition();

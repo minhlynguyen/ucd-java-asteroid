@@ -22,11 +22,17 @@ import javafx.animation.AnimationTimer;
 
 public class GameMenu {
     private AlienShipCreation alienShipCreation;
+    private AlienShipMovementAndShooting alienShipMovementAndShooting;
+    private IncrementScore score;
+    private PlayerLives lives;
+
 
     // constructor
     public GameMenu(int level) {
-        // initialize AlienShipCreation object
+       // initialize AlienShipCreation object
         alienShipCreation = new AlienShipCreation(Main.WIDTH, Main.HEIGHT);
+        // initialize AlienShipMovementAndShooting object
+        alienShipMovementAndShooting = new AlienShipMovementAndShooting(2, 0, alienShipCreation.getAlienShip(), getLives());
         // other initialization code...
     }
 
@@ -211,7 +217,8 @@ public class GameMenu {
                 // update the ship's movement
                 ship.move();
                 
-                alien_ship.move();
+                // Update the alien ship's movement using the alienShipMovementAndShooting instance
+               alienShipMovementAndShooting.moveAlienShip();
                 
 
                 // Move the asteriods

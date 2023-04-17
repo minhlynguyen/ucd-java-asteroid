@@ -20,6 +20,13 @@ public class AlienShipMovementAndShooting {
     private int playerScore = 0;
     private static final int SCREEN_MAX_X = 800;
     private static final int SCREEN_MAX_Y = 600;
+    
+    private AlienShip alienShip;
+    private PlayerLives playerLives;
+
+    public AlienShipMovementAndShooting(AlienShip alienShip, PlayerLives playerLives) {
+        this.alienShip = alienShip;
+        this.playerLives = playerLives;
 
     public AlienShipMovementAndShooting(double velocityX, double velocityY, AlienShip alienShip, PlayerLives player) {
         this.velocityX = velocityX;

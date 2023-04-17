@@ -46,6 +46,10 @@ public class AlienShip {
     public Point2D getPosition() {
         return position;
     }
+    
+    public void setPosition(Point2D position) {
+        this.position = position;
+    }
 
     public double getSpeed() {
         return speed;

@@ -1,4 +1,4 @@
-package asteroid_app.modified;
+package asteroid_app.initial;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;

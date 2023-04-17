@@ -10,6 +10,7 @@ import javafx.scene.text.Text;
 import java.util.*;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Pos;
+import javafx.scene.canvas.GraphicsContext;
 
 //Stuff for keypresses
 import java.util.HashMap;
@@ -29,10 +30,13 @@ public class GameMenu {
 
     // constructor
     public GameMenu(int level) {
+        score = new IncrementScore();
+        lives = new PlayerLives();
+
        // initialize AlienShipCreation object
         alienShipCreation = new AlienShipCreation(Main.WIDTH, Main.HEIGHT);
         // initialize AlienShipMovementAndShooting object
-        alienShipMovementAndShooting = new AlienShipMovementAndShooting(2, 0, alienShipCreation.getAlienShip(), getLives());
+        alienShipMovementAndShooting = new AlienShipMovementAndShooting(level, 0, alienShipCreation.getAlienShip(), getLives());
         // other initialization code...
     }
 
@@ -106,7 +110,6 @@ public class GameMenu {
         asteroids.forEach(asteroid -> pane.getChildren().add(asteroid.getChar()));
 
         // Alien
-       AlienShipMovementAndShooting alienShipMovement = new AlienShipMovementAndShooting(2, 0, alienShipCreation.getAlienShip(), getLives());
 
         // Ship
         // create a user_ship object and initialize location

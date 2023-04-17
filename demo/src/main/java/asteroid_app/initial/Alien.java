@@ -1,9 +1,9 @@
-package asteroid_app.custom;
+package asteroid_app.initial;
 
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Polygon;
 
-public class AlienShip {
+public class Alien extends Character {
     private final double radius = 30;
     private Polygon shape;
     private Point2D position;
@@ -12,8 +12,8 @@ public class AlienShip {
     private boolean active;
     private long lastShotTime;
 
-    public AlienShip(double startX, double startY) {
-        position = new Point2D(startX, startY);
+    public Alien(double startX, double startY) {
+        super(startX, startY);
         velocity = new Point2D(0, 0);
         speed = 5;
         active = true;
@@ -63,4 +63,3 @@ public class AlienShip {
         this.active = active;
     }
 }
-

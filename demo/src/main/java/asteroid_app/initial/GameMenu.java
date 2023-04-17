@@ -4,13 +4,13 @@ package asteroid_app.initial;
 import javafx.scene.Scene;
 // Pane is the base class for all layout panes
 import javafx.scene.control.Button;
+import javafx.scene.effect.Light.Distant;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
 import java.util.*;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Pos;
-import javafx.scene.canvas.GraphicsContext;
 
 //Stuff for keypresses
 import java.util.HashMap;
@@ -22,70 +22,28 @@ import java.util.stream.Collectors;
 import javafx.animation.AnimationTimer;
 
 public class GameMenu {
-    private AlienShipCreation alienShipCreation;
-    private AlienShipMovementAndShooting alienShipMovementAndShooting;
-    private IncrementScore score;
-    private PlayerLives lives;
+    private AlienShip alienShip;
 
+    public static Scene newGameMenu(int level) {
 
-    // constructor
-    public GameMenu(int level) {
-        score = new IncrementScore();
-        lives = new PlayerLives();
-
-        // initialize AlienShipCreation object
-        alienShipCreation = new AlienShipCreation(Main.WIDTH, Main.HEIGHT);
-        // initialize AlienShipMovementAndShooting object
-        alienShipMovementAndShooting = new AlienShipMovementAndShooting(level, 0, alienShipCreation.getAlienShip(), score, lives);
-        // other initialization code...
-    }
-
-    public void update() {
-        // update player ship, asteroids, etc.
-        // update alien ship
-        alienShipMovementAndShooting.moveAlienShip();
-        // check for collisions
-    }
-
-    public void draw(GraphicsContext graphics) {
-        // draw player ship, asteroids, etc.
-        // draw alien ship
-        alienShipCreation.drawAlienShip(graphics);
-    }
-    private IncrementScore score;
-    private PlayerLives lives;
-
-    public GameMenu() {
-        score = new IncrementScore();
-        lives = new PlayerLives();
-    }
-
-    public IncrementScore getScore() {
-        return score;
-    }
-
-    public PlayerLives getLives() {
-        return lives;
-    }
-
-
-   public Scene newGameMenu(int level) {
-
+        // create a pane and set size
         Pane pane = new Pane();
         pane.setPrefSize(Main.WIDTH, Main.HEIGHT);
 
         Scene mainScene = new Scene(pane);
+        
 
+        // Create a hbox to display points and level
         HBox hBox = new HBox(400);
         hBox.setAlignment(Pos.CENTER);
 
-        Text pointText = new Text(Main.pointX, Main.pointY, "Points: " + score.getScore());
+        // text to display points
+        Text pointText = new Text(Main.pointX, Main.pointY, "Points: 0");
 
-        Text levelText = new Text(Main.pointX, Main.pointY, "Level: " + level);
+        // text to display points
+        Text levelText = new Text(Main.pointX, Main.pointY, "Level:" + level);
 
-        Text livesText = new Text(Main.pointX, Main.pointY, "Lives: " + lives.getLives());
-
-        hBox.getChildren().addAll(levelText, pointText, livesText);
+        hBox.getChildren().addAll(levelText, pointText);
         pane.getChildren().add(hBox);
 
         
@@ -109,6 +67,8 @@ public class GameMenu {
         asteroids.forEach(asteroid -> pane.getChildren().add(asteroid.getChar()));
 
         // Alien
+        alienShip = new AlienShip(Main.WIDTH / 2, Main.HEIGHT / 2);
+        pane.getChildren().add(alienShip.getChar());
 
         // Ship
         // create a user_ship object and initialize location
@@ -151,7 +111,7 @@ public class GameMenu {
         
         // Animation controls:
         // use an animation timer to update the screen
-        new AnimationTimer() {
+        AnimationTimer loop = new AnimationTimer() {
             // check if j key was pressed so we dont repeatedly go into hyperspace
             // inserted here to prevent multiple jumps
             private boolean jPress = false;
@@ -190,12 +150,12 @@ public class GameMenu {
                 }
 
                 // if the spacebar is pressed, and only 3 bullets on screen
-                if (key_press.getOrDefault(KeyCode.SPACE, false)&& bullets.size() < 3 && spacePress==false) {
+                if (key_press.getOrDefault(KeyCode.SPACE, false) && spacePress==false) {
                     // the bullet appear in the screen
                     // at the same coordinates as current coordinates of the ship
                     // with same rotation angle
-                    Bullet bullet = new Bullet((int) ship.getChar().getTranslateX(),
-                            (int) ship.getChar().getTranslateY());
+                    Bullet bullet = new Bullet(ship.getChar().getTranslateX(),
+                            ship.getChar().getTranslateY());
                     bullet.getChar().setRotate(ship.getChar().getRotate());
 
                     // add the new bullet to the list of bullets
@@ -219,15 +179,25 @@ public class GameMenu {
                 // update the ship's movement
                 ship.move();
                 
-                // Update the alien ship's movement using the alienShipMovementAndShooting instance
-               alienShipMovementAndShooting.moveAlienShip();
-                
+                // alien_ship.move();
+                alienShip.move();
+                // Shoot at the user ship
+                alienShip.shootAtUserShip(ship);
 
                 // Move the asteriods
                 asteroids.forEach(asteroid -> asteroid.move());
 
                 // Move the bullets
-                bullets.forEach(bullet -> bullet.move());
+                bullets.forEach(bullet -> {
+                    double x1 = bullet.getChar().getTranslateX();
+                    double y1 = bullet.getChar().getTranslateY();
+                    double travelDistance = Math.sqrt((x1-bullet.getOriginalX())*(x1-bullet.getOriginalX())+(y1-bullet.getOriginalY())*(y1-bullet.getOriginalY()));
+                    if (travelDistance <= 300){
+                        bullet.move();
+                    }else{
+                        pane.getChildren().remove(bullet.getChar());
+                    }
+                });
 
 
 
@@ -281,7 +251,9 @@ public class GameMenu {
                         .filter(asteroid -> !asteroid.getAlive())
                         .collect(Collectors.toList()));
             }
-        }.start();
+        };
+        
+        loop.start();
 
         return mainScene;
     }

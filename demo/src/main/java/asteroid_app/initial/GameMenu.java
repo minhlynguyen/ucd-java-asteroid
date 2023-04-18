@@ -198,6 +198,26 @@ public class GameMenu {
                 alienShip.move();
                 // Shoot at the user ship
                 alienShip.shootAtUserShip(ship);
+                // Check for collisions between AlienShip and bullets
+                bullets.forEach(bullet -> {
+                    if (alienShip.collision(bullet)) {
+                        bullet.setAlive(false);
+                        alienShip.setAlive(false);
+                        // Remove AlienShip from pane
+                        pane.getChildren().remove(alienShip.getChar());
+                        // Update the game as necessary, e.g., increase score or reset AlienShip position
+                    }
+                });
+
+                // Check for collisions between AlienShip and asteroids
+                asteroids.forEach(asteroid -> {
+                    if (alienShip.collision(asteroid)) {
+                        alienShip.setAlive(false);
+                        // Remove AlienShip from pane
+                        pane.getChildren().remove(alienShip.getChar());
+                        // Update the game as necessary, e.g., increase score or reset AlienShip position
+                    }
+                });
 
                 // Move the asteriods
                 asteroids.forEach(asteroid -> asteroid.move());

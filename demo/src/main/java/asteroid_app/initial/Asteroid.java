@@ -34,9 +34,9 @@ public class Asteroid extends Character {
 		// increase this as levels increase?
 		for (int i = 0; i < rnd.nextInt(150); i++) {
 			switch(size){
-				case LARGE -> this.accelerate(0.005);
-				case MIDDLE -> this.accelerate(0.05);
-				case SMALL -> this.accelerate(0.5);
+				case LARGE: this.accelerate(0.005);
+				case MIDDLE: this.accelerate(0.05);
+				case SMALL: this.accelerate(0.5);
 			}
 		}
 	}

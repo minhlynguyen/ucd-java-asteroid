@@ -3,6 +3,8 @@ package asteroid_app.initial;
 // Scene is the container for all content
 import javafx.scene.Scene;
 // Pane is the base class for all layout panes
+import javafx.scene.control.Button;
+import javafx.scene.effect.Light.Distant;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
@@ -27,7 +29,7 @@ public class GameMenu {
         Pane pane = new Pane();
         pane.setPrefSize(Main.WIDTH, Main.HEIGHT);
 
-        Scene gameScene = new Scene(pane);
+        Scene mainScene = new Scene(pane);
         
 
         // Create a hbox to display points and level
@@ -56,7 +58,7 @@ public class GameMenu {
         for (int i = 0; i < level; i++) {
             double x = new Random().nextDouble() * 1000;
             double y = new Random().nextDouble() * 1000;
-            Asteroid asteroid = new Asteroid(x, y, 3);
+            Asteroid asteroid = new Asteroid(x, y, Size.LARGE);
             asteroids.add(asteroid);
         }
 
@@ -75,26 +77,42 @@ public class GameMenu {
         // Bullet
         List<Bullet> bullets = new ArrayList<>();
 
+        // QuitGame button
+        Button quitGame = new Button("QUIT");
+        quitGame.setId("quitGame");
+        Button restartGame = new Button("RESTART");
+        restartGame.setId("restartGame");
+
+        // Control box
+        HBox controlBox = new HBox(10, quitGame, restartGame);
+        controlBox.setAlignment(Pos.CENTER);
+        pane.getChildren().add(controlBox);
+        controlBox.setTranslateX(Main.WIDTH*0.9);
+        controlBox.setTranslateY(Main.HEIGHT*0.01);
+
+        pane.requestFocus();
+        
         // Key Presses:
         // create a hash map(key value pairs stored in a hash table) to store the key
         // presses
         Map<KeyCode, Boolean> key_press = new HashMap<>();
         // add key pressed handler
-        gameScene.setOnKeyPressed(event -> {
+        mainScene.setOnKeyPressed(event -> {
             key_press.put(event.getCode(), Boolean.TRUE);
         });
         // add key release handler
-        gameScene.setOnKeyReleased(event -> {
+        mainScene.setOnKeyReleased(event -> {
             key_press.put(event.getCode(), Boolean.FALSE);
         });
 
         
         // Animation controls:
         // use an animation timer to update the screen
-        new AnimationTimer() {
+        AnimationTimer loop = new AnimationTimer() {
             // check if j key was pressed so we dont repeatedly go into hyperspace
             // inserted here to prevent multiple jumps
             private boolean jPress = false;
+            private boolean spacePress=false;
 
             @Override
             public void handle(long now) {
@@ -115,7 +133,7 @@ public class GameMenu {
                     // accelerate the user_ship
                     ship.accelerate(0.002);
                 }
-
+                
                 // if the J key is pressed for jump and has not already jumped
                 if (key_press.getOrDefault(KeyCode.J, false) && jPress == false) {
                     // jump to a new location and if successful set flag to true
@@ -129,12 +147,12 @@ public class GameMenu {
                 }
 
                 // if the spacebar is pressed, and only 3 bullets on screen
-                if (key_press.getOrDefault(KeyCode.SPACE, false)&& bullets.size() < 3) {
+                if (key_press.getOrDefault(KeyCode.SPACE, false) && spacePress==false) {
                     // the bullet appear in the screen
                     // at the same coordinates as current coordinates of the ship
                     // with same rotation angle
-                    Bullet bullet = new Bullet((int) ship.getChar().getTranslateX(),
-                            (int) ship.getChar().getTranslateY());
+                    Bullet bullet = new Bullet(ship.getChar().getTranslateX(),
+                            ship.getChar().getTranslateY());
                     bullet.getChar().setRotate(ship.getChar().getRotate());
 
                     // add the new bullet to the list of bullets
@@ -147,6 +165,12 @@ public class GameMenu {
                     bullet.setMovement(bullet.getMovement().multiply(30));
 
                     pane.getChildren().add(bullet.getChar());
+                    spacePress = true;
+                }
+
+                // if the spacebar is released
+                if (!key_press.getOrDefault(KeyCode.SPACE, false)) {
+                    spacePress =false ; // reset the flag
                 }
 
                 // update the ship's movement
@@ -158,7 +182,16 @@ public class GameMenu {
                 asteroids.forEach(asteroid -> asteroid.move());
 
                 // Move the bullets
-                bullets.forEach(bullet -> bullet.move());
+                bullets.forEach(bullet -> {
+                    double x1 = bullet.getChar().getTranslateX();
+                    double y1 = bullet.getChar().getTranslateY();
+                    double travelDistance = Math.sqrt((x1-bullet.getOriginalX())*(x1-bullet.getOriginalX())+(y1-bullet.getOriginalY())*(y1-bullet.getOriginalY()));
+                    if (travelDistance <= Main.WIDTH){
+                        bullet.move();
+                    }else{
+                        pane.getChildren().remove(bullet.getChar());
+                    }
+                });
 
 
 
@@ -193,6 +226,7 @@ public class GameMenu {
                     });
                 });
 
+
                 // turn the ArrayList of asteroids to a list to apply filter & collect method to
                 // create a list of collided bullets
                 bullets.stream()
@@ -211,8 +245,11 @@ public class GameMenu {
                         .filter(asteroid -> !asteroid.getAlive())
                         .collect(Collectors.toList()));
             }
-        }.start();
-        return gameScene;   
+        };
+        
+        loop.start();
+
+        return mainScene;
     }
 
 

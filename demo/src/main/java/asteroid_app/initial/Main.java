@@ -18,7 +18,7 @@ public class Main extends Application {
 
     // define the size of the screen can be accessed by all classes
     public static int WIDTH = 1400;
-    public static int HEIGHT = 1000;
+    public static int HEIGHT = 800;
     // the window class overrides the start mehtod from the application class
     // takes a single parameter of type stage
     // inside the start method is where the User interface is created
@@ -36,14 +36,22 @@ public class Main extends Application {
         // start Menu
         Scene startMenuScene = StartMenu.startMenu(WIDTH, HEIGHT);
         // game menu
-        Scene gameScene = GameMenu.newGameMenu(initLevel);
+        Scene mainScene = GameMenu.newGameMenu(initLevel);
+        // game over menu
+        Scene gameOverScene = GameOverMenu.gameOverMenu(WIDTH, HEIGHT);
         // default the start menu 
         stage.setScene(startMenuScene);
 
         // get the play game button
         Button playGameButton = (Button) startMenuScene.getRoot().lookup("#playGame");
         // click the play game button then change to game menu
-        playGameButton.setOnAction(e -> stage.setScene(gameScene));
+        playGameButton.setOnAction(e -> stage.setScene(mainScene));
+
+        // When click on quit button, enter the gameover scene
+        Button quitGameButton = (Button) mainScene.getRoot().lookup("#quitGame");
+        quitGameButton.setOnAction(e -> stage.setScene(gameOverScene));
+        Button restartGameButton = (Button) mainScene.getRoot().lookup("#restartGame");
+        restartGameButton.setOnAction(e -> stage.setScene(startMenuScene));
 
         // set the title of the window
         stage.setTitle("Group 11-Asteroids Game");

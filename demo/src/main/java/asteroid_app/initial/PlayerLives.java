@@ -1,28 +1,40 @@
 package asteroid_app.initial;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 // A class that represents the lives of a player in a game.
 public class PlayerLives {
-    private static int lives;
+   private IntegerProperty lives;
 
     // Constructor that initializes the PlayerLives object with 3 lives.
-    public PlayerLives() {
-        this.lives = 3; // Default value is 3
-    }
-
-    // Method that decrements the number of lives by 1.
-    // Returns true if the player still has lives left, false otherwise.
-    public boolean loseLife() {
-        lives--;
-        return lives > 0;
-    }
-
-    // Method that increments the number of lives by 1.
-    public void gainLife() {
-        lives++;
-    }
-
-    // Method that returns the current number of lives.
-    public static int getLives() {
-        return lives;
-    }
+public PlayerLives() {
+    this.lives = new SimpleIntegerProperty(3); // Default value is 3
 }
+
+// Method that decrements the number of lives by 1.
+// Returns true if the player still has lives left, false otherwise.
+public boolean loseLife() {
+    int currentLives = lives.get();
+    currentLives--;
+    lives.set(currentLives);
+    return currentLives > 0;
+}
+
+// Method that increments the number of lives by 1.
+public void gainLife() {
+    int currentLives = lives.get();
+    currentLives++;
+    lives.set(currentLives);
+}
+
+// Method that returns the current number of lives.
+public IntegerProperty livesProperty() {
+    return lives;
+}
+
+public int getLives() {
+    return lives.get();
+   }
+}
+    

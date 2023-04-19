@@ -15,11 +15,12 @@ public class PolygonCreator {
 		double s2 = Math.sin(Math.PI / 6);
 
 		Random rnd = new Random();
+		int side;
 
 		switch (size) {
-			case LARGE -> {
+			case LARGE: 
 				// side is the length of polygon's one side
-				int side = (20 + rnd.nextInt(10)) * 3;
+				side = (20 + rnd.nextInt(10)) * 3;
 				polygon.getPoints().addAll(
 						0.0, 0.0,
 						side * c1, -1 * side * s1,
@@ -29,9 +30,8 @@ public class PolygonCreator {
 						-1 * side * c1, side * s1,
 						-1 * side * c2, -1 * side * s2,
 						-1 * side * c1, -1 * side * s1);
-			}
-			case MIDDLE -> {
-				int side = (20 + rnd.nextInt(10)) * 2;
+			case MIDDLE: 
+				side = (20 + rnd.nextInt(10)) * 2;
 				polygon.getPoints().addAll(
 						0.0, 0.0,
 						side * c1, -1 * side * s1,
@@ -41,9 +41,9 @@ public class PolygonCreator {
 						-1 * side * c1, side * s1,
 						-1 * side * c2, -1 * side * s2,
 						-1 * side * c1, -1 * side * s1);
-			}
-			case SMALL -> {
-				int side = (20 + rnd.nextInt(10));
+			
+			case SMALL: 
+				side = (20 + rnd.nextInt(10));
 				polygon.getPoints().addAll(
 						0.0, 0.0,
 						side * c1, -1 * side * s1,
@@ -53,7 +53,7 @@ public class PolygonCreator {
 						-1 * side * c1, side * s1,
 						-1 * side * c2, -1 * side * s2,
 						-1 * side * c1, -1 * side * s1);
-			}
+			
 		}
 
 		return polygon;

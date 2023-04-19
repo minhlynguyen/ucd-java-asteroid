@@ -128,11 +128,7 @@ public abstract class Character {
 	public Boolean collision(Character other) {
 		Shape collisionSpace = Shape.intersect(this.object, other.getChar());
 		// If the width of the common space is >= 0, then they have collided
-		if (collisionSpace.getBoundsInLocal().getWidth() >= 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return collisionSpace.getBoundsInLocal().getWidth() >= 0;
 	}
 }
 

@@ -58,7 +58,7 @@ public class GameMenu {
         for (int i = 0; i < level; i++) {
             double x = new Random().nextDouble() * 1000;
             double y = new Random().nextDouble() * 1000;
-            Asteroid asteroid = new Asteroid(x, y, 3);
+            Asteroid asteroid = new Asteroid(x, y, Size.LARGE);
             asteroids.add(asteroid);
         }
 
@@ -186,7 +186,7 @@ public class GameMenu {
                     double x1 = bullet.getChar().getTranslateX();
                     double y1 = bullet.getChar().getTranslateY();
                     double travelDistance = Math.sqrt((x1-bullet.getOriginalX())*(x1-bullet.getOriginalX())+(y1-bullet.getOriginalY())*(y1-bullet.getOriginalY()));
-                    if (travelDistance <= 300){
+                    if (travelDistance <= Main.WIDTH){
                         bullet.move();
                     }else{
                         pane.getChildren().remove(bullet.getChar());

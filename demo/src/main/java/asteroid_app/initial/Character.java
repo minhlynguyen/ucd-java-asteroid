@@ -1,5 +1,6 @@
 package asteroid_app.initial;
 
+import javafx.scene.layout.Pane;
 //import polygon to draw a polygon
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
@@ -21,11 +22,14 @@ public abstract class Character {
 	private static final double shipTurnAngle=0.5;
 
 	// constructor that each child object will call to
-	public Character(Polygon polygon, double x, double y) {
-		// create the object's shape and location
+	public Character(Polygon polygon, double x, double y, Pane pane) {
+		// create the object's shape and location and add it to the pane
 		this.object = polygon;
 		this.object.setTranslateX(x);
 		this.object.setTranslateY(y);
+
+		// add the shape to pane when the object is created
+		pane.getChildren().add(polygon);
 
 		// initialize the movement of the object to zero
 		this.movement = new Point2D(0, 0);

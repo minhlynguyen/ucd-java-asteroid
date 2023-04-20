@@ -11,13 +11,12 @@ public class Asteroid extends Character {
 
 	// Except variables x,y inherited from character, asteroid also needs to set its
 	// size
-	public Asteroid(double x, double y, Size size) {
+	public Asteroid(double x, double y, Size size, Pane pane) {
 
 		// Use PolygonCreator class to create an asteroid polygon
-		super(new PolygonCreator().createPolygon(size), x, y);
+		super(new PolygonCreator().createPolygon(size), x, y, pane);
 
-		// Only asteroid needs to set an initial angle, which can use initialAngle to
-		// express
+		// Only asteroid needs to set an initial angle, which can use initialAngle to express
 		// Because the direction is random, so we use Random() to generate an angle
 		Random rnd = new Random();
 
@@ -62,7 +61,7 @@ public class Asteroid extends Character {
             for (int i = 0; i < 2; i++) {
                 Asteroid newAsteroid = new Asteroid(
                         asteroid.getChar().getTranslateX(),
-                        asteroid.getChar().getTranslateY(), Size.MIDDLE);
+                        asteroid.getChar().getTranslateY(), Size.MIDDLE, pane);
                 asteroids.add(newAsteroid);
                 pane.getChildren().add(newAsteroid.getChar());
                 newAsteroid.move();
@@ -78,7 +77,7 @@ public class Asteroid extends Character {
                 // add new small size asteroids
                 Asteroid newAsteroid = new Asteroid(
                         asteroid.getChar().getTranslateX(),
-                        asteroid.getChar().getTranslateY(), Size.SMALL);
+                        asteroid.getChar().getTranslateY(), Size.SMALL, pane);
                 asteroids.add(newAsteroid);
                 pane.getChildren().add(newAsteroid.getChar());
                 newAsteroid.move();

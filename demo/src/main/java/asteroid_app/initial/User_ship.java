@@ -11,13 +11,14 @@ import java.util.Random;
 public class User_ship extends Character {
 
     private static final Polygon SHIP_SHAPE= new Polygon(-20, 20, 0, 0, -20, -20, 40, 0);
+    private Pane pane;
 
     // define a super constructor to create the ship
     // it inherits all the methods from Character class
-    public User_ship(int x, int y) {
+    public User_ship(int x, int y, Pane pane) {
         // create the shape of the ship
         // each is an x,y co-ordinate for each point
-        super(SHIP_SHAPE, x, y);
+        super(SHIP_SHAPE, x, y, pane);
     }
 
     // set a new x position for the ship

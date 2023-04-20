@@ -14,7 +14,7 @@ import javafx.scene.control.Button;
 //window extends the application class from javafx
 public class Main extends Application {
 
-    public static Stage stage;
+    //public static Stage stage;
 
     // define the size of the screen can be accessed by all classes
     public static int WIDTH = 1400;
@@ -31,27 +31,29 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
 
-        Main.stage = stage;
-
         // start Menu
         Scene startMenuScene = StartMenu.startMenu(WIDTH, HEIGHT);
         // game menu
-        Scene mainScene = GameMenu.newGameMenu(initLevel);
+        // Scene newGameScene = 
         // game over menu
-        Scene gameOverScene = GameOverMenu.gameOverMenu(WIDTH, HEIGHT);
+        // Scene gameOverScene = GameOverMenu.gameOverMenu(WIDTH, HEIGHT);
         // default the start menu 
         stage.setScene(startMenuScene);
 
         // get the play game button
         Button playGameButton = (Button) startMenuScene.getRoot().lookup("#playGame");
         // click the play game button then change to game menu
-        playGameButton.setOnAction(e -> stage.setScene(mainScene));
+        playGameButton.setOnAction(e -> {
+            GameMenu.initialize(1);
+            GameMenu.start();
+            stage.setScene(new Scene(GameMenu.borderPane));
+        });
 
         // When click on quit button, enter the gameover scene
-        Button quitGameButton = (Button) mainScene.getRoot().lookup("#quitGame");
-        quitGameButton.setOnAction(e -> stage.setScene(gameOverScene));
-        Button restartGameButton = (Button) mainScene.getRoot().lookup("#restartGame");
-        restartGameButton.setOnAction(e -> stage.setScene(startMenuScene));
+        //Button quitGameButton = (Button) newGameScene.getRoot().lookup("#quitGame");
+        // quitGameButton.setOnAction(e -> stage.setScene(gameOverScene));
+        // Button restartGameButton = (Button) newGameScene.getRoot().lookup("#restartGame");
+        // restartGameButton.setOnAction(e -> stage.setScene(startMenuScene));
 
         // set the title of the window
         stage.setTitle("Group 11-Asteroids Game");

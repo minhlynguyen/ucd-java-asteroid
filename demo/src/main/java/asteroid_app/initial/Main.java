@@ -34,9 +34,9 @@ public class Main extends Application {
         // start Menu
         Scene startMenuScene = StartMenu.startMenu(WIDTH, HEIGHT);
         // game menu
-        // Scene newGameScene = 
+        Scene newGameScene = new Scene(GameMenu.borderPane);
         // game over menu
-        // Scene gameOverScene = GameOverMenu.gameOverMenu(WIDTH, HEIGHT);
+        Scene gameOverScene = GameOverMenu.gameOverMenu(WIDTH, HEIGHT);
         // default the start menu 
         stage.setScene(startMenuScene);
 
@@ -46,12 +46,18 @@ public class Main extends Application {
         playGameButton.setOnAction(e -> {
             GameMenu.initialize(1);
             GameMenu.start();
-            stage.setScene(new Scene(GameMenu.borderPane));
+            stage.setScene(newGameScene);
         });
 
-        // When click on quit button, enter the gameover scene
-        //Button quitGameButton = (Button) newGameScene.getRoot().lookup("#quitGame");
-        // quitGameButton.setOnAction(e -> stage.setScene(gameOverScene));
+        // get the quit game button
+        Button quitGameButton = (Button) newGameScene.getRoot().lookup("#quitGame");
+        quitGameButton.setOnAction(e -> {            
+            GameMenu.stop();
+            stage.setScene(gameOverScene);
+        });
+        
+        
+        
         // Button restartGameButton = (Button) newGameScene.getRoot().lookup("#restartGame");
         // restartGameButton.setOnAction(e -> stage.setScene(startMenuScene));
 
@@ -59,6 +65,7 @@ public class Main extends Application {
         stage.setTitle("Group 11-Asteroids Game");
         // display the stage
         stage.show();
+
     }
 
     // run the application

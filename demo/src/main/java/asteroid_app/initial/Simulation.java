@@ -176,6 +176,7 @@ public class Simulation {
         bullets.forEach(bullet -> bullet.move());
         System.out.println("Get everyone moving");        
     }
+
     public static void levelUp(int currentLevel) {
         currentLevel++;
     }

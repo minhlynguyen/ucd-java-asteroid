@@ -41,10 +41,7 @@ public class GameMenu {
         borderPane.setBottom(toolbar);
         borderPane.setCenter(pane);
         borderPane.setTop(statusbar);
-        System.out.println("Set border pane");
-
-        // Setup Pane
-        pane.setPrefSize(Main.WIDTH, Main.HEIGHT);    
+        System.out.println("Set border pane"); 
 
         // Setup status bar (points and level)
         Text pointText = new Text(Main.pointX, Main.pointY, "Points: 0");
@@ -56,13 +53,21 @@ public class GameMenu {
         // Setup toolbar
         Button quitGame = new Button("QUIT");
         quitGame.setId("quitGame");
+        quitGame.setFocusTraversable(false);
+
         Button restartGame = new Button("RESTART");
         restartGame.setId("restartGame");
+        restartGame.setFocusTraversable(false);
+
         toolbar.getItems().add(quitGame);
         toolbar.getItems().add(restartGame);
+
+        // Setup Pane
+        pane.setPrefSize(Main.WIDTH, Main.HEIGHT);   
+        pane.requestFocus();
+
         clock = new GamePlay();
         clock.start();
-        sim.move();
     }
 
     public static void reset(){
@@ -77,7 +82,7 @@ public class GameMenu {
         sim.move();
     }
 
-    public void stop(){
+    public static void stop(){
         clock.stop();
     }
 }

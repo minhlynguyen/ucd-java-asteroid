@@ -31,7 +31,7 @@ public class Main extends Application {
     public static int pointY = 20;
 
     // initial level = 1
-    public static int initLevel = 1;
+    public static int initLevel = 0;
 
     public static AtomicInteger points = new AtomicInteger();;
 

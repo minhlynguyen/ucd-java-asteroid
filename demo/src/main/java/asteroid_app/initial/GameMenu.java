@@ -159,10 +159,10 @@ public class GameMenu {
                     bullets.add(bullet);
 
                     // acclerate the speed of the bullet:
-                    bullet.accelerate(0.002);
+                    bullet.accelerate(0.05);
 
-                    // set the movement for the bullet is 30x faster than other character (the ship)
-                    bullet.setMovement(bullet.getMovement().normalize().multiply(10));
+                    // set the movement for the bullet is 3x faster than other character (the ship)
+                    bullet.setMovement(bullet.getMovement().multiply(30));
 
                     pane.getChildren().add(bullet.getChar());
                     spacePress = true;
@@ -186,11 +186,10 @@ public class GameMenu {
                     double x1 = bullet.getChar().getTranslateX();
                     double y1 = bullet.getChar().getTranslateY();
                     double travelDistance = Math.sqrt((x1-bullet.getOriginalX())*(x1-bullet.getOriginalX())+(y1-bullet.getOriginalY())*(y1-bullet.getOriginalY()));
-                    if (travelDistance <= Main.WIDTH/2){
+                    if (travelDistance <= Main.WIDTH){
                         bullet.move();
                     }else{
                         pane.getChildren().remove(bullet.getChar());
-                        bullets.remove(bullet);
                     }
                 });
 

@@ -37,17 +37,16 @@ public class GameMenu {
         hBox.setAlignment(Pos.CENTER);
 
         // text to display points
-        Text pointText = new Text(Main.pointX, Main.pointY, "Points: 0");
+        Text pointText = new Text(Main.pointX, Main.pointY, "Points:" + Main.points.get());
 
         // text to display points
         Text levelText = new Text(Main.pointX, Main.pointY, "Level:" + level);
 
         hBox.getChildren().addAll(levelText, pointText);
         pane.getChildren().add(hBox);
-
         
         // calculate the point
-        AtomicInteger points = new AtomicInteger();
+//        AtomicInteger points = new AtomicInteger();
 
         // Object creation:
         // create the characters
@@ -148,16 +147,21 @@ public class GameMenu {
 
                 // if the spacebar is pressed, and only 3 bullets on screen
                 if (key_press.getOrDefault(KeyCode.SPACE, false) && spacePress==false) {
-                    Bullet bullet = ship.fireBullet();
+                    // the bullet appear in the screen
+                    // at the same coordinates as current coordinates of the ship
+                    // with same rotation angle
+                    Bullet bullet = new Bullet(ship.getChar().getTranslateX(),
+                            ship.getChar().getTranslateY());
+                    bullet.getChar().setRotate(ship.getChar().getRotate());
 
                     // add the new bullet to the list of bullets
                     bullets.add(bullet);
 
                     // acclerate the speed of the bullet:
-                    bullet.accelerate(0.002);
+                    bullet.accelerate(0.05);
 
                     // set the movement for the bullet is 3x faster than other character (the ship)
-                    bullet.setMovement(bullet.getMovement().normalize().multiply(10));
+                    bullet.setMovement(bullet.getMovement().multiply(30));
 
                     pane.getChildren().add(bullet.getChar());
                     spacePress = true;
@@ -181,14 +185,12 @@ public class GameMenu {
                     double x1 = bullet.getChar().getTranslateX();
                     double y1 = bullet.getChar().getTranslateY();
                     double travelDistance = Math.sqrt((x1-bullet.getOriginalX())*(x1-bullet.getOriginalX())+(y1-bullet.getOriginalY())*(y1-bullet.getOriginalY()));
-                    if (travelDistance <= Main.WIDTH/2){
+                    if (travelDistance <= Main.WIDTH){
                         bullet.move();
                     }else{
                         pane.getChildren().remove(bullet.getChar());
-                        bullets.remove(bullet);
                     }
                 });
-
 
 
                 // When the collision between an asteroid ...
@@ -198,7 +200,7 @@ public class GameMenu {
                         // then create new asteroids and remove the collided one
                         Asteroid.asteroidSplit(asteroid, asteroids, pane);
                         // if number of asteroids < 0, level ++ 
-                        if (asteroids.size() <= 0) {
+                        if (asteroids.size() == 0) {
                             levelUp(level);
                         }
                     }
@@ -210,14 +212,14 @@ public class GameMenu {
                             asteroid.setAlive(false);
                             Asteroid.asteroidSplit(asteroid, asteroids, pane);
                             // if number of asteroids < 0, level ++ 
-                            if (asteroids.size() <= 0) {
-                                    levelUp(level);
+                            if (asteroids.size() == 0) {
+                                levelUp(level);
                                 }
                         }
 
                         // adding point
                         if (!bullet.getAlive()) {
-                            pointText.setText("Points: " + points.addAndGet(1000));
+                            pointText.setText("Points: " + Main.points.addAndGet(1000));
                         }
                     });
                 });
@@ -248,15 +250,13 @@ public class GameMenu {
         return mainScene;
     }
 
-
     public static void levelUp(int currentLevel) {
-
         currentLevel++;
         resetGame(currentLevel);
-
     }
 
-    public static void resetGame(int level ) {
+    public static void resetGame(int level) {
         Main.stage.setScene(newGameMenu(level));
     }
+
 }

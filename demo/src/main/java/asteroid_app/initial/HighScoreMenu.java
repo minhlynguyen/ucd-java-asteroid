@@ -11,7 +11,7 @@ public class HighScoreMenu {
 
         BorderPane borderPane = new BorderPane();
 
-        Label headLine = new Label("Name          Score");
+        Label headLine = new Label("Name\tScore");
 
         // create a Vbox to manage the nodes on the high score menu
         VBox vBox = new VBox(20, headLine);

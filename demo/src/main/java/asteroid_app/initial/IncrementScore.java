@@ -5,7 +5,7 @@ public class IncrementScore {
     public static final int POINTS_FOR_ASTEROID = 10;
     public static final int POINTS_FOR_ALIEN = 50;
 
-    private static int score;
+    private int score;
 
     // Constructor that initializes the score to zero.
     public IncrementScore() {
@@ -13,7 +13,7 @@ public class IncrementScore {
     }
 
     // Method that returns the current score.
-    public static int getScore() {
+    public int getScore() {
         return score;
     }
 

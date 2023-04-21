@@ -26,3 +26,4 @@ public class Bullet extends Character {
         return this.y0;
     }
 }
+

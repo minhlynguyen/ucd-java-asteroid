@@ -37,16 +37,17 @@ public class GameMenu {
         hBox.setAlignment(Pos.CENTER);
 
         // text to display points
-        Text pointText = new Text(Main.pointX, Main.pointY, "Points:" + Main.points.get());
+        Text pointText = new Text(Main.pointX, Main.pointY, "Points: 0");
 
         // text to display points
         Text levelText = new Text(Main.pointX, Main.pointY, "Level:" + level);
 
         hBox.getChildren().addAll(levelText, pointText);
         pane.getChildren().add(hBox);
+
         
         // calculate the point
-//        AtomicInteger points = new AtomicInteger();
+        AtomicInteger points = new AtomicInteger();
 
         // Object creation:
         // create the characters
@@ -193,6 +194,7 @@ public class GameMenu {
                 });
 
 
+
                 // When the collision between an asteroid ...
                 asteroids.forEach(asteroid -> { 
                     // ... and the ship happens
@@ -200,7 +202,7 @@ public class GameMenu {
                         // then create new asteroids and remove the collided one
                         Asteroid.asteroidSplit(asteroid, asteroids, pane);
                         // if number of asteroids < 0, level ++ 
-                        if (asteroids.size() == 0) {
+                        if (asteroids.size() <= 0) {
                             levelUp(level);
                         }
                     }
@@ -212,14 +214,14 @@ public class GameMenu {
                             asteroid.setAlive(false);
                             Asteroid.asteroidSplit(asteroid, asteroids, pane);
                             // if number of asteroids < 0, level ++ 
-                            if (asteroids.size() == 0) {
-                                levelUp(level);
+                            if (asteroids.size() <= 0) {
+                                    levelUp(level);
                                 }
                         }
 
                         // adding point
                         if (!bullet.getAlive()) {
-                            pointText.setText("Points: " + Main.points.addAndGet(1000));
+                            pointText.setText("Points: " + points.addAndGet(1000));
                         }
                     });
                 });
@@ -250,13 +252,15 @@ public class GameMenu {
         return mainScene;
     }
 
+
     public static void levelUp(int currentLevel) {
+
         currentLevel++;
         resetGame(currentLevel);
+
     }
 
-    public static void resetGame(int level) {
+    public static void resetGame(int level ) {
         Main.stage.setScene(newGameMenu(level));
     }
-
 }

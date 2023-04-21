@@ -151,7 +151,9 @@ public class GameMenu {
                     // the bullet appear in the screen
                     // at the same coordinates as current coordinates of the ship
                     // with same rotation angle
-                    Bullet bullet = ship.fireBullet();
+                    Bullet bullet = new Bullet(ship.getChar().getTranslateX(),
+                            ship.getChar().getTranslateY());
+                    bullet.getChar().setRotate(ship.getChar().getRotate());
 
                     // add the new bullet to the list of bullets
                     bullets.add(bullet);

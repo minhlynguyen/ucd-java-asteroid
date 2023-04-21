@@ -67,12 +67,6 @@ public class User_ship extends Character {
             }
         }
     }
-
-    public Bullet fireBullet(){
-        Bullet bullet = new Bullet(this.getChar().getTranslateX(), this.getChar().getTranslateY());
-        bullet.getChar().setRotate(this.getChar().getRotate());
-        return bullet;
-    }
 }
 
 

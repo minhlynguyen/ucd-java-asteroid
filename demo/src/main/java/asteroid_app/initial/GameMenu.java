@@ -147,21 +147,16 @@ public class GameMenu {
 
                 // if the spacebar is pressed, and only 3 bullets on screen
                 if (key_press.getOrDefault(KeyCode.SPACE, false) && spacePress==false) {
-                    // the bullet appear in the screen
-                    // at the same coordinates as current coordinates of the ship
-                    // with same rotation angle
-                    Bullet bullet = new Bullet(ship.getChar().getTranslateX(),
-                            ship.getChar().getTranslateY());
-                    bullet.getChar().setRotate(ship.getChar().getRotate());
+                    Bullet bullet = ship.fireBullet();
 
                     // add the new bullet to the list of bullets
                     bullets.add(bullet);
 
                     // acclerate the speed of the bullet:
-                    bullet.accelerate(0.05);
+                    bullet.accelerate(0.002);
 
                     // set the movement for the bullet is 3x faster than other character (the ship)
-                    bullet.setMovement(bullet.getMovement().multiply(30));
+                    bullet.setMovement(bullet.getMovement().normalize().multiply(10));
 
                     pane.getChildren().add(bullet.getChar());
                     spacePress = true;

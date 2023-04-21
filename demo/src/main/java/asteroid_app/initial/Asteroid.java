@@ -35,13 +35,13 @@ public class Asteroid extends Character {
 		for (int i = 0; i < rnd.nextInt(150); i++) {
 			switch(size){
 				case LARGE:
-					this.accelerate(0.005);
+					this.accelerate(0.005); 
 					break;
 				case MIDDLE:
-					this.accelerate(0.05);
+					this.accelerate(0.007);
 					break;
 				case SMALL:
-					this.accelerate(0.5);
+					this.accelerate(0.01);
 					break;
 			}
 		}

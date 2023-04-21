@@ -22,8 +22,8 @@ public class Main extends Application {
     public static Stage stage;
 
     // define the size of the screen can be accessed by all classes
-    public static int WIDTH = 1400;
-    public static int HEIGHT = 800;
+    public static int WIDTH = 800;
+    public static int HEIGHT = 600;
     // the window class overrides the start mehtod from the application class
     // takes a single parameter of type stage
     // inside the start method is where the User interface is created
@@ -78,7 +78,7 @@ public class Main extends Application {
         });
 
         // add new score record
-        saveScoreButton.setOnAction(e -> {
+        saveScoreButton.setOnAction(e -> { 
             // get the name in the nameText
             TextField nameText = (TextField) gameOverScene.getRoot().lookup("#nameText");
             String nameTextContent = nameText.getText();

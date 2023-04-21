@@ -130,7 +130,7 @@ public class GameMenu {
                 // if the up key is pressed
                 if (key_press.getOrDefault(KeyCode.UP, false)) {
                     // accelerate the user_ship
-                    ship.accelerate(0.002);
+                    ship.accelerate(0.0005);
                 }
                 
                 // if the J key is pressed for jump and has not already jumped
@@ -156,7 +156,7 @@ public class GameMenu {
                     bullets.add(bullet);
 
                     // acclerate the speed of the bullet:
-                    bullet.accelerate(0.002);
+                    bullet.accelerate(0.001);
 
                     // set the movement for the bullet is 3x faster than other character (the ship)
                     bullet.setMovement(bullet.getMovement().normalize().multiply(10));

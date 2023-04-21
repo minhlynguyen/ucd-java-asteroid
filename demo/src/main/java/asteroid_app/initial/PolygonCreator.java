@@ -18,7 +18,7 @@ public class PolygonCreator {
 		int side;
 
 		switch (size) {
-			case LARGE: 
+			case LARGE:{
 				// side is the length of polygon's one side
 				side = (20 + rnd.nextInt(10)) * 3;
 				polygon.getPoints().addAll(
@@ -30,7 +30,9 @@ public class PolygonCreator {
 						-1 * side * c1, side * s1,
 						-1 * side * c2, -1 * side * s2,
 						-1 * side * c1, -1 * side * s1);
-			case MIDDLE: 
+			}
+				break;
+			case MIDDLE: {
 				side = (20 + rnd.nextInt(10)) * 2;
 				polygon.getPoints().addAll(
 						0.0, 0.0,
@@ -41,8 +43,9 @@ public class PolygonCreator {
 						-1 * side * c1, side * s1,
 						-1 * side * c2, -1 * side * s2,
 						-1 * side * c1, -1 * side * s1);
-			
-			case SMALL: 
+			}
+				break;
+			case SMALL:{
 				side = (20 + rnd.nextInt(10));
 				polygon.getPoints().addAll(
 						0.0, 0.0,
@@ -53,7 +56,8 @@ public class PolygonCreator {
 						-1 * side * c1, side * s1,
 						-1 * side * c2, -1 * side * s2,
 						-1 * side * c1, -1 * side * s1);
-			
+			}
+				break;
 		}
 
 		return polygon;

@@ -23,6 +23,7 @@ public class GameOverMenu {
         // Label nameField = new Label("Enter your name:");
         TextField nameText = new TextField();
         nameText.setPrefWidth(100);
+        nameText.setId("nameText");
         // gridPane.add(nameField, 0, 0);
         // gridPane.add(nameText, 1, 0);
 
@@ -32,25 +33,24 @@ public class GameOverMenu {
         Label yourScore = new Label("Your score is");
 
         // Score update later
-        int topTenMin = 4000;
-        int finalScore = 5000;
+//        int topTenMin = 4000;
 
-        Label score = new Label(""+finalScore);
+        Label score = new Label("");
+        score.setId("score");
         Label yourName = new Label("Enter your name");
 
         Button saveScore = new Button("Save");
         saveScore.setId("saveScore");
-        Button seeHighScore = new Button("High Scores");
-        saveScore.setId("seeHighScore");
+//        Button seeHighScore = new Button("High Scores");
+//        seeHighScore.setId("seeHighScore");
+//        saveScore.setId("seeHighScore");
 
         VBox infoBox;
 
 
-        if(finalScore >= topTenMin){
-            infoBox = new VBox(25, headlineover, yourScore, score, yourName, nameText, saveScore);
-        }else{
-            infoBox = new VBox(25, headlineover, yourScore, score, seeHighScore);
-        }
+        infoBox = new VBox(25, headlineover, yourScore, score, yourName, nameText, saveScore);
+        infoBox.setId("infoBox");
+
 
         infoBox.setAlignment(Pos.CENTER);
         Scene gameOverScene= new Scene(infoBox,WIDTH*0.6,HEIGHT*0.8);
@@ -58,7 +58,4 @@ public class GameOverMenu {
         return gameOverScene;
     }
 
-    public static Button getButton(Button buttonName){
-        return buttonName;
-    }
 }

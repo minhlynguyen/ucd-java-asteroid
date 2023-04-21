@@ -84,7 +84,7 @@ public class Main extends Application {
             String nameTextContent = nameText.getText();
             stage.setScene(highScoreScene);
             String finalScore = Integer.toString(Main.points.get());
-            Label scoreLabel = new Label(nameTextContent + "\t"+finalScore);
+            Label scoreLabel = new Label(nameTextContent + "          "+finalScore);
 
             VBox highScoreVbox = (VBox) highScoreScene.getRoot().lookup("#highScoreVbox");
             highScoreVbox.getChildren().add(scoreLabel);
@@ -99,12 +99,8 @@ public class Main extends Application {
         stage.show();
     }
 
-    // save scores to file
-
-
     // run the application
     public static void main(String[] args) {
         launch(args);
     }
-    
 }

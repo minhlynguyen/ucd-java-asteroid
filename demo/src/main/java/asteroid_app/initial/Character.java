@@ -16,9 +16,10 @@ public abstract class Character {
 	private Point2D test;
 	// variable for the dead/alive status of Character
 	private Boolean alive;
-	// ship velocity, acceleration and turn angle
-	private static final double maxShipVelocity=1.0;
-	private static final double shipTurnAngle=2.5;
+	
+	//velocity and angle of turn
+	private static final double maxVelocity=0.7;
+	private static final double TurnAngle=0.3;
 
 	// constructor that each child object will call to
 	public Character(Polygon polygon, double x, double y) {
@@ -61,14 +62,14 @@ public abstract class Character {
 
 	// turn it left
 	public void turnLeft() {
-		// set the rotation to its current-the tun angle
-		this.object.setRotate(this.object.getRotate() - shipTurnAngle );
+		// set the rotation to its current-the turn angle
+		this.object.setRotate(this.object.getRotate() - TurnAngle);
 	}
 
 	// turn it right
 	public void turnRight() {
 		// add the angle to turn right
-		this.object.setRotate(this.object.getRotate() + shipTurnAngle);
+		this.object.setRotate(this.object.getRotate() + TurnAngle);
 	}
 
 	// set the movement to zero
@@ -90,7 +91,7 @@ public abstract class Character {
 		}
 		// exit the screen from the right side, enter from the left side
 		else if (this.object.getTranslateX() > Main.WIDTH) {
-			this.object.setTranslateX(this.object.getTranslateX() % Main.WIDTH);
+			this.object.setTranslateX(this.object.getTranslateX() - Main.WIDTH);
 		}
 		// exit the screen from the top, enter from the bottom
 		if (this.object.getTranslateY() < 0) {
@@ -98,7 +99,7 @@ public abstract class Character {
 		}
 		// exit the screen from the bottom, enter from the top
 		else if (this.object.getTranslateY() > Main.HEIGHT) {
-			this.object.setTranslateY(this.object.getTranslateY() % Main.HEIGHT);
+			this.object.setTranslateY(this.object.getTranslateY() - Main.HEIGHT);
 		}
 	}
 
@@ -119,7 +120,7 @@ public abstract class Character {
 
 		// if our new velocity reduces our current velocity then go with the new
 		// velocity
-		if (this.movement.magnitude() <= maxShipVelocity && test.magnitude() <= maxShipVelocity) {
+		if (this.movement.magnitude() <= maxVelocity && test.magnitude() <= maxVelocity) {
 			this.movement = this.movement.add(changeX, changeY);
 		}
 	}
@@ -135,4 +136,3 @@ public abstract class Character {
 		}
 	}
 }
-

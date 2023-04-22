@@ -10,7 +10,7 @@ import java.util.Random;
 //The user ship class is a child of character
 public class User_ship extends Character {
 
-    private static final Polygon SHIP_SHAPE= new Polygon(-23, 20, 0, 0, -20, -20, 40, 0);
+    private static final Polygon SHIP_SHAPE= new Polygon(-10, 10, 0, 0, -10, -10, 20, 0 );
 
     // define a super constructor to create the ship
     // it inherits all the methods from Character class
@@ -68,7 +68,13 @@ public class User_ship extends Character {
         }
     }
 
-
+    public Bullet fireBullet(){
+        // the bullet appear in the screen
+        // at the same coordinates as current coordinates of the ship
+        // with same rotation angle
+        Bullet bullet = new Bullet(this.getChar().getTranslateX(),this.getChar().getTranslateY());
+        bullet.getChar().setRotate(this.getChar().getRotate());
+        return bullet;
+    }
 }
-
 

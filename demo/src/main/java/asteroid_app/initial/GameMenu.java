@@ -69,9 +69,6 @@ public class GameMenu {
         Label headLine = new Label("Name\t\tScore");
         // create a Vbox to manage the nodes on the high score menu
         
-
-
-
         // Clock to control the game loop
         class Movement extends AnimationTimer{
             @Override
@@ -101,6 +98,8 @@ public class GameMenu {
             clock.stop();
             gameScreen.getChildren().clear();
             game = new GameController(gameScreen, mainScene);
+            Main.points.set(0);
+            pointText.setText("Points: " + Main.points.get());
             clock.start();
             gameScreen.requestFocus();
         });

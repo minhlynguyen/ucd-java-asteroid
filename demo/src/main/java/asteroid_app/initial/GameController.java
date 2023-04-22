@@ -29,15 +29,11 @@ public class GameController {
         pane.getChildren().add(ship.getChar());
         this.currentLevel = 1;
         GameMenu.levelText.setText("Level: " + this.currentLevel);
-
-        for (int i = 0; i < 1; i++) {
-            double x = new Random().nextDouble() * 1000;
-            double y = new Random().nextDouble() * 1000;
-            System.out.println("A new asteroid at "+x+","+y);
-            asteroids.add(new Asteroid(x, y, Size.LARGE));
-        }
-        asteroids.forEach(asteroid -> pane.getChildren().add(asteroid.getChar()));
-        
+        double x = new Random().nextDouble() * 1000;
+        double y = new Random().nextDouble() * 1000;
+        System.out.println("A new asteroid at "+x+","+y);
+        asteroids.add(new Asteroid(x, y, Size.LARGE));
+        asteroids.forEach(asteroid -> pane.getChildren().add(asteroid.getChar()));        
         key_press = new HashMap<>();
         mainScene.setOnKeyPressed(event -> {
             key_press.put(event.getCode(), Boolean.TRUE);

@@ -21,6 +21,8 @@ public class GameMenu {
     static GameController game; 
     static Text pointText; 
     static Text levelText;
+    private static long lastAddedTime=0L;
+
 
     public static Scene newGameMenu() {
 
@@ -41,16 +43,20 @@ public class GameMenu {
 
         // Create all nodes for the Main Game
         Pane gameScreen = new Pane();
-        // Create a hbox to display points and level
+        // Create a hbox to display points and level and lives
         HBox hBox = new HBox(400);
         hBox.setAlignment(Pos.CENTER);         
-        pointText = new Text(Main.pointX, Main.pointY, "Points: 0");
-        levelText = new Text(Main.pointX, Main.pointY, "Level: 1");
-        hBox.getChildren().addAll(levelText, pointText);
+        pointText = new Text("Points: 0");
+        levelText = new Text("Level: 1");
+        PlayerLives playerLives=new PlayerLives();
+        Text PlayerLivesText = new Text("PlayerLives:" + playerLives.getLives());
+        hBox.getChildren().addAll(levelText, pointText, PlayerLivesText);
+        // calculate the point
+        IncrementScore points=new IncrementScore();
         // Control box
         Button restartGame = new Button("RESTART");
         Button quitGame = new Button("QUIT");
-        HBox controlBox = new HBox(10, quitGame, restartGame);
+        HBox controlBox = new HBox(10,quitGame, restartGame);
         controlBox.setAlignment(Pos.CENTER);
 
         // Create all nodes for the GameOver menu

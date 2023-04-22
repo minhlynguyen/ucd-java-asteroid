@@ -124,7 +124,6 @@ public class GameController {
                 Asteroid.asteroidSplit(asteroid, asteroids, pane);
                 // if number of asteroids < 0, level ++ 
                 if (asteroids.size() == 0) {
-                    //levelUp(currentLevel);
                     newLevel(pane);
                 }
             }
@@ -137,7 +136,6 @@ public class GameController {
                     Asteroid.asteroidSplit(asteroid, asteroids, pane);
                     // if number of asteroids < 0, level ++ 
                     if (asteroids.size() == 0) {
-                        //levelUp(currentLevel);
                         newLevel(pane);
                     }
                 }

@@ -130,4 +130,11 @@ public abstract class Character {
 		// If the width of the common space is >= 0, then they have collided
 		return collisionSpace.getBoundsInLocal().getWidth() >= 0;
 	}
+
+	public Bullet fireBullet(){
+		// at the same coordinates as current coordinates of the character with same rotation angle
+		Bullet bullet = new Bullet(this.getChar().getTranslateX(),this.getChar().getTranslateY());
+		bullet.getChar().setRotate(this.getChar().getRotate());
+		return bullet;
+}
 }

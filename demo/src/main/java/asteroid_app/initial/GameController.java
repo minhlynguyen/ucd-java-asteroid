@@ -69,6 +69,7 @@ public class GameController {
         ship.move();        
         asteroids.forEach(asteroid -> asteroid.move());
         alienShip.move(pane, ship, Main.playerLives);
+        alienShip.shoot(pane);
         // check if j key was pressed so we dont repeatedly go into hyperspace
         // inserted here to prevent multiple jumps
         // private boolean jPress = false;

@@ -1,10 +1,12 @@
 package asteroid_app.initial;
 
+import static asteroid_app.initial.Size.*;
+
 // A class to keep track of the player's score.
 public class IncrementScore {
-    public static final int POINTS_FOR_ASTEROID_SIZE3 = 20;
-    public static final int POINTS_FOR_ASTEROID_SIZE2 = 50;
-    public static final int POINTS_FOR_ASTEROID_SIZE1 = 100;
+    public static final int POINTS_FOR_ASTEROID_LARGE = 20;
+    public static final int POINTS_FOR_ASTEROID_MIDDLE = 50;
+    public static final int POINTS_FOR_ASTEROID_SMALL = 100;
     public static final int POINTS_FOR_ALIEN = 300;
 
     private int score;
@@ -25,16 +27,16 @@ public class IncrementScore {
     }
 
     // Method that increments the score by the standard amount for an asteroid based on its size.
-    public void incrementScoreForAsteroid(int size) {
+    public void incrementScoreForAsteroid(Size size) {
         switch (size) {
-            case 3:
-                incrementScore(POINTS_FOR_ASTEROID_SIZE3);
+            case LARGE:
+                incrementScore(POINTS_FOR_ASTEROID_LARGE);
                 break;
-            case 2:
-                incrementScore(POINTS_FOR_ASTEROID_SIZE2);
+            case MIDDLE:
+                incrementScore(POINTS_FOR_ASTEROID_MIDDLE);
                 break;
-            case 1:
-                incrementScore(POINTS_FOR_ASTEROID_SIZE1);
+            case SMALL:
+                incrementScore(POINTS_FOR_ASTEROID_SMALL);
                 break;
             default:
                 break;

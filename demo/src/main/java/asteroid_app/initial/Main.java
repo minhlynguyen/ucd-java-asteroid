@@ -50,7 +50,7 @@ public class Main extends Application {
         playGameButton.setOnAction(e -> stage.setScene(mainScene));
         
          // get the high score buttom
-        Button highScoreButton = (Button) highScoreScene.getRoot().lookup("highscore")
+        Button highScoreButton = (Button) highScoreScene.getRoot().lookup("#highscore")
         // click the high score button then change to high score screen
         HighScoreButton.setOnAction(e -> stage.setScene(HighScoreScene));
 

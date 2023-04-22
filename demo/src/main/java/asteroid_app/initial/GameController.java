@@ -85,9 +85,9 @@ public class GameController {
             ship.turnRight();
         }    
         // if the J key is pressed for jump and has not already jumped
+        // prevents multiple jumps with 1 press
         if (key_press.getOrDefault(KeyCode.J, false) && jPress == false) {
             // jump to a new location and if successful set flag to true
-            ship.hyperspaceJump(pane);
             ship.hyperspaceJump(pane);
             jPress = true;
         }
@@ -96,7 +96,7 @@ public class GameController {
             jPress = false; // reset the flag
         }
 
-        // if the spacebar is pressed, and only 3 bullets on screen
+        // if the spacebar is pressed
         if (key_press.getOrDefault(KeyCode.SPACE, false) && spacePress==false) {
             // the bullet appear in the screen
             // at the same coordinates as current coordinates of the ship

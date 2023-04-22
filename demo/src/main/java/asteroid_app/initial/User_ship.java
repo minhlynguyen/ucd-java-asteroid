@@ -10,7 +10,7 @@ import java.util.Random;
 //The user ship class is a child of character
 public class User_ship extends Character {
 
-    private static final Polygon SHIP_SHAPE= new Polygon(-20, 20, 0, 0, -20, -20, 40, 0);
+    private static final Polygon SHIP_SHAPE= new Polygon(-10, 10, 0, 0, -10, -10, 20, 0 );
 
     // define a super constructor to create the ship
     // it inherits all the methods from Character class

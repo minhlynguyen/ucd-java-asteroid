@@ -50,11 +50,11 @@ public class GameOverMenu {
  
         File highScoreFile = new File("highscores.txt");
         if (highScoreFile.createNewFile()) {
-            writer.write(yourName + ": " + yourScore + "\n");
-            writer.close();
+            HighScoreFile.write(yourName + ": " + yourScore + "\n");
+            highScoreFile.close();
 
         } else {
-            myWriter.write(yourName: + yourScore)
+            highScoreFile.write(yourName: + yourScore)
            
         }
         } catch (IOException e) {
@@ -72,5 +72,4 @@ public class GameOverMenu {
 
         return gameOverScene;
     }
-
-}
+]

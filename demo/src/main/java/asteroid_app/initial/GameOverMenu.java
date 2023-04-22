@@ -46,21 +46,20 @@ public class GameOverMenu {
 //        seeHighScore.setId("seeHighScore");
 //        saveScore.setId("seeHighScore");
         
-    public static void main(String[] args) {
-            try {
-                
-      File highScoreFile = new File("highscores.txt");
-      if (highScoreFile.createNewFile()) {
+    private void SaveScores()
+ 
+        File highScoreFile = new File("highscores.txt");
+        if (highScoreFile.createNewFile()) {
             writer.write(yourName + ": " + yourScore + "\n");
             writer.close();
 
-      } else {
+        } else {
             myWriter.write(yourName: + yourScore)
            
-      }
-    } catch (IOException e) {
-      System.out.println("An error occurred.");
-      e.printStackTrace();
+        }
+        } catch (IOException e) {
+        System.out.println("An error occurred.");
+        e.printStackTrace();
 
         VBox infoBox;
 

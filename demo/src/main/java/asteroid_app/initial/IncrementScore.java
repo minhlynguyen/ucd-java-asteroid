@@ -21,6 +21,11 @@ public class IncrementScore {
         return score;
     }
 
+    // Method that sets the current score.
+    public void setScore(int newScore) {
+        score = newScore;
+    }
+
     // Method that increments the score by the specified amount.
     public void incrementScore(int points) {
         score += points;

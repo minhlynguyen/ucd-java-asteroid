@@ -102,8 +102,10 @@ public class GameMenu {
             clock.stop();
             gameScreen.getChildren().clear();
             game = new GameController(gameScreen, mainScene);
-            Main.points.set(0);
-            pointText.setText("Points: " + Main.points.get());
+            //Main.points.set(0);
+            Main.points.setScore(0);
+            // pointText.setText("Points: " + Main.points.get());
+            pointText.setText("Points: " + Main.points.getScore());
             clock.start();
             gameScreen.requestFocus();
         });
@@ -114,7 +116,8 @@ public class GameMenu {
             clock.stop();
             gameScreen.getChildren().clear();
             root.getChildren().clear();
-            String finalScore = Integer.toString(Main.points.get());
+            //String finalScore = Integer.toString(Main.points.get());
+            String finalScore = Integer.toString(Main.points.getScore());
             score.setText(finalScore);
             VBox infoBox = new VBox(25, headlineover, yourScore, score, yourName, nameText, saveScore);
             infoBox.setAlignment(Pos.CENTER);
@@ -125,7 +128,8 @@ public class GameMenu {
 
         saveScore.setOnAction(e -> {    
             root.getChildren().clear();
-            String finalScore = Integer.toString(Main.points.get());
+            // String finalScore = Integer.toString(Main.points.get());
+            String finalScore = Integer.toString(Main.points.getScore());
             String nameTextContent = nameText.getText();
             Label scoreLabel = new Label(nameTextContent + "\t\t"+finalScore);
             VBox scoreData = new VBox(20, headLine, scoreLabel);

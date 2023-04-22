@@ -149,17 +149,17 @@ public class GameController {
 
                 // adding point
                 if (!bullet.getAlive()) {
-                    // if (System.currentTimeMillis() - GameMenu.lastAddedTime > (500)) {
-                    //     Main.points.incrementScoreForAsteroid(asteroid.getInitialSize());
-                    //     pointText.setText("Points: " + Main.points.getScore());
-                    //     if(Main.points.getScore()>=10000){
-                    //         Main.playerLives.gainLife();
-                    //         Main.points.incrementScore(-10000);
-                    //         pointText.setText("Points: " + Main.points.getScore());
-                    //     }
-                    //     GameMenu.lastAddedTime = System.currentTimeMillis();
-                    // }
-                    GameMenu.pointText.setText("Points: " + Main.points.addAndGet(1000));
+                    if (System.currentTimeMillis() - GameMenu.lastAddedTime > (500)) {
+                        Main.points.incrementScoreForAsteroid(asteroid.getInitialSize());
+                        GameMenu.pointText.setText("Points: " + Main.points.getScore());
+                        if(Main.points.getScore()>=10000){
+                            Main.playerLives.gainLife();
+                            Main.points.incrementScore(-10000); 
+                            GameMenu.pointText.setText("Points: " + Main.points.getScore());
+                        }
+                        GameMenu.lastAddedTime = System.currentTimeMillis();
+                    }
+                    // GameMenu.pointText.setText("Points: " + Main.points.addAndGet(1000));
                 }
             });            
         });

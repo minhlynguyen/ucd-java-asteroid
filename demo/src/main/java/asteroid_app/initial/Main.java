@@ -35,10 +35,12 @@ public class Main extends Application {
 
         // start Menu
         Scene startMenuScene = StartMenu.startMenu(WIDTH, HEIGHT);
-        // game over menu
-        Scene gameOverScene = GameOverMenu.gameOverMenu(WIDTH, HEIGHT);
+        
         // high score menu
         Scene highScoreScene = HighScoreMenu.highScoreScene(WIDTH, HEIGHT);
+        
+        // game over menu
+        Scene gameOverScene = GameOverMenu.gameOverMenu(WIDTH, HEIGHT);
         
         Scene mainScene = GameMenu.newGameMenu(initLevel);
         // default the start menu 
@@ -50,7 +52,7 @@ public class Main extends Application {
         playGameButton.setOnAction(e -> stage.setScene(mainScene));
         
          // get the high score buttom
-        Button highScoreButton = (Button) highScoreScene.getRoot().lookup("#highscore")
+        Button highScoreButton = (Button) highScoreScene.getRoot().lookup("#highscore");
         // click the high score button then change to high score screen
         highScoreButton.setOnAction(e -> stage.setScene(HighScoreScene));
 

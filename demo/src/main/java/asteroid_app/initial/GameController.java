@@ -28,6 +28,7 @@ public class GameController {
         ship = new User_ship(Main.WIDTH / 2, Main.HEIGHT / 2);
         pane.getChildren().add(ship.getChar());
         this.currentLevel = 1;
+        GameMenu.levelText.setText("Level: " + this.currentLevel);
 
         for (int i = 0; i < 1; i++) {
             double x = new Random().nextDouble() * 1000;
@@ -59,6 +60,7 @@ public class GameController {
             asteroids.add(new Asteroid(x, y, Size.LARGE));
         }
         asteroids.forEach(asteroid -> pane.getChildren().add(asteroid.getChar()));
+        GameMenu.levelText.setText("Level: " + this.currentLevel);
     }
 
     public void play(Pane pane, Scene mainScene){
@@ -177,14 +179,5 @@ public class GameController {
                 pane.getChildren().remove(bullet.getChar());
             }
         });
-    }
-
-    public static void levelUp(int currentLevel) {
-        currentLevel++;
-        resetGame(currentLevel);
-    }
-
-    public static void resetGame(int level) {
-        Main.stage.setScene(GameMenu.newGameMenu());
     }
 }

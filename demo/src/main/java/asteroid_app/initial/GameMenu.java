@@ -19,7 +19,7 @@ public class GameMenu {
      
     static GameController game; 
     static Text pointText; 
-    static int currentLevel = 1;
+    // static int currentLevel = 1;
     static Text levelText;
 
     public static Scene newGameMenu() {

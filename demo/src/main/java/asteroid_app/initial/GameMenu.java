@@ -20,7 +20,6 @@ public class GameMenu {
      
     static GameController game; 
     static Text pointText; 
-    // static int currentLevel = 1;
     static Text levelText;
 
     public static Scene newGameMenu() {
@@ -35,15 +34,12 @@ public class GameMenu {
         headline.setFont(Font.font("Monospaced", FontWeight.BOLD, 100));
         Label website = new Label("www.freevideogamesonline.com");
         Button playGame = new Button("PLAY GAME");
-        // playGame.setId("playGame");
         Button highScores = new Button("HIGH SCORES");
-        // highScores.setId("highScores");
         // create a Vbox to manage the nodes on the start menu
         VBox vBox = new VBox(30, headline, playGame, highScores, website);
         vBox.setAlignment(Pos.CENTER);
-        // add vBox into root
 
-        // create all nodes for the Main Game
+        // Create all nodes for the Main Game
         Pane gameScreen = new Pane();
         // Create a hbox to display points and level
         HBox hBox = new HBox(400);
@@ -67,7 +63,6 @@ public class GameMenu {
         Label score = new Label("");
         Label yourName = new Label("Enter your name");
         Button saveScore = new Button("Save");
-        // saveScore.setId("saveScore");
         
 
         // Create all nodes for the Highscore Menu

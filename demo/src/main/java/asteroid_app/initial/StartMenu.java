@@ -50,6 +50,7 @@ public class StartMenu {
 
         // add vBox into root
         borderPane.setCenter(vBox);
+        borderPane.requestFocus();
 
         return startMenuScene;
     }

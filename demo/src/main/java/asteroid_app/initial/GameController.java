@@ -12,7 +12,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 
 public class GameController {
-    private int level = 0;
+    private int currentLevel;
     // Asteroid
     // At the beginning, use a list to create several asteroid
     private List<Asteroid> asteroids = new ArrayList<>();
@@ -22,13 +22,14 @@ public class GameController {
     private Boolean jPress;
     private Boolean spacePress;
 
-    public GameController(int level, Pane pane, Scene mainScene){
+    public GameController(Pane pane, Scene mainScene){
         jPress = false;
         spacePress = false;
         ship = new User_ship(Main.WIDTH / 2, Main.HEIGHT / 2);
         pane.getChildren().add(ship.getChar());
+        this.currentLevel = 1;
 
-        for (int i = 0; i <= level; i++) {
+        for (int i = 0; i < 1; i++) {
             double x = new Random().nextDouble() * 1000;
             double y = new Random().nextDouble() * 1000;
             System.out.println("A new asteroid at "+x+","+y);
@@ -44,9 +45,21 @@ public class GameController {
         mainScene.setOnKeyReleased(event -> {
             key_press.put(event.getCode(), Boolean.FALSE);
         });
-        // if the left key is pressed        
+        // if the left key is pressed
+        pane.requestFocus();        
     }
 
+    public void newLevel(Pane pane){
+        this.currentLevel++;
+        this.asteroids = new ArrayList<Asteroid>();
+        for (int i = 0; i < currentLevel; i++) {
+            double x = new Random().nextDouble() * 1000;
+            double y = new Random().nextDouble() * 1000;
+            System.out.println("A new asteroid at "+x+","+y);
+            asteroids.add(new Asteroid(x, y, Size.LARGE));
+        }
+        asteroids.forEach(asteroid -> pane.getChildren().add(asteroid.getChar()));
+    }
 
     public void play(Pane pane, Scene mainScene){
         ship.move();        
@@ -112,9 +125,10 @@ public class GameController {
                 // then create new asteroids and remove the collided one
                 Asteroid.asteroidSplit(asteroid, asteroids, pane);
                 // if number of asteroids < 0, level ++ 
-                // if (asteroids.size() == 0) {
-                //     levelUp(level);
-                // }
+                if (asteroids.size() == 0) {
+                    //levelUp(currentLevel);
+                    newLevel(pane);
+                }
             }
 
             // ... and when a bullet happens
@@ -124,14 +138,15 @@ public class GameController {
                     asteroid.setAlive(false);
                     Asteroid.asteroidSplit(asteroid, asteroids, pane);
                     // if number of asteroids < 0, level ++ 
-                    // if (asteroids.size() == 0) {
-                    //     levelUp(level);
-                    // }
+                    if (asteroids.size() == 0) {
+                        //levelUp(currentLevel);
+                        newLevel(pane);
+                    }
                 }
 
                 // adding point
                 if (!bullet.getAlive()) {
-                    Main.points.addAndGet(1000);
+                    GameMenu.pointText.setText("Points: " + Main.points.addAndGet(1000));
                 }
             });            
         });
@@ -164,16 +179,12 @@ public class GameController {
         });
     }
 
-    // public static int getAsteroidNumber(){
-    //     return asteroids.size();
-    // }
+    public static void levelUp(int currentLevel) {
+        currentLevel++;
+        resetGame(currentLevel);
+    }
 
-    // public static void levelUp(int currentLevel) {
-    //     currentLevel++;
-    //     resetGame(currentLevel);
-    // }
-
-    // public static void resetGame(int level) {
-    //     Main.stage.setScene(GameMenu.newGameMenu(level));
-    // }
+    public static void resetGame(int level) {
+        Main.stage.setScene(GameMenu.newGameMenu());
+    }
 }

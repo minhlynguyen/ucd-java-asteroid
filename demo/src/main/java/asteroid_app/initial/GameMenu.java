@@ -4,94 +4,101 @@ package asteroid_app.initial;
 import javafx.scene.Scene;
 // Pane is the base class for all layout panes
 import javafx.scene.control.Button;
-import javafx.scene.effect.Light.Distant;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-
-import java.util.*;
-
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Pos;
-
-//Stuff for keypresses
-import java.util.HashMap;
-import javafx.scene.input.KeyCode;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-
 import javafx.animation.AnimationTimer;
 
 public class GameMenu {
      
-    static GameController game;  
+    static GameController game; 
+    static Text pointText; 
+    static int currentLevel = 1;
+    static Text levelText;
 
-    public static Scene newGameMenu(int level) {
-        
-        // create a pane and set size
+    public static Scene newGameMenu() {
+
+        // Create a root as a border pane
         BorderPane root = new BorderPane();
-        Pane pane = new Pane();
         root.setPrefSize(Main.WIDTH, Main.HEIGHT);
-
-        root.setCenter(pane);
-
         Scene mainScene = new Scene(root);
-        
 
+        // Create all nodes for the StartMenu
+        Label headline = new Label("ASTEROIDS");
+        headline.setFont(Font.font("Monospaced", FontWeight.BOLD, 100));
+        Label website = new Label("www.freevideogamesonline.com");
+        Button playGame = new Button("PLAY GAME");
+        // playGame.setId("playGame");
+        Button highScores = new Button("HIGH SCORES");
+        // highScores.setId("highScores");
+        // create a Vbox to manage the nodes on the start menu
+        VBox vBox = new VBox(30, headline, playGame, highScores, website);
+        vBox.setAlignment(Pos.CENTER);
+        // add vBox into root
+
+        // create all nodes for the Main Game
+        Pane gameScreen = new Pane();
         // Create a hbox to display points and level
         HBox hBox = new HBox(400);
-        hBox.setAlignment(Pos.CENTER);
-
-        // text to display points
-        Text pointText = new Text(Main.pointX, Main.pointY, "Points:" + Main.points.get());
-
-        // text to display levels
-        // Text levelText = new Text(Main.pointX, Main.pointY, "Level:" + level);
-
-        hBox.getChildren().addAll(
-            //levelText, 
-            pointText);
-
-        root.setTop(hBox);
-        
-
-        class Movement extends AnimationTimer{
-            @Override
-            public void handle(long now){
-                game.play(pane, mainScene);
-            }
-        }
-        
-        Movement clock = new Movement();
-        game = new GameController(1, pane, mainScene);
-        clock.start();
-        game.play(pane, mainScene);
-
-        Button restartGame = new Button("RESTART");
-        restartGame.setId("restartGame");
-        restartGame.setOnAction(e -> {
-            pane.getChildren().clear();
-            game = new GameController(1, pane, mainScene);
-            clock.start();
-            pane.requestFocus();
-        }
-        );
-        // QuitGame button
-        Button quitGame = new Button("QUIT");
-        quitGame.setId("quitGame");
-        quitGame.setOnAction(e->{
-            clock.stop();
-            pane.getChildren().clear();
-            pane.requestFocus();
-        });
-
+        hBox.setAlignment(Pos.CENTER);         
+        pointText = new Text(Main.pointX, Main.pointY, "Points: 0");
+        levelText = new Text(Main.pointX, Main.pointY, "Level: 1");
+        hBox.getChildren().addAll(levelText, pointText);
         // Control box
+        Button restartGame = new Button("RESTART");
+        Button quitGame = new Button("QUIT");
         HBox controlBox = new HBox(10, quitGame, restartGame);
         controlBox.setAlignment(Pos.CENTER);
 
-        root.setBottom(controlBox);
-        pane.requestFocus();
+        // Clock to control Timeline of the game
+        class Movement extends AnimationTimer{
+            @Override
+            public void handle(long now){
+                game.play(gameScreen, mainScene);    
+            }
+        }
+        Movement clock = new Movement();
+
+
+        // To display Start Screen
+        root.setCenter(vBox);
+
+        // To display Game Screen and start the game
+        playGame.setOnAction(e -> {
+            root.setCenter(gameScreen);
+            root.setTop(hBox);
+            root.setBottom(controlBox);
+            game = new GameController(gameScreen, mainScene);
+            clock.start();
+            game.play(gameScreen, mainScene);
+            gameScreen.requestFocus();
+        });
+        
+        // To restart the game
+        restartGame.setOnAction(e -> {
+            clock.stop();
+            gameScreen.getChildren().clear();
+            game = new GameController(gameScreen, mainScene);
+            clock.start();
+            gameScreen.requestFocus();
+        });
+        
+        // QuitGame button: Display Start Scene again
+        quitGame.setId("quitGame");
+        quitGame.setOnAction(e->{
+            clock.stop();
+            gameScreen.getChildren().clear();
+            root.getChildren().clear();
+            root.setCenter(vBox);
+            root.requestFocus();
+            gameScreen.requestFocus();
+        });
 
         return mainScene;
     }

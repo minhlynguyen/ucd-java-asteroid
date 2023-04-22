@@ -83,19 +83,30 @@ public class AlienShip extends Character {
             lastActiveTime = System.currentTimeMillis();
         }
 
-        // // shooting
-        // if (System.currentTimeMillis() - lastShotTime > SHOOTING_INTERVAL) {
-        //     //shoot(pane);
-        //     this.fireBullet();
-        //     lastShotTime = System.currentTimeMillis();
-        // }
+        // shooting
+        if (System.currentTimeMillis() - lastShotTime > SHOOTING_INTERVAL) {
+            //shoot(pane);
+            Bullet bullet = this.shoot(pane, ship);
+            double y1 = ship.getChar().getTranslateY();
+            double y0 = this.getChar().getTranslateY();
+            double x1 = ship.getChar().getTranslateX();
+            double x0 = this.getChar().getTranslateX();
+            double angle = Math.acos((y1-y0)/Math.sqrt((x1-x0)*(x1-x0)+(y1-y0)*(y1-y0)));
+            bullet.getChar().setRotate(angle);
+            bullet.accelerate(0.002);
+            // set the movement for the bullet is 3x faster than other character (the ship)
+            bullet.setMovement(bullet.getMovement().normalize().multiply(10));
+            bullets.add(bullet);
+            pane.getChildren().add(bullet.getChar());
+            lastShotTime = System.currentTimeMillis();
+        }
 
-        // bullets.forEach(bullet -> {//user ship is hit by alien ship
-        //     if (ship.collision(bullet) && bullet.getAlive()) {
-        //         bullet.setAlive(false);
-        //         pane.getChildren().remove(bullet.getChar());
-        //         lives.loseLife();
-        //     }
+        bullets.forEach(bullet -> {//user ship is hit by alien ship
+            if (ship.collision(bullet) && bullet.getAlive()) {
+                bullet.setAlive(false);
+                pane.getChildren().remove(bullet.getChar());
+                lives.loseLife();
+            }
 
         //     double x1 = bullet.getChar().getTranslateX();
         //     double y1 = bullet.getChar().getTranslateY();
@@ -113,21 +124,30 @@ public class AlienShip extends Character {
         //         pane.getChildren().remove(bullet.getChar());
         //     }
 
-        // });
+        });
     }
     
-    public void shoot(Pane pane){
-        Bullet bullet = super.fireBullet();
-        if (System.currentTimeMillis() - this.lastShotTime > SHOOTING_INTERVAL){
-            //shoot(pane);
-            bullets.add(bullet);
-            pane.getChildren().add(bullet.getChar());
+    
+    public Bullet shoot(Pane pane, User_ship ship){
+        // if (System.currentTimeMillis() - this.lastShotTime > SHOOTING_INTERVAL){
+            // calculate the rotation for the bullet so it flies to usership
+            Bullet bullet; 
+            bullet = super.fireBullet();
+            // double y1 = ship.getChar().getTranslateY();
+            // double y0 = this.getChar().getTranslateY();
+            // double x1 = ship.getChar().getTranslateX();
+            // double x0 = this.getChar().getTranslateX();
+            // double angle = Math.acos((y1-y0)/Math.sqrt((x1-x0)*(x1-x0)+(y1-y0)*(y1-y0)));
+            // bullet.getChar().setRotate(angle);
+            // bullets.add(bullet);
+            // pane.getChildren().add(bullet.getChar());
             // acclerate the speed of the bullet:
-            bullet.accelerate(0.002);
+            // bullet.accelerate(0.002);
             // set the movement for the bullet is 3x faster than other character (the ship)
-            bullet.setMovement(bullet.getMovement().normalize().multiply(10));
-            this.lastShotTime = System.currentTimeMillis();
-        }
+            // bullet.setMovement(bullet.getMovement().normalize().multiply(10));
+            this.lastShotTime = System.currentTimeMillis(); 
+            return bullet;           
+        // } 
     }
 
     // public void shoot(Pane pane) {

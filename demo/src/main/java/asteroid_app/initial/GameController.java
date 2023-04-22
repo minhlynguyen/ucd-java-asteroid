@@ -69,7 +69,13 @@ public class GameController {
         ship.move();        
         asteroids.forEach(asteroid -> asteroid.move());
         alienShip.move(pane, ship, Main.playerLives);
-        alienShip.shoot(pane);
+        // if (now - alienShip.lastShotTime > AlienShip.SHOOTING_INTERVAL){
+        //     Bullet alienBullet = alienShip.shoot(pane, ship);
+        //     bullets.add(alienBullet);
+        //     pane.getChildren().add(alienBullet.getChar());
+        //     alienShip.lastShotTime = now;
+        // }
+        //bullets.forEach(bullet -> bullet.accelerate(0.002));
         // check if j key was pressed so we dont repeatedly go into hyperspace
         // inserted here to prevent multiple jumps
         // private boolean jPress = false;

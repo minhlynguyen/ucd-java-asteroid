@@ -54,7 +54,7 @@ public class Main extends Application {
          // get the high score buttom
         Button highScoreButton = (Button) highScoreScene.getRoot().lookup("#highscore");
         // click the high score button then change to high score screen
-        highScoreButton.setOnAction(e -> stage.setScene(HighScoreScene));
+        highScoreButton.setOnAction(e -> stage.setScene(highScoreScene));
 
         // When click on quit button, enter the gameover scene
         Button quitGameButton = (Button) mainScene.getRoot().lookup("#quitGame");

@@ -37,7 +37,9 @@ public class Main extends Application {
         Scene startMenuScene = StartMenu.startMenu(WIDTH, HEIGHT);
         // game over menu
         Scene gameOverScene = GameOverMenu.gameOverMenu(WIDTH, HEIGHT);
-        // game menu
+        // high score menu
+        Scene highScoreScene = HighScoreMenu.highScoreScene(WIDTH, HEIGHT);
+        
         Scene mainScene = GameMenu.newGameMenu(initLevel);
         // default the start menu 
         stage.setScene(startMenuScene);
@@ -46,6 +48,11 @@ public class Main extends Application {
         Button playGameButton = (Button) startMenuScene.getRoot().lookup("#playGame");
         // click the play game button then change to game menu
         playGameButton.setOnAction(e -> stage.setScene(mainScene));
+        
+         // get the high score buttom
+        Button highScoreButton = (Button) highScoreScene.getRoot().lookup("highscore")
+        // click the high score button then change to high score screen
+        HighScoreButton.setOnAction(e -> stage.setScene(HighScoreScene));
 
         // When click on quit button, enter the gameover scene
         Button quitGameButton = (Button) mainScene.getRoot().lookup("#quitGame");

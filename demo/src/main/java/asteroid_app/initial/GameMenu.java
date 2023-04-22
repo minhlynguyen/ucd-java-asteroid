@@ -4,7 +4,6 @@ package asteroid_app.initial;
 import javafx.scene.Scene;
 // Pane is the base class for all layout panes
 import javafx.scene.control.Button;
-import javafx.scene.effect.Light.Distant;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
@@ -16,18 +15,21 @@ import javafx.geometry.Pos;
 import java.util.HashMap;
 import javafx.scene.input.KeyCode;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import javafx.animation.AnimationTimer;
+import javafx.stage.Stage;
+
+import static asteroid_app.initial.Main.HEIGHT;
+import static asteroid_app.initial.Main.WIDTH;
 
 public class GameMenu {
-
+    private static long lastAddedTime=0L;
     public static Scene newGameMenu(int level) {
 
         // create a pane and set size
         Pane pane = new Pane();
-        pane.setPrefSize(Main.WIDTH, Main.HEIGHT);
+        pane.setPrefSize(WIDTH, HEIGHT);
 
         Scene mainScene = new Scene(pane);
         
@@ -37,16 +39,20 @@ public class GameMenu {
         hBox.setAlignment(Pos.CENTER);
 
         // text to display points
-        Text pointText = new Text(Main.pointX, Main.pointY, "Points:" + Main.points.get());
+        Text pointText = new Text(Main.pointX, Main.pointY, "Points: 0");
 
         // text to display points
         Text levelText = new Text(Main.pointX, Main.pointY, "Level:" + level);
 
-        hBox.getChildren().addAll(levelText, pointText);
+        PlayerLives playerLives=new PlayerLives();
+        Text PlayerLivesText = new Text(Main.pointX, Main.pointY, "PlayerLives:" + playerLives.getLives());
+
+
+        hBox.getChildren().addAll(levelText, pointText,PlayerLivesText);
         pane.getChildren().add(hBox);
         
         // calculate the point
-//        AtomicInteger points = new AtomicInteger();
+        IncrementScore points=new IncrementScore();
 
         // Object creation:
         // create the characters
@@ -65,10 +71,11 @@ public class GameMenu {
         asteroids.forEach(asteroid -> pane.getChildren().add(asteroid.getChar()));
 
         // Alien
-
+        AlienShip alienShip=new AlienShip( new Random().nextDouble() * 1000, new Random().nextDouble() * 700);
+        alienShip.setAlive(false);
         // Ship
         // create a user_ship object and initialize location
-        User_ship ship = new User_ship(Main.WIDTH / 2, Main.HEIGHT / 2);
+        User_ship ship = new User_ship(WIDTH / 2, HEIGHT / 2);
         // add the user_ship to the pane
         pane.getChildren().add(ship.getChar());
 
@@ -86,8 +93,8 @@ public class GameMenu {
         HBox controlBox = new HBox(10, quitGame, restartGame);
         controlBox.setAlignment(Pos.CENTER);
         pane.getChildren().add(controlBox);
-        controlBox.setTranslateX(Main.WIDTH*0.9);
-        controlBox.setTranslateY(Main.HEIGHT*0.01);
+        controlBox.setTranslateX(WIDTH*0.9);
+        controlBox.setTranslateY(HEIGHT*0.01);
 
         pane.requestFocus();
         
@@ -180,10 +187,16 @@ public class GameMenu {
 
                 // Move the bullets
                 bullets.forEach(bullet -> {
+                    if (alienShip.collision(bullet)) {
+                        bullet.setAlive(false);
+                        alienShip.setAlive(false);
+                        pane.getChildren().remove(alienShip.getChar());
+                        points.incrementScoreForAlien();
+                    }
                     double x1 = bullet.getChar().getTranslateX();
                     double y1 = bullet.getChar().getTranslateY();
                     double travelDistance = Math.sqrt((x1-bullet.getOriginalX())*(x1-bullet.getOriginalX())+(y1-bullet.getOriginalY())*(y1-bullet.getOriginalY()));
-                    if (travelDistance <= Main.WIDTH){
+                    if (travelDistance <= WIDTH){
                         bullet.move();
                     }else{
                         pane.getChildren().remove(bullet.getChar());
@@ -217,10 +230,26 @@ public class GameMenu {
 
                         // adding point
                         if (!bullet.getAlive()) {
-                            pointText.setText("Points: " + Main.points.addAndGet(1000));
+                            if (System.currentTimeMillis() - lastAddedTime > (500)) {
+                                points.incrementScoreForAsteroid(Size);
+                                pointText.setText("Points: " + points.getScore());
+                                if(points.getScore()>=10000){
+                                    playerLives.gainLife();
+                                    points.incrementScore(-10000);
+                                    pointText.setText("Points: " + points.getScore());
+                                }
+                                lastAddedTime = System.currentTimeMillis();
+                            }
                         }
                     });
                 });
+
+                if(playerLives.getLives()<=0){
+                    Scene gameOverScene = GameOverMenu.gameOverMenu(WIDTH, HEIGHT);
+
+                }
+
+                PlayerLivesText.setText("PlayerLives: " + playerLives.getLives());
 
 
                 // turn the ArrayList of asteroids to a list to apply filter & collect method to

@@ -38,7 +38,7 @@ public class Main extends Application {
         // game over menu
         Scene gameOverScene = GameOverMenu.gameOverMenu(WIDTH, HEIGHT);
         // game menu
-        Scene mainScene = GameMenu.newGameMenu(initLevel,stage,gameOverScene);
+        Scene mainScene = GameMenu.newGameMenu(initLevel);
         // default the start menu 
         stage.setScene(startMenuScene);
 

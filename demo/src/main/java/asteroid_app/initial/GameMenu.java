@@ -231,7 +231,7 @@ public class GameMenu {
                         // adding point
                         if (!bullet.getAlive()) {
                             if (System.currentTimeMillis() - lastAddedTime > (500)) {
-                                points.incrementScoreForAsteroid(Size);
+                                points.incrementScoreForAsteroid(asteroid.getInitialSize());
                                 pointText.setText("Points: " + points.getScore());
                                 if(points.getScore()>=10000){
                                     playerLives.gainLife();

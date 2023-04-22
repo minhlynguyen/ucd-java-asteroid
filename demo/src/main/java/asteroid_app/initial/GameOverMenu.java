@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import java.util.array;
 
 import static javafx.scene.text.FontWeight.*;
 
@@ -44,9 +45,24 @@ public class GameOverMenu {
 //        Button seeHighScore = new Button("High Scores");
 //        seeHighScore.setId("seeHighScore");
 //        saveScore.setId("seeHighScore");
+        
+    public static void main(String[] args) {
+            try {
+                
+      File highScoreFile = new File("highscores.txt");
+      if (highScoreFile.createNewFile()) {
+            writer.write(yourName + ": " + yourScore + "\n");
+            writer.close();
+
+      } else {
+            myWriter.write(yourName: + yourScore)
+           
+      }
+    } catch (IOException e) {
+      System.out.println("An error occurred.");
+      e.printStackTrace();
 
         VBox infoBox;
-
 
         infoBox = new VBox(25, headlineover, yourScore, score, yourName, nameText, saveScore);
         infoBox.setId("infoBox");

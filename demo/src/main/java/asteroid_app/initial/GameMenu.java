@@ -15,23 +15,21 @@ import javafx.geometry.Pos;
 import java.util.HashMap;
 import javafx.scene.input.KeyCode;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import javafx.animation.AnimationTimer;
 import javafx.stage.Stage;
 
-public class GameMenu {
+import static asteroid_app.initial.Main.HEIGHT;
+import static asteroid_app.initial.Main.WIDTH;
 
-    private static Stage stage;
-    private static Scene gameOverScene;
+public class GameMenu {
     private static long lastAddedTime=0L;
-    public static Scene newGameMenu(int level, Stage tstage, Scene tgameOverScene) {
-        gameOverScene=tgameOverScene;
-        stage=tstage;
+    public static Scene newGameMenu(int level) {
+
         // create a pane and set size
         Pane pane = new Pane();
-        pane.setPrefSize(Main.WIDTH, Main.HEIGHT);
+        pane.setPrefSize(WIDTH, HEIGHT);
 
         Scene mainScene = new Scene(pane);
         
@@ -52,10 +50,10 @@ public class GameMenu {
 
         hBox.getChildren().addAll(levelText, pointText,PlayerLivesText);
         pane.getChildren().add(hBox);
-
         
         // calculate the point
         IncrementScore points=new IncrementScore();
+
         // Object creation:
         // create the characters
 
@@ -65,7 +63,7 @@ public class GameMenu {
         for (int i = 0; i < level; i++) {
             double x = new Random().nextDouble() * 1000;
             double y = new Random().nextDouble() * 1000;
-            Asteroid asteroid = new Asteroid(x, y, 3);
+            Asteroid asteroid = new Asteroid(x, y, Size.LARGE);
             asteroids.add(asteroid);
         }
 
@@ -75,10 +73,9 @@ public class GameMenu {
         // Alien
         AlienShip alienShip=new AlienShip( new Random().nextDouble() * 1000, new Random().nextDouble() * 700);
         alienShip.setAlive(false);
-//        pane.getChildren().add(alienShip.getChar());
         // Ship
         // create a user_ship object and initialize location
-        User_ship ship = new User_ship(Main.WIDTH / 2, Main.HEIGHT / 2);
+        User_ship ship = new User_ship(WIDTH / 2, HEIGHT / 2);
         // add the user_ship to the pane
         pane.getChildren().add(ship.getChar());
 
@@ -96,8 +93,8 @@ public class GameMenu {
         HBox controlBox = new HBox(10, quitGame, restartGame);
         controlBox.setAlignment(Pos.CENTER);
         pane.getChildren().add(controlBox);
-        controlBox.setTranslateX(Main.WIDTH*0.9);
-        controlBox.setTranslateY(Main.HEIGHT*0.01);
+        controlBox.setTranslateX(WIDTH*0.9);
+        controlBox.setTranslateY(HEIGHT*0.01);
 
         pane.requestFocus();
         
@@ -140,11 +137,7 @@ public class GameMenu {
                 // if the up key is pressed
                 if (key_press.getOrDefault(KeyCode.UP, false)) {
                     // accelerate the user_ship
-                    ship.accelerate(0.05);
-                }
-
-                if (key_press.getOrDefault(KeyCode.DOWN, false)) {
-                    ship.stopMovement();
+                    ship.accelerate(0.0005);
                 }
                 
                 // if the J key is pressed for jump and has not already jumped
@@ -164,18 +157,16 @@ public class GameMenu {
                     // the bullet appear in the screen
                     // at the same coordinates as current coordinates of the ship
                     // with same rotation angle
-                    Bullet bullet = new Bullet(ship.getChar().getTranslateX(),
-                            ship.getChar().getTranslateY());
-                    bullet.getChar().setRotate(ship.getChar().getRotate());
+                    Bullet bullet = ship.fireBullet();
 
                     // add the new bullet to the list of bullets
                     bullets.add(bullet);
 
                     // acclerate the speed of the bullet:
-                    bullet.accelerate(0.08);
+                    bullet.accelerate(0.001);
 
                     // set the movement for the bullet is 3x faster than other character (the ship)
-                    bullet.setMovement(bullet.getMovement().multiply(30));
+                    bullet.setMovement(bullet.getMovement().normalize().multiply(10));
 
                     pane.getChildren().add(bullet.getChar());
                     spacePress = true;
@@ -194,8 +185,6 @@ public class GameMenu {
                 // Move the asteriods
                 asteroids.forEach(asteroid -> asteroid.move());
 
-                alienShip.move(pane,ship,playerLives);
-
                 // Move the bullets
                 bullets.forEach(bullet -> {
                     if (alienShip.collision(bullet)) {
@@ -207,7 +196,7 @@ public class GameMenu {
                     double x1 = bullet.getChar().getTranslateX();
                     double y1 = bullet.getChar().getTranslateY();
                     double travelDistance = Math.sqrt((x1-bullet.getOriginalX())*(x1-bullet.getOriginalX())+(y1-bullet.getOriginalY())*(y1-bullet.getOriginalY()));
-                    if (travelDistance <= 300){
+                    if (travelDistance <= WIDTH){
                         bullet.move();
                     }else{
                         pane.getChildren().remove(bullet.getChar());
@@ -215,20 +204,18 @@ public class GameMenu {
                 });
 
 
-
                 // When the collision between an asteroid ...
                 asteroids.forEach(asteroid -> { 
                     // ... and the ship happens
                     if (asteroid.collision(ship)) {
-                        playerLives.loseLife();
                         // then create new asteroids and remove the collided one
                         Asteroid.asteroidSplit(asteroid, asteroids, pane);
                         // if number of asteroids < 0, level ++ 
-                        if (asteroids.size() <= 0) {
+                        if (asteroids.size() == 0) {
                             levelUp(level);
                         }
                     }
-                    int size=asteroid.getInitialSize();
+
                     // ... and when a bullet happens
                     bullets.forEach(bullet -> {
                         if (asteroid.collision(bullet)) {
@@ -236,15 +223,15 @@ public class GameMenu {
                             asteroid.setAlive(false);
                             Asteroid.asteroidSplit(asteroid, asteroids, pane);
                             // if number of asteroids < 0, level ++ 
-                            if (asteroids.size() <= 0) {
-                                    levelUp(level);
+                            if (asteroids.size() == 0) {
+                                levelUp(level);
                                 }
                         }
 
                         // adding point
                         if (!bullet.getAlive()) {
                             if (System.currentTimeMillis() - lastAddedTime > (500)) {
-                                points.incrementScoreForAsteroid(size);
+                                points.incrementScoreForAsteroid(Size);
                                 pointText.setText("Points: " + points.getScore());
                                 if(points.getScore()>=10000){
                                     playerLives.gainLife();
@@ -258,10 +245,13 @@ public class GameMenu {
                 });
 
                 if(playerLives.getLives()<=0){
-                    stage.setScene(gameOverScene);
+                    Scene gameOverScene = GameOverMenu.gameOverMenu(WIDTH, HEIGHT);
+
                 }
 
                 PlayerLivesText.setText("PlayerLives: " + playerLives.getLives());
+
+
                 // turn the ArrayList of asteroids to a list to apply filter & collect method to
                 // create a list of collided bullets
                 bullets.stream()
@@ -287,15 +277,13 @@ public class GameMenu {
         return mainScene;
     }
 
-
     public static void levelUp(int currentLevel) {
-
         currentLevel++;
         resetGame(currentLevel);
-
     }
 
-    public static void resetGame(int level ) {
-        Main.stage.setScene(newGameMenu(level, stage, gameOverScene));
+    public static void resetGame(int level) {
+        Main.stage.setScene(newGameMenu(level));
     }
+
 }

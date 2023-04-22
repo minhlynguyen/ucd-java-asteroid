@@ -13,9 +13,9 @@ public class AlienShip extends Character {
 
     private long lastDirectionChangeTime;
     private long lastShotTime;
-    private static final long DIRECTION_CHANGE_INTERVAL = 4000; // 4000ms，或者根据需要调整
-    private static final long SHOOTING_INTERVAL = 2000; // 2000ms，或者根据需要调整
-    public static  int APPEARANCE_INTERVAL = 30000; // 500 game ticks, adjust as needed
+    private static final long DIRECTION_CHANGE_INTERVAL = 4000;
+    private static final long SHOOTING_INTERVAL = 2000;
+    public static  int APPEARANCE_INTERVAL = 30000;
     private long lastActiveTime;
 
     private double movementOffset;
@@ -42,7 +42,7 @@ public class AlienShip extends Character {
                 20.0, 30.0,
                 -10.0, 30.0,
                 -30.0, 20.0,
-                -10.0, 10.0 
+                -10.0, 10.0
         };
 
 
@@ -59,8 +59,8 @@ public class AlienShip extends Character {
         this.movementOffset = rnd.nextDouble() * Math.PI * 2;
     }
 
-    
-//    @Override
+
+    //    @Override
     public void move(Pane pane,User_ship ship,PlayerLives lives) {
 //        double x = this.getChar().getTranslateX() + Math.cos(movementOffset) * 1.5;
 //        double y = this.getChar().getTranslateY() + Math.sin(movementOffset) * 1.5;

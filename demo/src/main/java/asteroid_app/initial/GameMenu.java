@@ -21,7 +21,7 @@ public class GameMenu {
     static GameController game; 
     static Text pointText; 
     static Text levelText;
-    private static long lastAddedTime=0L;
+    static long lastAddedTime=0L;
 
 
     public static Scene newGameMenu() {

@@ -8,7 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Box;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -66,19 +65,15 @@ public class GameMenu {
         headlineover.setFont(Font.font("Monospaced", FontWeight.BOLD, 50));
         Label yourScore = new Label("Your score is");
         Label score = new Label("");
-        //score.setId("score");
         Label yourName = new Label("Enter your name");
         Button saveScore = new Button("Save");
-        saveScore.setId("saveScore");
-        // VBox infoBox;
-        //infoBox = new VBox(25, headlineover, yourScore, score, yourName, nameText, saveScore);
-        // infoBox.setId("infoBox");
+        // saveScore.setId("saveScore");
         
 
         // Create all nodes for the Highscore Menu
         Label headLine = new Label("Name\t\tScore");
         // create a Vbox to manage the nodes on the high score menu
-        VBox scoreData = new VBox(20, headLine);
+        
 
 
 
@@ -130,6 +125,15 @@ public class GameMenu {
             gameScreen.requestFocus();
         });
 
-        return mainScene;
+        saveScore.setOnAction(e -> {    
+            root.getChildren().clear();
+            String finalScore = Integer.toString(Main.points.get());
+            String nameTextContent = nameText.getText();
+            Label scoreLabel = new Label(nameTextContent + "\t\t"+finalScore);
+            VBox scoreData = new VBox(20, headLine, scoreLabel);
+            scoreData.setAlignment(Pos.CENTER);
+            root.setCenter(scoreData);
+        });
+    return mainScene;
     }
 }

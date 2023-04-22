@@ -2,21 +2,22 @@ package asteroid_app.initial;//this is the package name
 
 // Application is the base class for all JavaFX applications
 import javafx.application.Application;
-// Stage is the top level JavaFX container
 import javafx.stage.Stage;
 // Scene is the container for all content
 import javafx.scene.Scene;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-//window extends the application class from javafx
+// Main extends the application class from javafx
 public class Main extends Application {
 
+    // Stage is the top level JavaFX container
     public static Stage stage;
 
     // define the size of the screen can be accessed by all classes
     public static int WIDTH = 1400;
     public static int HEIGHT = 800;
+
     // takes a single parameter of type stage
     // inside the start method is where the User interface is created
     public static int pointX = WIDTH / 2 - 7;
@@ -30,20 +31,10 @@ public class Main extends Application {
     // Overrides the start mehtod from the application class
     @Override
     public void start(Stage stage) {
-
-        // List of all the scene
-        // Scene startMenuScene = StartMenu.startMenu(WIDTH, HEIGHT);
-        Scene mainScene = GameMenu.newGameMenu();
- 
         
-        // Start of game, mainScene with play game button change to main
+        Scene mainScene = GameMenu.newGameMenu();
         stage.setScene(mainScene);
-        // Button playGameButton = (Button) startMenuScene.getRoot().lookup("#playGame");
-        // playGameButton.setOnAction(e -> stage.setScene(mainScene));
-
-        // set the title of the window
         stage.setTitle("Group 11-Asteroids Game");
-        // display the stage
         stage.show();
     }
 

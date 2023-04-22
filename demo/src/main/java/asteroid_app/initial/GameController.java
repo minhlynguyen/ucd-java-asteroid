@@ -152,9 +152,9 @@ public class GameController {
                     if (System.currentTimeMillis() - GameMenu.lastAddedTime > (500)) {
                         Main.points.incrementScoreForAsteroid(asteroid.getInitialSize());
                         GameMenu.pointText.setText("Points: " + Main.points.getScore());
-                        if(Main.points.getScore()>=10000){
+                        if(Main.points.getScore()>=Main.newLifeScore){
                             Main.playerLives.gainLife();
-                            Main.points.incrementScore(-10000); 
+                            Main.points.incrementScore(-Main.newLifeScore); 
                             GameMenu.pointText.setText("Points: " + Main.points.getScore());
                         }
                         GameMenu.lastAddedTime = System.currentTimeMillis();
@@ -168,7 +168,7 @@ public class GameController {
         //     stage.setScene(gameOverScene);
         // }
 
-        // GameMenu.PlayerLivesText.setText("PlayerLives: " + playerLives.getLives());
+        GameMenu.PlayerLivesText.setText("PlayerLives: " + Main.playerLives.getLives());
 
         bullets.stream()
                 .filter(bullet -> !bullet.getAlive())
@@ -191,7 +191,7 @@ public class GameController {
                 bullet.setAlive(false);
                 alienShip.setAlive(false);
                 pane.getChildren().remove(alienShip.getChar());
-                //Main.points.incrementScoreForAlien();
+                Main.points.incrementScoreForAlien();
             }
             double x1 = bullet.getChar().getTranslateX();
             double y1 = bullet.getChar().getTranslateY();

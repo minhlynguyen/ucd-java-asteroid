@@ -20,6 +20,7 @@ public class GameMenu {
      
     static GameController game; 
     static Text pointText; 
+    static Text PlayerLivesText;
     static Text levelText;
     static long lastAddedTime=0L;
 
@@ -49,11 +50,13 @@ public class GameMenu {
         pointText = new Text("Points: 0");
         levelText = new Text("Level: 1");
         PlayerLives playerLives=new PlayerLives();
-        Text PlayerLivesText = new Text("PlayerLives:" + playerLives.getLives());
+        PlayerLivesText = new Text("PlayerLives:" + playerLives.getLives());
         hBox.getChildren().addAll(levelText, pointText, PlayerLivesText);
         // Control box
         Button restartGame = new Button("RESTART");
+        restartGame.setFocusTraversable(false);
         Button quitGame = new Button("QUIT");
+        quitGame.setFocusTraversable(false);
         HBox controlBox = new HBox(10,quitGame, restartGame);
         controlBox.setAlignment(Pos.CENTER);
 
@@ -107,6 +110,7 @@ public class GameMenu {
             // pointText.setText("Points: " + Main.points.get());
             pointText.setText("Points: " + Main.points.getScore());
             clock.start();
+            //restartGame.setFocusTraversable(false);
             gameScreen.requestFocus();
         });
         

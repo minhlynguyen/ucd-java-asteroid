@@ -5,8 +5,6 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 // Scene is the container for all content
 import javafx.scene.Scene;
-import java.util.concurrent.atomic.AtomicInteger;
-
 
 // Main extends the application class from javafx
 public class Main extends Application {
@@ -31,6 +29,8 @@ public class Main extends Application {
     public static IncrementScore points=new IncrementScore();
 
     public static PlayerLives playerLives=new PlayerLives();
+
+    public static int newLifeScore = 1000;
 
     // Overrides the start mehtod from the application class
     @Override

@@ -5,8 +5,10 @@ import javafx.scene.Scene;
 // Pane is the base class for all layout panes
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Box;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -56,7 +58,31 @@ public class GameMenu {
         HBox controlBox = new HBox(10, quitGame, restartGame);
         controlBox.setAlignment(Pos.CENTER);
 
-        // Clock to control Timeline of the game
+        // Create all nodes for the GameOver menu
+        TextField nameText = new TextField();
+        nameText.setPrefWidth(100);
+        nameText.setId("nameText");
+        Label headlineover = new Label("GAME OVER");
+        headlineover.setFont(Font.font("Monospaced", FontWeight.BOLD, 50));
+        Label yourScore = new Label("Your score is");
+        Label score = new Label("");
+        //score.setId("score");
+        Label yourName = new Label("Enter your name");
+        Button saveScore = new Button("Save");
+        saveScore.setId("saveScore");
+        // VBox infoBox;
+        //infoBox = new VBox(25, headlineover, yourScore, score, yourName, nameText, saveScore);
+        // infoBox.setId("infoBox");
+        
+
+        // Create all nodes for the Highscore Menu
+        Label headLine = new Label("Name\t\tScore");
+        // create a Vbox to manage the nodes on the high score menu
+        VBox scoreData = new VBox(20, headLine);
+
+
+
+        // Clock to control the game loop
         class Movement extends AnimationTimer{
             @Override
             public void handle(long now){
@@ -80,7 +106,7 @@ public class GameMenu {
             gameScreen.requestFocus();
         });
         
-        // To restart the game
+        // To restart the game inside Game Screen
         restartGame.setOnAction(e -> {
             clock.stop();
             gameScreen.getChildren().clear();
@@ -89,13 +115,17 @@ public class GameMenu {
             gameScreen.requestFocus();
         });
         
-        // QuitGame button: Display Start Scene again
+        // To quit the game
         quitGame.setId("quitGame");
         quitGame.setOnAction(e->{
             clock.stop();
             gameScreen.getChildren().clear();
             root.getChildren().clear();
-            root.setCenter(vBox);
+            String finalScore = Integer.toString(Main.points.get());
+            score.setText(finalScore);
+            VBox infoBox = new VBox(25, headlineover, yourScore, score, yourName, nameText, saveScore);
+            infoBox.setAlignment(Pos.CENTER);
+            root.setCenter(infoBox);
             root.requestFocus();
             gameScreen.requestFocus();
         });

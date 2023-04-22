@@ -29,7 +29,6 @@ public class GameOverMenu {
 
         Label headlineover = new Label("GAME OVER");
         headlineover.setFont(Font.font("Monospaced", FontWeight.BOLD, 50));
-        // Button playGameSm = new Button("PLAY GAME");
         Label yourScore = new Label("Your score is");
 
         // Score update later

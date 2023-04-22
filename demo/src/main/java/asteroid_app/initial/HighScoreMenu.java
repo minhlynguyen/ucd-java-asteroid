@@ -7,21 +7,21 @@ import javafx.scene.layout.VBox;
 
 public class HighScoreMenu {
 
-    public static Scene highScoreScene(int WIDTH, int HEIGHT){
+    // public static Scene highScoreScene(int WIDTH, int HEIGHT){
 
-        BorderPane borderPane = new BorderPane();
+        // BorderPane borderPane = new BorderPane();
 
-        Label headLine = new Label("Name          Score");
+        // Label headLine = new Label("Name\t\tScore");
 
-        // create a Vbox to manage the nodes on the high score menu
-        VBox vBox = new VBox(20, headLine);
-        vBox.setId("highScoreVbox");
+        // // create a Vbox to manage the nodes on the high score menu
+        // VBox vBox = new VBox(20, headLine);
+        // vBox.setId("highScoreVbox");
 
         // add vBox into root
-        borderPane.setCenter(vBox);
+        // borderPane.setCenter(vBox);
 
-        Scene highScoreScene = new Scene(borderPane, WIDTH, HEIGHT);
+        // Scene highScoreScene = new Scene(borderPane, WIDTH, HEIGHT);
 
-        return highScoreScene;
-    }
+        // return highScoreScene;
+    // }
 }

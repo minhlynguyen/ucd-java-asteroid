@@ -69,7 +69,7 @@ public class User_ship extends Character {
     }
 
     public Bullet fireBullet(){
-                // the bullet appear in the screen
+        // the bullet appear in the screen
         // at the same coordinates as current coordinates of the ship
         // with same rotation angle
         Bullet bullet = new Bullet(this.getChar().getTranslateX(),this.getChar().getTranslateY());

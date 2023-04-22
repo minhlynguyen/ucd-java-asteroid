@@ -17,7 +17,7 @@ public abstract class Character {
 	// variable for the dead/alive status of Character
 	private Boolean alive;
 	
-	// ship velocity
+	//velocity and angle of turn
 	private static final double maxVelocity=0.7;
 	private static final double TurnAngle=0.3;
 
@@ -62,7 +62,7 @@ public abstract class Character {
 
 	// turn it left
 	public void turnLeft() {
-		// set the rotation to its current-the tun angle
+		// set the rotation to its current-the turn angle
 		this.object.setRotate(this.object.getRotate() - TurnAngle);
 	}
 
@@ -91,7 +91,7 @@ public abstract class Character {
 		}
 		// exit the screen from the right side, enter from the left side
 		else if (this.object.getTranslateX() > Main.WIDTH) {
-			this.object.setTranslateX(this.object.getTranslateX() % Main.WIDTH);
+			this.object.setTranslateX(this.object.getTranslateX() - Main.WIDTH);
 		}
 		// exit the screen from the top, enter from the bottom
 		if (this.object.getTranslateY() < 0) {
@@ -99,7 +99,7 @@ public abstract class Character {
 		}
 		// exit the screen from the bottom, enter from the top
 		else if (this.object.getTranslateY() > Main.HEIGHT) {
-			this.object.setTranslateY(this.object.getTranslateY() % Main.HEIGHT);
+			this.object.setTranslateY(this.object.getTranslateY() - Main.HEIGHT);
 		}
 	}
 

@@ -27,6 +27,8 @@ public class Main extends Application {
     public static int initLevel = 0;
 
     public static AtomicInteger points = new AtomicInteger();
+            // calculate the point
+    //public static IncrementScore points=new IncrementScore();
 
     public static PlayerLives playerLives=new PlayerLives();
 

@@ -51,8 +51,6 @@ public class GameMenu {
         PlayerLives playerLives=new PlayerLives();
         Text PlayerLivesText = new Text("PlayerLives:" + playerLives.getLives());
         hBox.getChildren().addAll(levelText, pointText, PlayerLivesText);
-        // calculate the point
-        IncrementScore points=new IncrementScore();
         // Control box
         Button restartGame = new Button("RESTART");
         Button quitGame = new Button("QUIT");

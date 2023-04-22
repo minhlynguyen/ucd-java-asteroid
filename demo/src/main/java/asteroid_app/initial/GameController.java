@@ -171,6 +171,12 @@ public class GameController {
                 .collect(Collectors.toList()));
         
         bullets.forEach(bullet -> {
+            if (alienShip.collision(bullet)) {
+                bullet.setAlive(false);
+                alienShip.setAlive(false);
+                pane.getChildren().remove(alienShip.getChar());
+                //Main.points.incrementScoreForAlien();
+            }
             double x1 = bullet.getChar().getTranslateX();
             double y1 = bullet.getChar().getTranslateY();
             double travelDistance = Math.sqrt((x1-bullet.getOriginalX())*(x1-bullet.getOriginalX())+(y1-bullet.getOriginalY())*(y1-bullet.getOriginalY()));

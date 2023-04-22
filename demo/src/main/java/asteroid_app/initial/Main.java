@@ -26,7 +26,9 @@ public class Main extends Application {
     // initial level = 1
     public static int initLevel = 0;
 
-    public static AtomicInteger points = new AtomicInteger();;
+    public static AtomicInteger points = new AtomicInteger();
+
+    public static PlayerLives playerLives=new PlayerLives();
 
     // Overrides the start mehtod from the application class
     @Override

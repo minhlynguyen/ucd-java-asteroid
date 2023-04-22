@@ -16,6 +16,7 @@ public class GameController {
     // Asteroid
     // At the beginning, use a list to create several asteroid
     private List<Asteroid> asteroids = new ArrayList<>();
+    private AlienShip alienShip;
     private User_ship ship;
     private List<Bullet> bullets = new ArrayList<>();
     private Map<KeyCode, Boolean> key_press = new HashMap<>();
@@ -33,7 +34,12 @@ public class GameController {
         double y = new Random().nextDouble() * 1000;
         System.out.println("A new asteroid at "+x+","+y);
         asteroids.add(new Asteroid(x, y, Size.LARGE));
-        asteroids.forEach(asteroid -> pane.getChildren().add(asteroid.getChar()));        
+        asteroids.forEach(asteroid -> pane.getChildren().add(asteroid.getChar()));
+        alienShip=new AlienShip( new Random().nextDouble() * 1000, new Random().nextDouble() * 700);
+        alienShip.setAlive(true);
+        pane.getChildren().add(alienShip.getChar());
+
+        // Key controller
         key_press = new HashMap<>();
         mainScene.setOnKeyPressed(event -> {
             key_press.put(event.getCode(), Boolean.TRUE);
@@ -62,6 +68,7 @@ public class GameController {
     public void play(Pane pane, Scene mainScene){
         ship.move();        
         asteroids.forEach(asteroid -> asteroid.move());
+        alienShip.move(pane, ship, Main.playerLives);
         // check if j key was pressed so we dont repeatedly go into hyperspace
         // inserted here to prevent multiple jumps
         // private boolean jPress = false;

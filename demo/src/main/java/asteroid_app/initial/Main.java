@@ -38,57 +38,15 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
 
-        Main.stage = stage;
-
-        // start Menu
+        
         Scene startMenuScene = StartMenu.startMenu(WIDTH, HEIGHT);
-        // game menu
         Scene mainScene = GameMenu.newGameMenu(initLevel);
-        // game over menu
-        Scene gameOverScene = GameOverMenu.gameOverMenu(WIDTH, HEIGHT);
-        // high score scene
-        Scene highScoreScene = HighScoreMenu.highScoreScene(WIDTH, HEIGHT);
-        // default the start menu 
-        stage.setScene(startMenuScene);
-
-        // get the play game button
-        Button playGameButton = (Button) startMenuScene.getRoot().lookup("#playGame");
-        // click the play game button then change to game menu
-        playGameButton.setOnAction(e -> stage.setScene(mainScene));
-
-        // get the high score button from start menu and game over menu
-        Button highScoreButton = (Button) startMenuScene.getRoot().lookup("#highScores");
-        Button saveScoreButton = (Button) gameOverScene.getRoot().lookup("#saveScore");
-        // click the high score button then change to high score menu
-
-        highScoreButton.setOnAction(e -> stage.setScene(highScoreScene));
+ 
+        stage.setScene(mainScene);
 
         // When click on quit button, enter the gameover scene
         Button quitGameButton = (Button) mainScene.getRoot().lookup("#quitGame");
-
-        // click the save score button, then change to high score menu and save scores in it
-
-        // Get the score label in the game over scene to set the final score
-        Label score = (Label) gameOverScene.getRoot().lookup("#score");
-        quitGameButton.setOnAction(e -> {
-            stage.setScene(gameOverScene);
-            // set score label
-            String finalScore = Integer.toString(Main.points.get());
-            score.setText(finalScore);
-        });
-
-        // add new score record
-        saveScoreButton.setOnAction(e -> {
-            // get the name in the nameText
-            TextField nameText = (TextField) gameOverScene.getRoot().lookup("#nameText");
-            String nameTextContent = nameText.getText();
-            stage.setScene(highScoreScene);
-            String finalScore = Integer.toString(Main.points.get());
-            Label scoreLabel = new Label(nameTextContent + "          "+finalScore);
-
-            VBox highScoreVbox = (VBox) highScoreScene.getRoot().lookup("#highScoreVbox");
-            highScoreVbox.getChildren().add(scoreLabel);
-        });
+        quitGameButton.setOnAction(null);
 
         Button restartGameButton = (Button) mainScene.getRoot().lookup("#restartGame");
         restartGameButton.setOnAction(e -> stage.setScene(startMenuScene));

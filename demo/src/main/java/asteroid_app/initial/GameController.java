@@ -73,7 +73,7 @@ public class GameController {
         // if the up key is pressed
         if (key_press.getOrDefault(KeyCode.UP, false)) {
             // accelerate the user_ship
-            ship.accelerate(0.002);
+            ship.accelerate(0.0005);
         }
         if (key_press.getOrDefault(KeyCode.LEFT, false)) {
             // rotate the user_ship left
@@ -107,7 +107,7 @@ public class GameController {
             bullets.add(bullet);
 
             // acclerate the speed of the bullet:
-            bullet.accelerate(0.002);
+            bullet.accelerate(0.001);
 
             // set the movement for the bullet is 3x faster than other character (the ship)
             bullet.setMovement(bullet.getMovement().normalize().multiply(10));
@@ -165,7 +165,6 @@ public class GameController {
                         }
                         GameMenu.lastAddedTime = System.currentTimeMillis();
                     }
-                    // GameMenu.pointText.setText("Points: " + Main.points.addAndGet(1000));
                 }
             });            
         });

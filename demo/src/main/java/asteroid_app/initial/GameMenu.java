@@ -10,6 +10,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Pos;
 
@@ -69,16 +70,19 @@ public class GameMenu {
         controlBox.setAlignment(Pos.CENTER);
 
         // Create all nodes for the GameOver menu
+        GridPane textFieldContainer = new GridPane();
         TextField nameText = new TextField();
         nameText.setPrefWidth(100);
-        nameText.setId("nameText");
+        nameText.setAlignment(Pos.CENTER);
+        // nameText.setId("nameText");
         Label headlineover = new Label("GAME OVER");
         headlineover.setFont(Font.font("Monospaced", FontWeight.BOLD, 50));
         Label yourScore = new Label("Your score is");
         Label score = new Label("");
+        score.setFont(Font.font("Monospaced", FontWeight.BOLD, 50));
         Label yourName = new Label("Enter your name");
         Button saveScore = new Button("Save");
-        
+
         // Create all nodes for the Highscore Menu
         Label headLine = new Label("HIGH SCORES - TOP 5");
         headLine.setFont(Font.font("Monospaced", FontWeight.BOLD, 50));
@@ -140,8 +144,10 @@ public class GameMenu {
                 saveHighScore(nameTextContent);
                 showHighScore(scoreData,root);
             } catch (IOException e1) {
+                root.setCenter(scoreData);
                 e1.printStackTrace();
             } catch (ClassNotFoundException e1) {
+                root.setCenter(scoreData);
                 e1.printStackTrace();
             }            
         });
@@ -150,6 +156,7 @@ public class GameMenu {
             try {
                 showHighScore(scoreData,root);
             } catch (ClassNotFoundException | IOException e1) {
+                root.setCenter(scoreData);
                 e1.printStackTrace();
             }
         });
@@ -205,6 +212,7 @@ public class GameMenu {
         score.setText(finalScore);
         VBox infoBox = new VBox(25, headlineover, yourScore, score, yourName, nameText, saveScore);
         infoBox.setAlignment(Pos.CENTER);
+        infoBox.setPrefWidth(400);     
         root.setCenter(infoBox);
         root.requestFocus();
         pane.requestFocus();

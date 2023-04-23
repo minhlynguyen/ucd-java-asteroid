@@ -16,9 +16,9 @@ public class PlayerLives {
 // Returns true if the player still has lives left, false otherwise.
     public boolean loseLife() {
         if(ctime!=0L){
-         long time=   System.currentTimeMillis()-ctime;
-         if(time<=3000)
-             return false;
+            long time=   System.currentTimeMillis()-ctime;
+            if(time<=3000)
+                return false;
         }
         ctime=System.currentTimeMillis();
         int currentLives = lives.get();
@@ -43,4 +43,3 @@ public class PlayerLives {
         return lives.get();
     }
 }
-    

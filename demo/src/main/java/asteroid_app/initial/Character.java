@@ -16,7 +16,6 @@ public abstract class Character {
 	private Point2D test;
 	// variable for the dead/alive status of Character
 	private Boolean alive;
-	
 	//velocity and angle of turn
 	private static final double maxVelocity=0.7;
 	private static final double TurnAngle=0.3;
@@ -129,10 +128,13 @@ public abstract class Character {
 	public Boolean collision(Character other) {
 		Shape collisionSpace = Shape.intersect(this.object, other.getChar());
 		// If the width of the common space is >= 0, then they have collided
-		if (collisionSpace.getBoundsInLocal().getWidth() >= 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return collisionSpace.getBoundsInLocal().getWidth() >= 0;
 	}
+
+	public Bullet fireBullet(){
+		// at the same coordinates as current coordinates of the character with same rotation angle
+		Bullet bullet = new Bullet(this.getChar().getTranslateX(),this.getChar().getTranslateY());
+		bullet.getChar().setRotate(this.getChar().getRotate());
+		return bullet;
+}
 }

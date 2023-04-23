@@ -90,7 +90,7 @@ public class Asteroid extends Character {
                 newAsteroid.move();
                 // remove the collided asteroid
                 pane.getChildren().remove(asteroid.getChar());
-                asteroids.remove(asteroid);
+               	asteroids.remove(asteroid);
             }
         }
 

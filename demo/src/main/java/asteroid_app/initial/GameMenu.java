@@ -146,12 +146,12 @@ public class GameMenu {
 
         saveScore.setOnAction(e -> {    
             root.getChildren().clear();
-            // String finalScore = Integer.toString(Main.score.getScore());
+            String finalScore = Integer.toString(Main.score.getScore());
             String nameTextContent = nameText.getText();
-            // Label scoreLabel = new Label(nameTextContent + "\t\t"+finalScore);
-            // VBox scoreData = new VBox(20, headLine, scoreLabel);
-            // scoreData.setAlignment(Pos.CENTER);
-            // root.setCenter(scoreData);
+            Label scoreLabel = new Label(nameTextContent + "\t\t"+finalScore);
+            VBox scoreData = new VBox(20, headLine, scoreLabel);
+            scoreData.setAlignment(Pos.CENTER);
+            root.setCenter(scoreData);
 
             //Create a new score object and write to a file
             HighScore highScore = new HighScore(nameTextContent, Main.score.getScore());

@@ -150,7 +150,7 @@ public class GameController {
                 if (asteroid.collision(bullet)) {
                     bullet.setAlive(false);
                     bullets.remove(bullet);
-                    pane.getChildren().remove(bullet);
+                    pane.getChildren().remove(bullet.getChar());
                     asteroid.setAlive(false);
                     Asteroid.asteroidSplit(asteroid, asteroids, pane);
                 }
@@ -198,7 +198,7 @@ public class GameController {
             if (alienShip.collision(bullet)) {
                 bullet.setAlive(false);
                 bullets.remove(bullet);
-                pane.getChildren().remove(bullet);
+                pane.getChildren().remove(bullet.getChar());
                 alienShip.setAlive(false);
                 pane.getChildren().remove(alienShip.getChar());
                 Main.score.incrementScoreForAlien();

@@ -105,12 +105,9 @@ public class GameMenu {
             clock.stop();
             gameScreen.getChildren().clear();
             game = new GameController(gameScreen, mainScene);
-            //Main.points.set(0);
             Main.points.setScore(0);
-            // pointText.setText("Points: " + Main.points.get());
             pointText.setText("Points: " + Main.points.getScore());
             clock.start();
-            //restartGame.setFocusTraversable(false);
             gameScreen.requestFocus();
         });
         
@@ -120,7 +117,6 @@ public class GameMenu {
             clock.stop();
             gameScreen.getChildren().clear();
             root.getChildren().clear();
-            //String finalScore = Integer.toString(Main.points.get());
             String finalScore = Integer.toString(Main.points.getScore());
             score.setText(finalScore);
             VBox infoBox = new VBox(25, headlineover, yourScore, score, yourName, nameText, saveScore);

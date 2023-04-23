@@ -69,17 +69,7 @@ public class GameController {
         ship.move();        
         asteroids.forEach(asteroid -> asteroid.move());
         alienShip.move(pane, ship, Main.playerLives);
-        // if (now - alienShip.lastShotTime > AlienShip.SHOOTING_INTERVAL){
-        //     Bullet alienBullet = alienShip.shoot(pane, ship);
-        //     bullets.add(alienBullet);
-        //     pane.getChildren().add(alienBullet.getChar());
-        //     alienShip.lastShotTime = now;
-        // }
-        //bullets.forEach(bullet -> bullet.accelerate(0.002));
-        // check if j key was pressed so we dont repeatedly go into hyperspace
-        // inserted here to prevent multiple jumps
-        // private boolean jPress = false;
-        // private boolean spacePress=false;    
+        
         // if the up key is pressed
         if (key_press.getOrDefault(KeyCode.UP, false)) {
             // accelerate the user_ship
@@ -94,8 +84,8 @@ public class GameController {
             // rotate the user_ship right
             ship.turnRight();
         }    
-        // if the J key is pressed for jump and has not already jumped
-        // prevents multiple jumps with 1 press
+        // check if j key was pressed so we dont repeatedly go into hyperspace
+        // inserted here to prevent multiple jumps
         if (key_press.getOrDefault(KeyCode.J, false) && jPress == false) {
             // jump to a new location and if successful set flag to true
             ship.hyperspaceJump(pane);
@@ -131,15 +121,25 @@ public class GameController {
             spacePress =false ; // reset the flag
         }
         
+        if(ship.collision(alienShip)){
+            Main.playerLives.loseLife();
+            ship.hyperspaceJump(pane);
+            alienShip.setAlive(false);
+            pane.getChildren().remove(alienShip.getChar());
+        }
+
         asteroids.forEach(asteroid -> { 
             // ... and the ship happens
-            if (asteroid.collision(ship)) {
+            if (asteroid.collision(ship)||asteroid.collision(alienShip)) {
                 // then create new asteroids and remove the collided one
                 Asteroid.asteroidSplit(asteroid, asteroids, pane);
-                // if number of asteroids < 0, level ++ 
-                if (asteroids.size() == 0) {
-                    newLevel(pane);
-                }
+            }
+
+            // ... and the alien happens
+            if (asteroid.collision(alienShip)) {
+                // then create new asteroids and remove the collided one
+                alienShip.setAlive(false);
+                pane.getChildren().remove(alienShip.getChar());
             }
 
             // ... and when a bullet happens
@@ -148,10 +148,6 @@ public class GameController {
                     bullet.setAlive(false);
                     asteroid.setAlive(false);
                     Asteroid.asteroidSplit(asteroid, asteroids, pane);
-                    // if number of asteroids < 0, level ++ 
-                    if (asteroids.size() == 0) {
-                        newLevel(pane);
-                    }
                 }
 
                 // adding point
@@ -159,7 +155,7 @@ public class GameController {
                     if (System.currentTimeMillis() - GameMenu.lastAddedTime > (500)) {
                         Main.points.incrementScoreForAsteroid(asteroid.getInitialSize());
                         GameMenu.pointText.setText("Points: " + Main.points.getScore());
-                        if(Main.points.getScore()>=Main.newLifeScore){
+                        if(Main.points.getScore()>=Main.newLifeScore && Main.playerLives.getLives() < 3){
                             Main.playerLives.gainLife();
                             Main.points.incrementScore(-Main.newLifeScore); 
                             GameMenu.pointText.setText("Points: " + Main.points.getScore());
@@ -170,6 +166,11 @@ public class GameController {
                 }
             });            
         });
+
+        // if number of asteroids < 0, level ++ 
+        if (asteroids.size() == 0) {
+            newLevel(pane);
+        }
 
         // if(Main.playerLives.getLives()<=0){
         //     stage.setScene(gameOverScene);

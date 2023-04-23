@@ -202,6 +202,7 @@ public class GameController {
                 alienShip.setAlive(false);
                 pane.getChildren().remove(alienShip.getChar());
                 Main.score.incrementScoreForAlien();
+                GameMenu.scoreText.setText("Points: " + Main.score.getScore());
             }
             double x1 = bullet.getChar().getTranslateX();
             double y1 = bullet.getChar().getTranslateY();

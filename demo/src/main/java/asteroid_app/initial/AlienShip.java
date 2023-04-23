@@ -143,7 +143,7 @@ public class AlienShip extends Character {
             }
         });
 
-                // Check if the bullet hits the user's ship and decrease the player's lives if it does
+        // Check if the bullet hits the user's ship and decrease the player's lives if it does
         bullets.forEach(bullet -> {
             if (ship.collision(bullet) && bullet.getAlive()) {
                 bullet.setAlive(false);

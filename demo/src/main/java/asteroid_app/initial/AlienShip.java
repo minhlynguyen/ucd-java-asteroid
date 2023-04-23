@@ -55,7 +55,7 @@ public class AlienShip extends Character {
 
 
     //    @Override
-    public void move(Pane pane,User_ship ship) {
+    public void move(Pane pane,User_ship ship, List<Asteroid> asteroids) {
         super.move();
         super.accelerate(0.5);
         double randomOffset = (rnd.nextDouble() - 0.5) * 0.2;
@@ -113,6 +113,15 @@ public class AlienShip extends Character {
                 pane.getChildren().remove(bullet.getChar());
                 Main.playerLives.loseLife();
             }
+
+            //asteroid is hit by alien ship
+            asteroids.forEach(asteroid -> {
+                if(asteroid.collision(bullet)){
+                    bullet.setAlive(false);
+                    asteroid.setAlive(false);
+                    Asteroid.asteroidSplit(asteroid, asteroids, pane);
+                }
+            });
         });
     }
 

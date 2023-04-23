@@ -115,6 +115,7 @@ public class GameMenu {
             gameScreen.getChildren().clear();
             game = new GameController(gameScreen, mainScene);
             Main.score.setScore(0);
+            Main.playerLives = new PlayerLives();
             scoreText.setText("Points: " + Main.score.getScore());
             clock.start();
             gameScreen.requestFocus();

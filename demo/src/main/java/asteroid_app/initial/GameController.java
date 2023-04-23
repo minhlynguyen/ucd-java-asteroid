@@ -20,6 +20,8 @@ public class GameController {
     private Map<KeyCode, Boolean> key_press = new HashMap<>();
     private Boolean jPress;
     private Boolean spacePress;
+    private String name;
+    private int score; 
 
     public GameController(Pane pane, Scene mainScene){
         jPress = false;
@@ -52,7 +54,7 @@ public class GameController {
 
     public void newLevel(Pane pane){
         this.currentLevel++;
-        this.asteroids = new ArrayList<Asteroid>();
+        asteroids = new ArrayList<Asteroid>();
         for (int i = 0; i < currentLevel; i++) {
             double x = new Random().nextDouble() * 1000;
             double y = new Random().nextDouble() * 1000;
@@ -206,5 +208,10 @@ public class GameController {
                 pane.getChildren().remove(bullet.getChar());
             }
         });
+    }
+
+    public void saveScore(String name, int score){
+        this.name = name;
+        this.score = score; 
     }
 }

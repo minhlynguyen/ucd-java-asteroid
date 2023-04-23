@@ -1,0 +1,436 @@
+@startuml
+
+/' diagram meta data start
+config=CallConfiguration;
+{
+  "rootMethod": "asteroid_app.initial.GameController#play(Pane,Scene)",
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": true,
+    "cutInterfaceStructures": true,
+    "cutDataStructures": true,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 3,
+    "backwardDepth": 3,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showMethodParametersTypes": false,
+    "showMethodParametersNames": false,
+    "showMethodReturnType": false,
+    "showPackageLevels": 2,
+    "showCallOrder": false,
+    "edgeMode": "MethodsOnly", // TypesOnly, MethodsOnly, TypesAndMethods, MethodsAndDirectTypeUsage
+    "showDetailedClassStructure": false
+  },
+  "rootClass": "asteroid_app.initial.GameController",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="LR"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_1905501234 { 
+   	label="no qualified name"
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_1005142446 { 
+   	label="no qualified name"
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   noqualifiedname1905501234XXXhandle3327612[
+	label="+ handle()"
+	style=filled
+	fillcolor=white
+	tooltip="no qualified name
+
+null"
+	fontcolor=darkgreen
+];
+} 
+} 
+
+subgraph cluster_1948342084 { 
+   	label=initial
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_1151372163 { 
+   	label=Bullet
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   Bullet1735842547XXXmove0[
+	label="+ move()"
+	style=filled
+	fillcolor=white
+	tooltip="Bullet
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1208265004 { 
+   	label=GameMenu
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   GameMenu1735842547XXXnewGameMenu0[
+	label="+ newGameMenu()"
+	style=filled
+	fillcolor=white
+	tooltip="GameMenu
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1488587554 { 
+   	label=IncrementScore
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   IncrementScore1735842547XXXincrementScore104431[
+	label="+ incrementScore()"
+	style=filled
+	fillcolor=white
+	tooltip="IncrementScore
+
+null"
+	fontcolor=darkgreen
+];
+
+IncrementScore1735842547XXXincrementScoreForAlien0[
+	label="+ incrementScoreForAlien()"
+	style=filled
+	fillcolor=white
+	tooltip="IncrementScore
+
+null"
+	fontcolor=darkgreen
+];
+
+IncrementScore1735842547XXXincrementScoreForAsteroid2577441[
+	label="+ incrementScoreForAsteroid()"
+	style=filled
+	fillcolor=white
+	tooltip="IncrementScore
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1661949578 { 
+   	label=Asteroid
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   Asteroid1735842547XXXasteroidSplit1708685680[
+	label="+ asteroidSplit()"
+	style=filled
+	fillcolor=white
+	tooltip="Asteroid
+
+null"
+	fontcolor=darkgreen
+];
+
+Asteroid1735842547XXXmove0[
+	label="+ move()"
+	style=filled
+	fillcolor=white
+	tooltip="Asteroid
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1843083051 { 
+   	label=User_ship
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   User_ship1735842547XXXhyperspaceJump2480008[
+	label="+ hyperspaceJump()"
+	style=filled
+	fillcolor=white
+	tooltip="User_ship
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1947711476 { 
+   	label=Main
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   Main1735842547XXXstart80204510[
+	label="+ start()"
+	style=filled
+	fillcolor=white
+	tooltip="Main
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_472734648 { 
+   	label=AlienShip
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   AlienShip1735842547XXXmove606678605[
+	label="+ move()"
+	style=filled
+	fillcolor=white
+	tooltip="AlienShip
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_494086569 { 
+   	label=GameController
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   GameController1735842547XXXnewLevel2480008[
+	label="+ newLevel()"
+	style=filled
+	fillcolor=white
+	tooltip="GameController
+
+null"
+	fontcolor=darkgreen
+];
+
+GameController1735842547XXXplay460819184[
+	label="+ play()"
+	style=filled
+	fillcolor=white
+	tooltip="GameController
+
+null"
+	penwidth=4
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_618383922 { 
+   	label=Character
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   Character1735842547XXXaccelerate1325958191[
+	label="+ accelerate()"
+	style=filled
+	fillcolor=white
+	tooltip="Character
+
+null"
+	fontcolor=darkgreen
+];
+
+Character1735842547XXXcollision726803703[
+	label="+ collision()"
+	style=filled
+	fillcolor=white
+	tooltip="Character
+
+null"
+	fontcolor=darkgreen
+];
+
+Character1735842547XXXfireBullet0[
+	label="+ fireBullet()"
+	style=filled
+	fillcolor=white
+	tooltip="Character
+
+null"
+	fontcolor=darkgreen
+];
+
+Character1735842547XXXmove0[
+	label="+ move()"
+	style=filled
+	fillcolor=white
+	tooltip="Character
+
+null"
+	fontcolor=darkgreen
+];
+
+Character1735842547XXXstopMovement0[
+	label="+ stopMovement()"
+	style=filled
+	fillcolor=white
+	tooltip="Character
+
+null"
+	fontcolor=darkgreen
+];
+
+Character1735842547XXXturnLeft0[
+	label="+ turnLeft()"
+	style=filled
+	fillcolor=white
+	tooltip="Character
+
+null"
+	fontcolor=darkgreen
+];
+
+Character1735842547XXXturnRight0[
+	label="+ turnRight()"
+	style=filled
+	fillcolor=white
+	tooltip="Character
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_975639541 { 
+   	label=PlayerLives
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   PlayerLives1735842547XXXgainLife0[
+	label="+ gainLife()"
+	style=filled
+	fillcolor=white
+	tooltip="PlayerLives
+
+null"
+	fontcolor=darkgreen
+];
+
+PlayerLives1735842547XXXloseLife0[
+	label="+ loseLife()"
+	style=filled
+	fillcolor=white
+	tooltip="PlayerLives
+
+null"
+	fontcolor=darkgreen
+];
+} 
+} 
+
+'edges    
+AlienShip1735842547XXXmove606678605 -> Asteroid1735842547XXXasteroidSplit1708685680;
+AlienShip1735842547XXXmove606678605 -> Bullet1735842547XXXmove0;
+AlienShip1735842547XXXmove606678605 -> Character1735842547XXXaccelerate1325958191;
+AlienShip1735842547XXXmove606678605 -> Character1735842547XXXcollision726803703;
+AlienShip1735842547XXXmove606678605 -> Character1735842547XXXfireBullet0;
+AlienShip1735842547XXXmove606678605 -> Character1735842547XXXmove0;
+AlienShip1735842547XXXmove606678605 -> PlayerLives1735842547XXXloseLife0;
+Asteroid1735842547XXXasteroidSplit1708685680 -> Asteroid1735842547XXXmove0;
+Asteroid1735842547XXXmove0 -> Character1735842547XXXmove0;
+Character1735842547XXXmove0 -> Asteroid1735842547XXXmove0;
+Character1735842547XXXmove0 -> Bullet1735842547XXXmove0;
+GameController1735842547XXXplay460819184 -> AlienShip1735842547XXXmove606678605;
+GameController1735842547XXXplay460819184 -> Asteroid1735842547XXXasteroidSplit1708685680;
+GameController1735842547XXXplay460819184 -> Asteroid1735842547XXXmove0;
+GameController1735842547XXXplay460819184 -> Bullet1735842547XXXmove0;
+GameController1735842547XXXplay460819184 -> Character1735842547XXXaccelerate1325958191;
+GameController1735842547XXXplay460819184 -> Character1735842547XXXcollision726803703;
+GameController1735842547XXXplay460819184 -> Character1735842547XXXfireBullet0;
+GameController1735842547XXXplay460819184 -> Character1735842547XXXmove0;
+GameController1735842547XXXplay460819184 -> Character1735842547XXXturnLeft0;
+GameController1735842547XXXplay460819184 -> Character1735842547XXXturnRight0;
+GameController1735842547XXXplay460819184 -> GameController1735842547XXXnewLevel2480008;
+GameController1735842547XXXplay460819184 -> IncrementScore1735842547XXXincrementScore104431;
+GameController1735842547XXXplay460819184 -> IncrementScore1735842547XXXincrementScoreForAlien0;
+GameController1735842547XXXplay460819184 -> IncrementScore1735842547XXXincrementScoreForAsteroid2577441;
+GameController1735842547XXXplay460819184 -> PlayerLives1735842547XXXgainLife0;
+GameController1735842547XXXplay460819184 -> PlayerLives1735842547XXXloseLife0;
+GameController1735842547XXXplay460819184 -> User_ship1735842547XXXhyperspaceJump2480008;
+GameMenu1735842547XXXnewGameMenu0 -> GameController1735842547XXXplay460819184;
+IncrementScore1735842547XXXincrementScoreForAlien0 -> IncrementScore1735842547XXXincrementScore104431;
+IncrementScore1735842547XXXincrementScoreForAsteroid2577441 -> IncrementScore1735842547XXXincrementScore104431;
+Main1735842547XXXstart80204510 -> GameMenu1735842547XXXnewGameMenu0;
+User_ship1735842547XXXhyperspaceJump2480008 -> Character1735842547XXXstopMovement0;
+noqualifiedname1905501234XXXhandle3327612 -> GameController1735842547XXXplay460819184;
+    
+}
+@enduml

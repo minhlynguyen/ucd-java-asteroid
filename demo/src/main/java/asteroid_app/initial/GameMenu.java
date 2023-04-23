@@ -13,6 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Pos;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -20,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 import javafx.animation.AnimationTimer;
 
@@ -179,13 +181,23 @@ public class GameMenu {
         HighScore highScore = null;
         // Read the HighScores file and show it on the HighScore menu
         FileInputStream fileIn = new FileInputStream("HighScores.ser");
-        ObjectInputStream in = new ObjectInputStream(fileIn);
-        highScore = (HighScore) in.readObject();
-        in.close();
+        ArrayList<HighScore> highScoreList = new ArrayList<>();
+        boolean cont = true;
+        ObjectInputStream in;
+        while (cont) {
+            try{
+                in = new ObjectInputStream(fileIn);
+                highScore = (HighScore) in.readObject();
+                if (highScore!=null){
+                    highScoreList.add(highScore);
+                    System.out.println(highScore.name);
+                    System.out.println(highScore.score);
+                }
+            }catch(EOFException e) {
+                break;
+            }
+        }
         fileIn.close();
-        
-        System.out.println(highScore.name);
-        System.out.println(highScore.score);
     }
 
     public static void showGameOver(Pane pane, BorderPane root, Label score, 

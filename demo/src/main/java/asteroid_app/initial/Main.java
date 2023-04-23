@@ -13,8 +13,8 @@ public class Main extends Application {
     public static Stage stage;
 
     // define the size of the screen can be accessed by all classes
-    public static int WIDTH = 800;
-    public static int HEIGHT = 600;
+    public static final int WIDTH = 800;
+    public static final int HEIGHT = 600;
 
     // takes a single parameter of type stage
     // inside the start method is where the User interface is created
@@ -26,7 +26,7 @@ public class Main extends Application {
 
     //public static AtomicInteger points = new AtomicInteger();
             // calculate the point
-    public static IncrementScore points=new IncrementScore();
+    public static IncrementScore score=new IncrementScore();
 
     public static PlayerLives playerLives=new PlayerLives();
 

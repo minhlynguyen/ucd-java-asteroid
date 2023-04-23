@@ -1,8 +1,6 @@
 package asteroid_app.initial;
-
 // Scene is the container for all content
 import javafx.scene.Scene;
-// Pane is the base class for all layout panes
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -19,7 +17,7 @@ import javafx.animation.AnimationTimer;
 public class GameMenu {
      
     static GameController game; 
-    static Text pointText; 
+    static Text scoreText; 
     static Text PlayerLivesText;
     static Text levelText;
     static long lastAddedTime=0L;
@@ -44,20 +42,18 @@ public class GameMenu {
 
         // Create all nodes for the Main Game
         Pane gameScreen = new Pane();
-        // Create a hbox to display points and level and lives
-        HBox hBox = new HBox(400);
-        hBox.setAlignment(Pos.CENTER);         
-        pointText = new Text("Points: 0");
+        // Create a hbox to display points and level and lives         
+        scoreText = new Text("Points: 0");
         levelText = new Text("Level: 1");
-        PlayerLives playerLives=new PlayerLives();
-        PlayerLivesText = new Text("PlayerLives:" + playerLives.getLives());
-        hBox.getChildren().addAll(levelText, pointText, PlayerLivesText);
+        PlayerLivesText = new Text("Lives: 0");
+        HBox hBox = new HBox(30, levelText, scoreText, PlayerLivesText);
+        hBox.setAlignment(Pos.CENTER);
         // Control box
         Button restartGame = new Button("RESTART");
         restartGame.setFocusTraversable(false);
         Button quitGame = new Button("QUIT");
         quitGame.setFocusTraversable(false);
-        HBox controlBox = new HBox(10,quitGame, restartGame);
+        HBox controlBox = new HBox(10, quitGame, restartGame);
         controlBox.setAlignment(Pos.CENTER);
 
         // Create all nodes for the GameOver menu
@@ -86,7 +82,7 @@ public class GameMenu {
                     this.stop();
                     gameScreen.getChildren().clear();
                     root.getChildren().clear();
-                    String finalScore = Integer.toString(Main.points.getScore());
+                    String finalScore = Integer.toString(Main.score.getScore());
                     score.setText(finalScore);
                     VBox infoBox = new VBox(25, headlineover, yourScore, score, yourName, nameText, saveScore);
                     infoBox.setAlignment(Pos.CENTER);
@@ -118,8 +114,8 @@ public class GameMenu {
             clock.stop();
             gameScreen.getChildren().clear();
             game = new GameController(gameScreen, mainScene);
-            Main.points.setScore(0);
-            pointText.setText("Points: " + Main.points.getScore());
+            Main.score.setScore(0);
+            scoreText.setText("Points: " + Main.score.getScore());
             clock.start();
             gameScreen.requestFocus();
         });
@@ -130,7 +126,7 @@ public class GameMenu {
             clock.stop();
             gameScreen.getChildren().clear();
             root.getChildren().clear();
-            String finalScore = Integer.toString(Main.points.getScore());
+            String finalScore = Integer.toString(Main.score.getScore());
             score.setText(finalScore);
             VBox infoBox = new VBox(25, headlineover, yourScore, score, yourName, nameText, saveScore);
             infoBox.setAlignment(Pos.CENTER);
@@ -142,7 +138,7 @@ public class GameMenu {
         saveScore.setOnAction(e -> {    
             root.getChildren().clear();
             // String finalScore = Integer.toString(Main.points.get());
-            String finalScore = Integer.toString(Main.points.getScore());
+            String finalScore = Integer.toString(Main.score.getScore());
             String nameTextContent = nameText.getText();
             Label scoreLabel = new Label(nameTextContent + "\t\t"+finalScore);
             VBox scoreData = new VBox(20, headLine, scoreLabel);

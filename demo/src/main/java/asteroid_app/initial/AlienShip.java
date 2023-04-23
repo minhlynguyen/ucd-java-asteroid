@@ -55,7 +55,7 @@ public class AlienShip extends Character {
 
 
     //    @Override
-    public void move(Pane pane,User_ship ship,PlayerLives lives) {
+    public void move(Pane pane,User_ship ship) {
         super.move();
         super.accelerate(0.5);
         double randomOffset = (rnd.nextDouble() - 0.5) * 0.2;
@@ -111,7 +111,7 @@ public class AlienShip extends Character {
             if (ship.collision(bullet) && bullet.getAlive()) {
                 bullet.setAlive(false);
                 pane.getChildren().remove(bullet.getChar());
-                lives.loseLife();
+                Main.playerLives.loseLife();
             }
         });
     }

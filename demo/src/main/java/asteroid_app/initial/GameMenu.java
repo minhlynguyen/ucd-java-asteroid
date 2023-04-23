@@ -80,7 +80,20 @@ public class GameMenu {
         class Movement extends AnimationTimer{
             @Override
             public void handle(long now){
-                game.play(gameScreen, mainScene);    
+                if(Main.playerLives.getLives()>0){
+                    game.play(gameScreen, mainScene); 
+                }else{
+                    this.stop();
+                    gameScreen.getChildren().clear();
+                    root.getChildren().clear();
+                    String finalScore = Integer.toString(Main.points.getScore());
+                    score.setText(finalScore);
+                    VBox infoBox = new VBox(25, headlineover, yourScore, score, yourName, nameText, saveScore);
+                    infoBox.setAlignment(Pos.CENTER);
+                    root.setCenter(infoBox);
+                    root.requestFocus();
+                    gameScreen.requestFocus();
+                }   
             }
         }
         Movement clock = new Movement();
@@ -136,6 +149,8 @@ public class GameMenu {
             scoreData.setAlignment(Pos.CENTER);
             root.setCenter(scoreData);
         });
+
     return mainScene;
+    
     }
 }

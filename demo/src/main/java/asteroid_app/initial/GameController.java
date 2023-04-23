@@ -203,16 +203,11 @@ public class GameController {
             double x1 = bullet.getChar().getTranslateX();
             double y1 = bullet.getChar().getTranslateY();
             double travelDistance = Math.sqrt((x1-bullet.getOriginalX())*(x1-bullet.getOriginalX())+(y1-bullet.getOriginalY())*(y1-bullet.getOriginalY()));
-            if (travelDistance <= Main.WIDTH){
+            if (travelDistance <= Main.WIDTH/2){
                 bullet.move();
             }else{
                 pane.getChildren().remove(bullet.getChar());
             }
         });
-    }
-
-    public void saveScore(String name, int score){
-        this.name = name;
-        this.score = score; 
     }
 }

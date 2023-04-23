@@ -137,27 +137,33 @@ public class AlienShip extends Character {
                     bullet.setAlive(false);
                     pane.getChildren().remove(bullet.getChar());
                 }
+            }else{
+                bullets.remove(bullet);
+                pane.getChildren().remove(bullet.getChar());
+            }
+        });
 
                 // Check if the bullet hits the user's ship and decrease the player's lives if it does
-                if (ship.collision(bullet) && bullet.getAlive()) {
+        bullets.forEach(bullet -> {
+            if (ship.collision(bullet) && bullet.getAlive()) {
+                bullet.setAlive(false);
+                bullets.remove(bullet);
+                pane.getChildren().remove(bullet.getChar());
+                Main.playerLives.loseLife();
+            }
+
+            // Check if the bullet hits any asteroid and split it into smaller asteroids if it does
+            asteroids.forEach(asteroid -> {
+                if(asteroid.collision(bullet)){
                     bullet.setAlive(false);
                     bullets.remove(bullet);
                     pane.getChildren().remove(bullet.getChar());
-                    Main.playerLives.loseLife();
+                    asteroid.setAlive(false);
+                    Asteroid.asteroidSplit(asteroid, asteroids, pane);
                 }
-
-                // Check if the bullet hits any asteroid and split it into smaller asteroids if it does
-                asteroids.forEach(asteroid -> {
-                    if(asteroid.collision(bullet)){
-                        bullet.setAlive(false);
-                        bullets.remove(bullet);
-                        pane.getChildren().remove(bullet.getChar());
-                        asteroid.setAlive(false);
-                        Asteroid.asteroidSplit(asteroid, asteroids, pane);
-                    }
-                });
-            }
+            });
         });
+        
     }
 
     // alien ship appearance interval

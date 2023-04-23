@@ -70,7 +70,11 @@ public class GameMenu {
 
         // Create all nodes for the Highscore Menu
         Label headLine = new Label("Name\t\tScore");
+        
+        Button newGame = new Button("New Game")
         // create a Vbox to manage the nodes on the high score menu
+         nameText.setPrefWidth(100);
+        nameText.setId("nameText");
         
         // Clock to control the game loop
         class Movement extends AnimationTimer{

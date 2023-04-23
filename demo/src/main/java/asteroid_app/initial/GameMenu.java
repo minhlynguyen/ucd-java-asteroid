@@ -14,9 +14,11 @@ import javafx.scene.layout.HBox;
 import javafx.geometry.Pos;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import javafx.animation.AnimationTimer;
@@ -133,15 +135,8 @@ public class GameMenu {
         quitGame.setId("quitGame");
         quitGame.setOnAction(e->{
             clock.stop();
-            gameScreen.getChildren().clear();
-            root.getChildren().clear();
-            String finalScore = Integer.toString(Main.score.getScore());
-            score.setText(finalScore);
-            VBox infoBox = new VBox(25, headlineover, yourScore, score, yourName, nameText, saveScore);
-            infoBox.setAlignment(Pos.CENTER);
-            root.setCenter(infoBox);
-            root.requestFocus();
-            gameScreen.requestFocus();
+            showGameOver(gameScreen, root, score, 
+                headlineover, yourScore, yourName, nameText, saveScore);
         });
 
         saveScore.setOnAction(e -> {    
@@ -152,44 +147,57 @@ public class GameMenu {
             VBox scoreData = new VBox(20, headLine, scoreLabel);
             scoreData.setAlignment(Pos.CENTER);
             root.setCenter(scoreData);
-
-            //Create a new score object and write to a file
-            HighScore highScore = new HighScore(nameTextContent, Main.score.getScore());
             try {
-                fileOut = new FileOutputStream("HighScores.ser", true);
-            } catch (FileNotFoundException e1) {
-                e1.printStackTrace();
-            }
-            
-            try {
-                out = new ObjectOutputStream(fileOut);
+                saveHighScore(nameTextContent);
             } catch (IOException e1) {
                 e1.printStackTrace();
-            }
-
-            try {
-                out.writeObject(highScore);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-
-            try {
-                out.close();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-
-            try {
-                fileOut.close();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-
-            System.out.println("Score saved");
-
+            }            
         });
-
+        
+        highScores.setOnAction(e -> {
+            try {
+                showHighScore();
+            } catch (ClassNotFoundException | IOException e1) {
+                e1.printStackTrace();
+            }
+        });
     return mainScene;
     
+    }
+
+    public static void saveHighScore(String nameTextContent) throws IOException{
+        HighScore highScore = new HighScore(nameTextContent, Main.score.getScore());
+        FileOutputStream fileOut = new FileOutputStream("HighScores.ser", true);
+        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+        out.writeObject(highScore);
+        out.close();
+        fileOut.close();
+        System.out.println("Score saved");
+    }
+
+    public static void showHighScore() throws IOException, ClassNotFoundException{
+        HighScore highScore = null;
+        // Read the HighScores file and show it on the HighScore menu
+        FileInputStream fileIn = new FileInputStream("HighScores.ser");
+        ObjectInputStream in = new ObjectInputStream(fileIn);
+        highScore = (HighScore) in.readObject();
+        in.close();
+        fileIn.close();
+        
+        System.out.println(highScore.name);
+        System.out.println(highScore.score);
+    }
+
+    public static void showGameOver(Pane pane, BorderPane root, Label score, 
+        Label headlineover, Label yourScore, Label yourName, TextField nameText, Button saveScore){
+        pane.getChildren().clear();
+        root.getChildren().clear();
+        String finalScore = Integer.toString(Main.score.getScore());
+        score.setText(finalScore);
+        VBox infoBox = new VBox(25, headlineover, yourScore, score, yourName, nameText, saveScore);
+        infoBox.setAlignment(Pos.CENTER);
+        root.setCenter(infoBox);
+        root.requestFocus();
+        pane.requestFocus();
     }
 }

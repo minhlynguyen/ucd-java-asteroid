@@ -141,6 +141,7 @@ public class AlienShip extends Character {
                 // Check if the bullet hits the user's ship and decrease the player's lives if it does
                 if (ship.collision(bullet) && bullet.getAlive()) {
                     bullet.setAlive(false);
+                    bullets.remove(bullet);
                     pane.getChildren().remove(bullet.getChar());
                     Main.playerLives.loseLife();
                 }
@@ -149,6 +150,7 @@ public class AlienShip extends Character {
                 asteroids.forEach(asteroid -> {
                     if(asteroid.collision(bullet)){
                         bullet.setAlive(false);
+                        bullets.remove(bullet);
                         pane.getChildren().remove(bullet.getChar());
                         asteroid.setAlive(false);
                         Asteroid.asteroidSplit(asteroid, asteroids, pane);

@@ -109,6 +109,13 @@ public class GameMenu {
             gameScreen.requestFocus();
         });
         
+         // To display High Scores Menu 
+        playGame.setOnAction(e -> {
+            root.setCenter(highScoreScreen);
+            root.setTop(hBox);
+            root.setBottom(controlBox);
+          
+        });
         // To restart the game inside Game Screen
         restartGame.setOnAction(e -> {
             clock.stop();

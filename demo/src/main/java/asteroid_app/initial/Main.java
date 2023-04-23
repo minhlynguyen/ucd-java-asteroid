@@ -32,7 +32,7 @@ public class Main extends Application {
 
     public static int newLifeScore = 1000;
 
-    // Overrides the start mehtod from the application class
+    // Overrides the start method from the application class
     @Override
     public void start(Stage stage) {
         

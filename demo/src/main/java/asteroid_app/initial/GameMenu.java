@@ -14,15 +14,12 @@ import javafx.scene.layout.HBox;
 import javafx.geometry.Pos;
 
 import java.io.EOFException;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
@@ -96,15 +93,8 @@ public class GameMenu {
                     game.play(gameScreen, mainScene); 
                 }else{
                     this.stop();
-                    gameScreen.getChildren().clear();
-                    root.getChildren().clear();
-                    String finalScore = Integer.toString(Main.score.getScore());
-                    score.setText(finalScore);
-                    VBox infoBox = new VBox(25, headlineover, yourScore, score, yourName, nameText, saveScore);
-                    infoBox.setAlignment(Pos.CENTER);
-                    root.setCenter(infoBox);
-                    root.requestFocus();
-                    gameScreen.requestFocus();
+                    showGameOver(gameScreen, root, score, 
+                        headlineover, yourScore, yourName, nameText, saveScore);
                 }   
             }
         }
@@ -116,13 +106,10 @@ public class GameMenu {
 
         // To display Game Screen and start the game
         playGame.setOnAction(e -> {
-            root.setCenter(gameScreen);
-            root.setTop(hBox);
-            root.setBottom(controlBox);
+            showGame(gameScreen, root, hBox, controlBox, mainScene);
             game = new GameController(gameScreen, mainScene);
             clock.start();
             game.play(gameScreen, mainScene);
-            gameScreen.requestFocus();
         });
         
         // To restart the game inside Game Screen
@@ -145,14 +132,10 @@ public class GameMenu {
                 headlineover, yourScore, yourName, nameText, saveScore);
         });
 
+        // To save the score
         saveScore.setOnAction(e -> {    
             root.getChildren().clear();
-            // String finalScore = Integer.toString(Main.score.getScore());
             String nameTextContent = nameText.getText();
-            // Label scoreLabel = new Label(nameTextContent + "\t\t"+finalScore);
-            // scoreData.getChildren().add(headLine);
-            // scoreData.setAlignment(Pos.CENTER);
-            // root.setCenter(scoreData);
             try {
                 saveHighScore(nameTextContent);
                 showHighScore(scoreData,root);
@@ -225,5 +208,12 @@ public class GameMenu {
         root.setCenter(infoBox);
         root.requestFocus();
         pane.requestFocus();
+    }
+
+    public static void showGame(Pane gameScreen,BorderPane root, HBox hBox, HBox controlBox, Scene mainScene){
+        root.setCenter(gameScreen);
+        root.setTop(hBox);
+        root.setBottom(controlBox);
+        gameScreen.requestFocus();
     }
 }

@@ -22,6 +22,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 import javafx.animation.AnimationTimer;
 
@@ -79,10 +82,11 @@ public class GameMenu {
         Label yourName = new Label("Enter your name");
         Button saveScore = new Button("Save");
         
-
         // Create all nodes for the Highscore Menu
-        Label headLine = new Label("Name\t\tScore");
-        // create a Vbox to manage the nodes on the high score menu
+        Label headLine = new Label("HIGH SCORES - TOP 5");
+        headLine.setFont(Font.font("Monospaced", FontWeight.BOLD, 50));
+        VBox scoreData = new VBox(20,headLine);
+        scoreData.setAlignment(Pos.CENTER);
         
         // Clock to control the game loop
         class Movement extends AnimationTimer{
@@ -143,22 +147,25 @@ public class GameMenu {
 
         saveScore.setOnAction(e -> {    
             root.getChildren().clear();
-            String finalScore = Integer.toString(Main.score.getScore());
+            // String finalScore = Integer.toString(Main.score.getScore());
             String nameTextContent = nameText.getText();
-            Label scoreLabel = new Label(nameTextContent + "\t\t"+finalScore);
-            VBox scoreData = new VBox(20, headLine, scoreLabel);
-            scoreData.setAlignment(Pos.CENTER);
-            root.setCenter(scoreData);
+            // Label scoreLabel = new Label(nameTextContent + "\t\t"+finalScore);
+            // scoreData.getChildren().add(headLine);
+            // scoreData.setAlignment(Pos.CENTER);
+            // root.setCenter(scoreData);
             try {
                 saveHighScore(nameTextContent);
+                showHighScore(scoreData,root);
             } catch (IOException e1) {
+                e1.printStackTrace();
+            } catch (ClassNotFoundException e1) {
                 e1.printStackTrace();
             }            
         });
         
         highScores.setOnAction(e -> {
             try {
-                showHighScore();
+                showHighScore(scoreData,root);
             } catch (ClassNotFoundException | IOException e1) {
                 e1.printStackTrace();
             }
@@ -177,7 +184,7 @@ public class GameMenu {
         System.out.println("Score saved");
     }
 
-    public static void showHighScore() throws IOException, ClassNotFoundException{
+    public static void showHighScore(VBox scoreData, BorderPane root) throws IOException, ClassNotFoundException{
         HighScore highScore = null;
         // Read the HighScores file and show it on the HighScore menu
         FileInputStream fileIn = new FileInputStream("HighScores.ser");
@@ -190,14 +197,21 @@ public class GameMenu {
                 highScore = (HighScore) in.readObject();
                 if (highScore!=null){
                     highScoreList.add(highScore);
-                    System.out.println(highScore.name);
-                    System.out.println(highScore.score);
                 }
             }catch(EOFException e) {
                 break;
             }
         }
         fileIn.close();
+        ArrayList<HighScore> sortedHighScores = (ArrayList<HighScore>) highScoreList
+				.stream().sorted(Comparator.comparing(HighScore::getScore).reversed())
+				.collect(Collectors.toList());
+        // print top 5 high scores:
+        for (int i = 0; i < 5 && i < sortedHighScores.size(); i++){
+            Label scoreLabel = new Label(sortedHighScores.get(i).name+"\t\t"+sortedHighScores.get(i).score);
+            scoreData.getChildren().add(scoreLabel);
+            root.setCenter(scoreData);
+        }
     }
 
     public static void showGameOver(Pane pane, BorderPane root, Label score, 

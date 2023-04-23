@@ -81,7 +81,7 @@ public class GameController {
         }
         // if the right key is pressed
         if (key_press.getOrDefault(KeyCode.RIGHT, false)) {
-            // rotate the user_ship right
+            // rotate the user_ship right 
             ship.turnRight();
         }    
         // check if j key was pressed so we dont repeatedly go into hyperspace
@@ -149,6 +149,7 @@ public class GameController {
             bullets.forEach(bullet -> {
                 if (asteroid.collision(bullet)) {
                     bullet.setAlive(false);
+                    bullets.remove(bullet);
                     asteroid.setAlive(false);
                     Asteroid.asteroidSplit(asteroid, asteroids, pane);
                 }
@@ -195,6 +196,7 @@ public class GameController {
         bullets.forEach(bullet -> {
             if (alienShip.collision(bullet)) {
                 bullet.setAlive(false);
+                bullets.remove(bullet);
                 alienShip.setAlive(false);
                 pane.getChildren().remove(alienShip.getChar());
                 Main.score.incrementScoreForAlien();

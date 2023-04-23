@@ -12,6 +12,13 @@ import javafx.scene.text.Text;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Pos;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
 import javafx.animation.AnimationTimer;
 
 public class GameMenu {
@@ -21,7 +28,8 @@ public class GameMenu {
     static Text PlayerLivesText;
     static Text levelText;
     static long lastAddedTime=0L;
-
+    static FileOutputStream fileOut;
+    static ObjectOutputStream out;
 
     public static Scene newGameMenu() {
 
@@ -138,13 +146,47 @@ public class GameMenu {
 
         saveScore.setOnAction(e -> {    
             root.getChildren().clear();
-            // String finalScore = Integer.toString(Main.points.get());
-            String finalScore = Integer.toString(Main.score.getScore());
+            // String finalScore = Integer.toString(Main.score.getScore());
             String nameTextContent = nameText.getText();
-            Label scoreLabel = new Label(nameTextContent + "\t\t"+finalScore);
-            VBox scoreData = new VBox(20, headLine, scoreLabel);
-            scoreData.setAlignment(Pos.CENTER);
-            root.setCenter(scoreData);
+            // Label scoreLabel = new Label(nameTextContent + "\t\t"+finalScore);
+            // VBox scoreData = new VBox(20, headLine, scoreLabel);
+            // scoreData.setAlignment(Pos.CENTER);
+            // root.setCenter(scoreData);
+
+            //Create a new score object and write to a file
+            HighScore highScore = new HighScore(nameTextContent, Main.score.getScore());
+            try {
+                fileOut = new FileOutputStream("HighScores.ser", true);
+            } catch (FileNotFoundException e1) {
+                e1.printStackTrace();
+            }
+            
+            try {
+                out = new ObjectOutputStream(fileOut);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+
+            try {
+                out.writeObject(highScore);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+
+            try {
+                out.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+
+            try {
+                fileOut.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+
+            System.out.println("Score saved");
+
         });
 
     return mainScene;

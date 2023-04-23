@@ -131,6 +131,7 @@ public class GameController {
             if (asteroid.collision(ship)) {
                 // then create new asteroids and remove the collided one
                 Asteroid.asteroidSplit(asteroid, asteroids, pane);
+                ship.hyperspaceJump(pane);
                 Main.playerLives.loseLife();
             }
 

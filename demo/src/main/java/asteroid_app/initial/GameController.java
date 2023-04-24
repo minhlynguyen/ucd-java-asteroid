@@ -137,13 +137,7 @@ public class GameController {
                 Main.playerLives.loseLife();
             }
 
-            // ... and the alien happens
-            if (asteroid.collision(alienShip)) {
-                // then create new asteroids and remove the collided one
-                alienShip.setAlive(false);
-                Asteroid.asteroidSplit(asteroid, asteroids, pane);
-                pane.getChildren().remove(alienShip.getChar());
-            }
+            
 
             // ... and when a bullet happens
             bullets.forEach(bullet -> {

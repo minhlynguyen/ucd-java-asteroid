@@ -136,7 +136,7 @@ public class GameController {
                 ship.hyperspaceJump(pane);
                 Main.playerLives.loseLife();
             }
-
+            
             // // ... and the alien happens
             // if (asteroid.collision(alienShip)) {
             //     // then create new asteroids and remove the collided one

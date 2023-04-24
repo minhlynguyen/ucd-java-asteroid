@@ -20,8 +20,6 @@ public class GameController {
     private Map<KeyCode, Boolean> key_press = new HashMap<>();
     private Boolean jPress;
     private Boolean spacePress;
-    private String name;
-    private int score; 
 
     public GameController(Pane pane, Scene mainScene){
         jPress = false;

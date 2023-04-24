@@ -33,8 +33,6 @@ public class GameMenu {
     static Text PlayerLivesText;
     static Text levelText;
     static long lastAddedTime=0L;
-    static FileOutputStream fileOut;
-    static ObjectOutputStream out;
 
     public static Scene newGameMenu() {
 

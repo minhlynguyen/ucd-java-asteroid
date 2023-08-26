@@ -34,13 +34,18 @@ The player ship can perform 5 actions:
 - The only objects this is not the case for are bullets, these **disappear automatically after traveling a set distance**.
 
 ### Levels
-The game is based on a series of increasingly more difficult levels. Once each is cleared, the next begins automatically. In the first level there will be only one slow-moving asteroid, in the second there will be two, and so on.
-While the game is being played, some info should be displayed on the screen such as the player's current number of lives and their current score.
-When the player is destroyed, either by hitting an asteroid or has been shot by the alien he must be placed back in the game safely. This means that it is either invincible for 2-3 seconds or is placed in a position that is calculated as safe.
-After destruction one of the player's lives is removed. On some versions of the game, the player can regain lives by scoring 10,000 points, but this is based on the number of points given for each destroyed asteroid.
+- The game is based on a series of increasingly more difficult levels. Once each is cleared, the next begins automatically. 
+- In the first level there will be only one slow-moving asteroid, in the second there will be two, and so on.
+- While the game is being played, the player's current number of lives and their current score are displayed on the screen.
+- When the player is destroyed, either by hitting an asteroid or has been shot by the alien he must be placed back in the game safely in a position that is calculated as safe.
+- After destruction one of the player's lives is removed. The player can regain lives by scoring 1000 points.
 
 ## My contributions to the project: 
 - Create main control of the game: Start a new game, Stop the game, Restart the game, Upgrade game level
--	Create an IO stream to save and read high-score data
--	Implement bulleting firing behavior of the player's ship and aliens
--	Implement movement and collision of bullets with score increment, implement collision of alien
+- Create an IO stream to save and read high-score data
+- Implement bulleting firing behavior of the player's ship and aliens
+- Implement movement and collision of bullets with score increment, implement collision of alien
+
+<p align="center">
+  <img alt="Game Demo" src="demo.gif">
+</p>

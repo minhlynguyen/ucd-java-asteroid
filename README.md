@@ -1,8 +1,12 @@
 # asteroids-java
 This is a group project of 4 members creating the arcade game asteroids using java and javaFX
 
-The game is based on this website:
+The game is partly based on this website:
 https://freeasteroids.org/
+
+<p align="center">
+  <img alt="Game Demo" src="demo.gif">
+</p>
 
 ## Game Description
 
@@ -45,7 +49,3 @@ The player ship can perform 5 actions:
 - Create an IO stream to save and read high-score data
 - Implement bulleting firing behavior of the player's ship and aliens
 - Implement movement and collision of bullets with score increment, implement collision of alien
-
-<p align="center">
-  <img alt="Game Demo" src="demo.gif">
-</p>
